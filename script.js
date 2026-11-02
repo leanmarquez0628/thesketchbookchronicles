@@ -161,43 +161,43 @@ const ARTWORKS = [
   {
     cat: "ink",
     src: "images/art-25.jpg",
-    title: "Townhouse No. 1",
+    title: "Ink Townhouse No. 1",
     pos: "50% 40%",
   },
   {
     cat: "ink",
     src: "images/art-26.jpg",
-    title: "Old House concept",
+    title: "Ink Facades Sketchbook Spread",
     pos: "50% 50%",
   },
   {
     cat: "ink",
     src: "images/art-27.jpg",
-    title: "Store",
+    title: "Ink Shopfront with Japanese Signs",
     pos: "50% 45%",
   },
   {
     cat: "ink",
     src: "images/art-28.jpg",
-    title: "Samurai Warrior",
+    title: "Ink Portrait of a Warrior",
     pos: "60% 45%",
   },
   {
     cat: "ink",
     src: "images/art-29.jpg",
-    title: "Street Scene with Setting Sun",
+    title: "Ink Street Scene with Setting Sun",
     pos: "40% 45%",
   },
   {
     cat: "ink",
     src: "images/art-30.jpg",
-    title: "Lighthouse",
+    title: "Ink Lighthouse on the Rocks",
     pos: "50% 40%",
   },
   {
     cat: "ink",
     src: "images/art-31.jpg",
-    title: "Townhouse No. 2",
+    title: "Ink Townhouse No. 2",
     pos: "50% 45%",
   },
 ];
@@ -651,6 +651,7 @@ function bgColors() {
 }
 bgColors();
 
+let lastW = 0;
 function resize() {
   dpr = Math.min(devicePixelRatio || 1, 2);
   W = innerWidth;
@@ -658,6 +659,8 @@ function resize() {
   cv.width = W * dpr;
   cv.height = H * dpr;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (W === lastW && doodles.length) return; // phone address bar showing/hiding
+  lastW = W;
   const n = Math.round(Math.min(26, Math.max(10, (W * H) / 60000)));
   doodles = Array.from({ length: n }, (_, i) => ({
     x: Math.random() * W,
@@ -775,11 +778,109 @@ function frame(now) {
     ctx.stroke();
   }
   ctx.globalAlpha = 1;
-  if (!reduceMotion && !document.hidden) requestAnimationFrame(frame);
+  looping = false;
+  if (!reduceMotion && !document.hidden) startLoop();
+}
+let looping = false;
+function startLoop() {
+  if (looping) return;
+  looping = true;
+  requestAnimationFrame(frame);
 }
 addEventListener("resize", resize);
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && !reduceMotion) requestAnimationFrame(frame);
+  if (!document.hidden && !reduceMotion) startLoop();
 });
 resize();
-requestAnimationFrame(frame);
+startLoop();
+
+/* ---------- LIVE SOCIAL STATS (reads stats.json, refreshes by itself) ---------- */
+(() => {
+  const REFRESH_MS = 60000;
+  const stamp = document.getElementById("liveStamp");
+  if (!stamp) return;
+  const fmt = (n) =>
+    n == null
+      ? "—"
+      : n >= 1e6
+        ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, "") + "M"
+        : n >= 1e4
+          ? (n / 1e3).toFixed(n >= 1e5 ? 0 : 1).replace(/\.0$/, "") + "K"
+          : n.toLocaleString("en-US");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const shown = new WeakMap();
+  function setNum(el, to) {
+    const from =
+      shown.get(el) ?? (parseInt(el.textContent.replace(/\D/g, ""), 10) || 0);
+    shown.set(el, to);
+    if (to == null) return; // no number in stats.json: keep what the page already shows
+    if (reduce || from === to) {
+      el.textContent = fmt(to);
+      return;
+    }
+    const t0 = performance.now();
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / 900);
+      el.textContent = fmt(
+        Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))),
+      );
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  let updated = null;
+  function ago() {
+    if (!updated) return;
+    const m = Math.round((Date.now() - updated) / 60000);
+    const t =
+      m < 1
+        ? "just now"
+        : m < 60
+          ? m + " min ago"
+          : m < 1440
+            ? Math.round(m / 60) + " h ago"
+            : Math.round(m / 1440) + " d ago";
+    stamp.querySelector("span").textContent = "Live numbers · updated " + t;
+  }
+  function apply(d) {
+    document.querySelectorAll(".feed-stats").forEach((box) => {
+      const src = d[box.dataset.net] || {};
+      box
+        .querySelectorAll("[data-stat]")
+        .forEach((b) => setNum(b, src[b.dataset.stat] ?? null));
+    });
+    const views = (d.tiktok && d.tiktok.views) || [];
+    document.querySelectorAll(".views[data-view]").forEach((v) => {
+      const val = views[v.dataset.view];
+      if (val == null || !/\d/.test(v.textContent)) return; // only update tiles that show a count
+      const svg = v.querySelector("svg");
+      v.replaceChildren(
+        svg,
+        document.createTextNode(" " + val.toLocaleString("en-US")),
+      );
+    });
+    updated = d.updated ? new Date(d.updated).getTime() : Date.now();
+    stamp.hidden = false;
+    stamp.classList.add("on");
+    ago();
+  }
+  async function load() {
+    try {
+      const r = await fetch("stats.json?t=" + Date.now(), {
+        cache: "no-store",
+      });
+      if (!r.ok) throw 0;
+      apply(await r.json());
+    } catch (e) {
+      stamp.classList.remove("on");
+      stamp.hidden = true; // stats.json not found: just show the numbers typed in the page
+    }
+  }
+  load();
+  setInterval(load, REFRESH_MS);
+  setInterval(ago, 30000);
+  document.addEventListener(
+    "visibilitychange",
+    () => !document.hidden && load(),
+  );
+})();
