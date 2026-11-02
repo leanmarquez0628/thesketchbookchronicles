@@ -1,0 +1,27 @@
+{
+  "_help": "Filled in automatically every 30 minutes by update-stats.mjs (GitHub Actions). You can also type numbers here by hand. null = not shown yet.",
+  "updated": "2026-11-02T14:11:56+08:00",
+  "instagram": {
+    "posts": 59,
+    "followers": 805,
+    "following": 2190
+  },
+  "tiktok": {
+    "followers": 1907,
+    "likes": 21636,
+    "views": [
+      3765,
+      4352,
+      3315,
+      592,
+      768,
+      921,
+      1374,
+      1068,
+      1149,
+      1831,
+      1258,
+      1540
+    ]
+  }
+}
