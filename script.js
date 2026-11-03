@@ -200,7 +200,31 @@ const ARTWORKS = [
     title: "Ink Townhouse No. 2",
     pos: "50% 45%",
   },
+  {
+    cat: "ink",
+    src: "images/art-32.jpg",
+    title: "Gyro Zeppeli and Johnny Joestar, Jojo Bizzare Adventure: Steel Ball Run",
+    pos: "50% 45%",
+  },
+  {
+    cat: "ink",
+    src: "images/art-33.jpg",
+    title: "Anakin Skywalker and Darth Vader, Star Wars Series",
+    pos: "55% 40%",
+  },
 ];
+
+// Tabs with no pictures yet show a "Coming soon" card instead
+const COMING_SOON = {
+  painting: {
+    label: "Painting",
+    text: "Coming soon: Original hand-painted works in watercolor and acrylic.",
+  },
+  digital: {
+    label: "Digital art",
+    text: "Coming soon: Clean digital illustrations and character art.",
+  },
+};
 const PER_SLIDE = 9; // pictures per slide (matches the 9-tile museum grid)
 
 // Images used in the hero and About section (images/hero-1.jpg, etc.)
@@ -437,6 +461,26 @@ function makeArt(a, seed, delay, focusable) {
 function renderGallery() {
   const list = items(),
     total = pages();
+  if (!list.length && COMING_SOON[filter]) {
+    // no pictures for this tab yet: one "Coming soon" card
+    page = 0;
+    grid.innerHTML = "";
+    grid.classList.remove("alt");
+    grid.dataset.n = 1;
+    const c = COMING_SOON[filter],
+      card = document.createElement("div");
+    card.className = "art soon";
+    const kind = document.createElement("small"),
+      big = document.createElement("b"),
+      txt = document.createElement("p");
+    kind.textContent = "✎ " + c.label;
+    big.textContent = "Coming soon";
+    txt.textContent = c.text;
+    card.append(kind, big, txt);
+    grid.append(card);
+    count.textContent = "Slide 1 / 1";
+    return;
+  }
   page = (page + total) % total;
   grid.innerHTML = "";
   grid.classList.toggle("alt", page % 2 === 1); // flip the collage on every other slide
@@ -883,4 +927,103 @@ startLoop();
     "visibilitychange",
     () => !document.hidden && load(),
   );
+})();
+
+/* ---------- BLOG POSTS (reads posts.json, refreshes by itself) ---------- */
+(() => {
+  const igGrid = document.getElementById("igGrid");
+  const ttGrid = document.getElementById("ttGrid");
+  if (!igGrid || !ttGrid) return;
+  const svg = (inner, extra = "") =>
+    `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" ${extra}>${inner}</svg>`;
+  const ICON = {
+    pin: svg('<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>'),
+    carousel: svg('<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>'),
+    reel: svg('<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#1f2e30"/>'),
+  };
+  const PLAY =
+    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const safeUrl = (u, fallback) => (/^(https?:\/\/|images\/)/.test(u || "") ? u : fallback);
+
+  function tile(p, net, profile) {
+    const img = safeUrl(p.img, "");
+    if (!img) return "";
+    const link = safeUrl(p.link, profile);
+    let extra = "";
+    if (net === "ig") extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
+    else {
+      if (p.pinned) extra += '<span class="pinned">Pinned</span>';
+      extra += `<span class="views">${PLAY}${p.views != null ? " " + Number(p.views).toLocaleString("en-US") : ""}</span>`;
+    }
+    return `<a class="ftile" href="${esc(link)}" target="_blank" rel="noopener"><img src="${esc(img)}" alt="${esc(p.alt || "Post")}" loading="lazy" referrerpolicy="no-referrer" />${extra}</a>`;
+  }
+  function fill(grid, list, net, profile) {
+    if (!Array.isArray(list) || !list.length) return; // keep the pictures already in the page
+    const html = list.slice(0, 12).map((p) => tile(p, net, profile)).join("");
+    if (html && grid.dataset.sig !== html) {
+      grid.innerHTML = html;
+      grid.dataset.sig = html;
+    }
+  }
+  async function loadPosts() {
+    try {
+      const r = await fetch("posts.json?t=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) throw 0;
+      const d = await r.json();
+      fill(igGrid, d.instagram && d.instagram.posts, "ig", (d.instagram && d.instagram.profile) || "https://www.instagram.com/lnmglmrqz/");
+      fill(ttGrid, d.tiktok && d.tiktok.posts, "tt", (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq");
+    } catch (e) {} // posts.json missing: the pictures written in the page stay
+  }
+  loadPosts();
+  setInterval(loadPosts, 300000); // every 5 minutes
+  document.addEventListener("visibilitychange", () => !document.hidden && loadPosts());
+
+  // TikTok: "Videos" (my grid) / "Live" (TikTok's own widget, always the newest videos)
+  const tabs = document.getElementById("ttTabs"),
+    live = document.getElementById("ttLive");
+  let embedLoaded = false;
+  tabs.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-tt]");
+    if (!b) return;
+    const showLive = b.dataset.tt === "live";
+    tabs.querySelectorAll("button").forEach((x) => {
+      x.classList.toggle("on", x === b);
+      x.setAttribute("aria-selected", x === b);
+    });
+    ttGrid.hidden = showLive;
+    live.hidden = !showLive;
+    if (showLive && !embedLoaded) {
+      embedLoaded = true;
+      const s = document.createElement("script");
+      s.src = "https://www.tiktok.com/embed.js";
+      s.async = true;
+      live.appendChild(s);
+    }
+  });
+})();
+
+/* ---------- CONTACT FORM (opens your email app with the message filled in) ---------- */
+(() => {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+  const out = document.getElementById("cfMsgOut");
+  const TO = "leanmarquez0628@yahoo.com";
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const v = (k) => String(f.get(k) || "").trim();
+    const bad = ["first", "last", "email"].find((k) => !v(k)) || (!form.email.checkValidity() ? "email" : "");
+    if (bad) {
+      out.className = "cf-msg err";
+      out.textContent = "Please fill in your first name, last name and a valid email.";
+      form.elements[bad].focus();
+      return;
+    }
+    const subject = v("subject") || "Message from " + v("first") + " " + v("last");
+    const body = `${v("message")}\n\n— ${v("first")} ${v("last")}\n${v("email")}`;
+    out.className = "cf-msg";
+    out.textContent = "Thank you! Opening your email app to send your message…";
+    location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
 })();

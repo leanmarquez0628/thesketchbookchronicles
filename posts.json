@@ -1,0 +1,170 @@
+{
+  "_help": "The Blog grids read this file. Edit it by hand, or let update-stats.mjs fill the Instagram list from your free feed link (paste it in instagram.feedUrl). type = pin | carousel | reel | image. views is optional (leave null to show only the play icon).",
+  "instagram": {
+    "profile": "https://www.instagram.com/lnmglmrqz/",
+    "feedUrl": "",
+    "posts": [
+      {
+        "img": "images/ig-1.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "pin",
+        "alt": "Street railing sketch"
+      },
+      {
+        "img": "images/ig-2.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "pin",
+        "alt": "Sketchbook on the desk"
+      },
+      {
+        "img": "images/ig-3.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "pin",
+        "alt": "Sketchbook portraits"
+      },
+      {
+        "img": "images/ig-4.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "carousel",
+        "alt": "Fineliner pens and sketchbook"
+      },
+      {
+        "img": "images/ig-5.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "carousel",
+        "alt": "Ink facade drawing"
+      },
+      {
+        "img": "images/ig-6.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "reel",
+        "alt": "Wood floor pattern"
+      },
+      {
+        "img": "images/ig-7.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "carousel",
+        "alt": "Pencil and pen on an ink drawing"
+      },
+      {
+        "img": "images/ig-8.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "carousel",
+        "alt": "Ink townhouse in my sketchbook"
+      },
+      {
+        "img": "images/ig-9.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "reel",
+        "alt": "Train station video"
+      },
+      {
+        "img": "images/ig-10.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "reel",
+        "alt": "Building with a mural"
+      },
+      {
+        "img": "images/ig-11.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "reel",
+        "alt": "City street from above"
+      },
+      {
+        "img": "images/ig-12.jpg",
+        "link": "https://www.instagram.com/lnmglmrqz/",
+        "type": "carousel",
+        "alt": "Fineliner pens close-up"
+      }
+    ]
+  },
+  "tiktok": {
+    "profile": "https://www.tiktok.com/@lnmglmrq",
+    "posts": [
+      {
+        "img": "images/tt-1.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": true,
+        "views": null,
+        "alt": "Pencil portrait with a scarf"
+      },
+      {
+        "img": "images/tt-2.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": true,
+        "views": null,
+        "alt": "Sketchbook portraits"
+      },
+      {
+        "img": "images/tt-3.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": true,
+        "views": null,
+        "alt": "Portrait sketch with caption"
+      },
+      {
+        "img": "images/tt-4.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Fineliner pens"
+      },
+      {
+        "img": "images/tt-5.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Wood floor pattern"
+      },
+      {
+        "img": "images/tt-6.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Ink facade drawing"
+      },
+      {
+        "img": "images/tt-7.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Street railing"
+      },
+      {
+        "img": "images/tt-8.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Pen and pencil on an ink drawing"
+      },
+      {
+        "img": "images/tt-9.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Fineliner pens close-up"
+      },
+      {
+        "img": "images/tt-10.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Train at the station"
+      },
+      {
+        "img": "images/tt-11.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "Building with a mural"
+      },
+      {
+        "img": "images/tt-12.jpg",
+        "link": "https://www.tiktok.com/@lnmglmrq",
+        "pinned": false,
+        "views": null,
+        "alt": "City street from above"
+      }
+    ]
+  }
+}

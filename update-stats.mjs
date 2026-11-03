@@ -51,7 +51,48 @@ async function get(url) {
   return r.text();
 }
 
+
+// ---- Instagram posts from a free feed link (e.g. Behold: https://behold.so) ----
+// Paste your feed's JSON link into posts.json -> instagram.feedUrl. Leave it "" to skip.
+export function parseFeed(data, profile) {
+  const list = Array.isArray(data) ? data : data?.posts;
+  if (!Array.isArray(list)) return null;
+  const posts = list
+    .map((p) => {
+      const img = p.sizes?.medium?.mediaUrl || p.sizes?.small?.mediaUrl || p.thumbnailUrl || p.mediaUrl || p.media_url || p.thumbnail_url;
+      const kind = String(p.mediaType || p.media_type || "").toUpperCase();
+      const type = p.isReel || p.media_product_type === "REELS" || kind === "VIDEO" ? "reel" : kind.startsWith("CAROUSEL") ? "carousel" : "image";
+      return img ? { img, link: p.permalink || profile, type, alt: String(p.prunedCaption || p.caption || "Instagram post").slice(0, 80) } : null;
+    })
+    .filter(Boolean)
+    .slice(0, 12);
+  return posts.length ? posts : null;
+}
+async function updatePosts() {
+  const POSTS = new URL("./posts.json", import.meta.url);
+  let d;
+  try {
+    d = JSON.parse(await readFile(POSTS, "utf8"));
+  } catch {
+    return;
+  }
+  const url = d.instagram?.feedUrl;
+  if (!url) return;
+  try {
+    const posts = parseFeed(JSON.parse(await get(url)), d.instagram.profile);
+    if (!posts) return console.log("Instagram feed: no posts found, keeping the old ones");
+    if (JSON.stringify(posts) !== JSON.stringify(d.instagram.posts)) {
+      d.instagram.posts = posts;
+      await writeFile(POSTS, JSON.stringify(d, null, 2) + "\n");
+      console.log("posts.json updated with", posts.length, "Instagram posts");
+    } else console.log("Instagram posts: no change.");
+  } catch (e) {
+    console.log("Instagram feed skipped:", e.message);
+  }
+}
+
 async function main() {
+  await updatePosts();
   const stats = JSON.parse(await readFile(FILE, "utf8"));
   let changed = false;
   const take = (target, got) => {

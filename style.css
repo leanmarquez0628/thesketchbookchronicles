@@ -1850,3 +1850,214 @@ h2:has(+ .lead) {
     font-size: 25px;
   }
 }
+
+/* ===== TikTok tabs + live widget ===== */
+.feed-tabs button {
+  flex: 1;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  padding: 10px 0;
+  font: 700 0.72rem var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+.feed-tabs button:hover {
+  color: var(--ink);
+}
+.feed-tabs button.on {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+.feed-grid[hidden],
+.tt-live[hidden] {
+  display: none;
+}
+.tt-live {
+  padding: 8px 12px 14px;
+  max-height: 640px;
+  overflow: auto;
+}
+.tt-live blockquote {
+  margin: 0 auto;
+}
+.tt-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ===== Contact: social icon row + message form ===== */
+.soc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+.soc {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #1f2e30;
+  color: #f9faf4;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+.soc:hover {
+  background: var(--yellow);
+  color: #1f2e30;
+  transform: translateY(-4px) rotate(-6deg);
+}
+.cform {
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  padding: 8px 34px 34px;
+}
+.cf-field {
+  display: flex;
+  flex-direction: column;
+  padding-top: 22px;
+}
+.cf-field label {
+  font: 500 1.05rem var(--body);
+  color: #f9faf4;
+  margin-bottom: 4px;
+}
+.cf-field label span {
+  color: var(--yellow);
+}
+.cf-field input,
+.cf-field textarea {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  color: #fff;
+  font: 500 1rem var(--body);
+  padding: 10px 0;
+  border-radius: 0;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.cf-field input:focus,
+.cf-field textarea:focus {
+  border-bottom-color: var(--yellow);
+}
+.cf-field input:user-invalid {
+  border-bottom-color: var(--coral);
+}
+.cf-submit {
+  width: 100%;
+  margin-top: 30px;
+  padding: 16px;
+  background: var(--yellow);
+  color: #1f2e30;
+  border: 2px solid var(--yellow);
+  font: 700 1rem var(--body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cf-submit:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 5px 5px 0 #1f2e30;
+}
+.cf-msg {
+  margin-top: 14px;
+  min-height: 1.4em;
+  font-size: 0.95rem;
+  color: #f9faf4;
+}
+.cf-msg.err {
+  color: #ffd2d4;
+}
+@media (max-width: 560px) {
+  .cform {
+    padding: 4px 20px 24px;
+  }
+}
+.contact .lead {
+  margin-bottom: 30px;
+}
+
+/* ===== Title pictures: one thin border layer instead of two ===== */
+.tile {
+  box-shadow: 6px 6px 0 var(--red);
+}
+.t2,
+.t4 {
+  box-shadow: 6px 6px 0 var(--yellow);
+}
+.frame {
+  box-shadow: 8px 8px 0 var(--red);
+}
+.f3 {
+  box-shadow: 8px 8px 0 var(--yellow);
+}
+
+/* ===== Layout 1 / 2 buttons: bright numbers in dark mode ===== */
+:root[data-theme="dark"] .layout-switch button {
+  background: #2f4346;
+  color: #ffffff;
+  border-color: rgba(249, 250, 244, 0.55);
+  box-shadow: none;
+  font-size: 1rem;
+}
+:root[data-theme="dark"] .layout-switch button:hover {
+  background: var(--yellow);
+  color: #1f2e30;
+  border-color: var(--yellow);
+}
+:root[data-theme="dark"] .layout-switch button.on {
+  background: var(--orange);
+  color: #1f2e30;
+  border-color: var(--orange);
+}
+
+/* ===== "Coming soon" card (Painting and Digital art tabs) ===== */
+.art.soon {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 24px;
+  background: repeating-linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--yellow) 55%, var(--bg)) 0 38px,
+    color-mix(in srgb, var(--orange) 55%, var(--bg)) 38px 76px
+  );
+  color: #1f2e30;
+}
+.art.soon small {
+  font: 700 0.8rem var(--body);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.art.soon b {
+  font: clamp(2rem, 6vw, 4.2rem) var(--display);
+  line-height: 1;
+  background: var(--red);
+  color: var(--on-red);
+  padding: 0.12em 0.4em;
+  border: 2px solid #1f2e30;
+  transform: rotate(-3deg);
+}
+.art.soon p {
+  max-width: 34ch;
+  font-weight: 500;
+}
+@media (max-width: 700px) {
+  .gallery-slide[data-n] .art.soon:nth-child(1) {
+    grid-row: span 2;
+  }
+}
