@@ -21,7 +21,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-04.jpg",
-    title: "Bruno Bucciarati, JoJo's Bizarre Adventure",
+    title: "Bruno Bucciarati, JoJo's Bizarre Adventure: Golden Wind",
     pos: "42% 30%",
   },
   {
@@ -45,13 +45,13 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-06.jpg",
-    title: "Madara Uchiha, Naruto",
+    title: "Madara Uchiha, Naruto Shippuden",
     pos: "50% 28%",
   },
   {
     cat: "anime",
     src: "images/art-01.jpg",
-    title: "JoJo Bizzare Adventure, Joestar Family",
+    title: "JoJo's Bizarre Adventure, Joestar Family",
     pos: "45% 40%",
   },
   {
@@ -70,7 +70,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-11.jpg",
-    title: "Jotaro Kujo, JoJo's Bizarre Adventure",
+    title: "Jotaro Kujo, JoJo's Bizarre Adventure: Stardust Crusaders",
     pos: "50% 30%",
   },
   {
@@ -203,7 +203,7 @@ const ARTWORKS = [
   {
     cat: "ink",
     src: "images/art-32.jpg",
-    title: "Gyro Zeppeli and Johnny Joestar, Jojo Bizzare Adventure: Steel Ball Run",
+    title: "Gyro Zeppeli and Johnny Joestar, Jojo's Bizarre Adventure: Steel Ball Run",
     pos: "50% 45%",
   },
   {
