@@ -91,6 +91,35 @@ async function updatePosts() {
   }
 }
 
+// ---- Fallback sources, tried only when the normal page gives no numbers ----
+async function igFallback() {
+  // Instagram's own web endpoint (works from many servers, sometimes blocked)
+  try {
+    const r = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${INSTAGRAM}`, {
+      headers: { "user-agent": UA, "x-ig-app-id": "936619743392459", accept: "*/*" },
+    });
+    if (r.ok) {
+      const u = (await r.json())?.data?.user;
+      if (u) return { followers: u.edge_followed_by?.count, following: u.edge_follow?.count, posts: u.edge_owner_to_timeline_media?.count };
+    }
+  } catch {}
+  // A text-reader proxy that renders the page for us
+  try {
+    const t = await get(`https://r.jina.ai/https://www.instagram.com/${INSTAGRAM}/`);
+    const g = (w) => toNum((t.match(new RegExp("([\\d.,]+[KkMm]?)\\s+" + w, "i")) || [])[1]);
+    if (g("Followers") != null) return { followers: g("Followers"), following: g("Following"), posts: g("Posts") };
+  } catch {}
+  return null;
+}
+async function ttFallback() {
+  try {
+    const t = await get(`https://r.jina.ai/https://www.tiktok.com/@${TIKTOK}`);
+    const g = (w) => toNum((t.match(new RegExp("([\\d.,]+[KkMm]?)\\s+" + w, "i")) || [])[1]);
+    if (g("Followers") != null) return { followers: g("Followers"), likes: g("Likes") };
+  } catch {}
+  return null;
+}
+
 async function main() {
   await updatePosts();
   const stats = JSON.parse(await readFile(FILE, "utf8"));
@@ -102,22 +131,35 @@ async function main() {
         changed = true;
       }
   };
+  let tiktokOk = false, igOk = false;
   try {
     const got = parseTikTok(await get(`https://www.tiktok.com/@${TIKTOK}`));
-    got ? take((stats.tiktok ||= {}), got) : console.log("TikTok: numbers not found in page, keeping old ones");
+    got ? (take((stats.tiktok ||= {}), got), (tiktokOk = true)) : console.log("TikTok: numbers not found in page, keeping old ones");
   } catch (e) {
     console.log("TikTok skipped:", e.message);
   }
+  if (!tiktokOk) {
+    const fb = await ttFallback();
+    if (fb) { take((stats.tiktok ||= {}), fb); tiktokOk = true; console.log("TikTok: used fallback"); }
+  }
   try {
     const got = parseInstagram(await get(`https://www.instagram.com/${INSTAGRAM}/`));
-    got ? take((stats.instagram ||= {}), got) : console.log("Instagram: numbers not found in page, keeping old ones");
+    got ? (take((stats.instagram ||= {}), got), (igOk = true)) : console.log("Instagram: numbers not found in page, keeping old ones");
   } catch (e) {
     console.log("Instagram skipped:", e.message);
   }
-  if (changed) {
-    stats.updated = new Date().toISOString();
+  if (!igOk) {
+    const fb = await igFallback();
+    if (fb) { take((stats.instagram ||= {}), fb); igOk = true; console.log("Instagram: used fallback"); }
+  }
+  // "updated" = when a number last changed, "checked" = when we last looked (shown on the page)
+  if (changed) stats.updated = new Date().toISOString();
+  if (igOk || tiktokOk) {
+    stats.checked = new Date().toISOString();
     await writeFile(FILE, JSON.stringify(stats, null, 2) + "\n");
-    console.log("stats.json updated:", JSON.stringify({ i: stats.instagram, t: stats.tiktok }));
-  } else console.log("No change.");
+    console.log("stats.json saved:", JSON.stringify({ i: stats.instagram, t: stats.tiktok }));
+  } else {
+    console.log("::warning::Could not read Instagram or TikTok this time, numbers left as they were.");
+  }
 }
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop())) main();
