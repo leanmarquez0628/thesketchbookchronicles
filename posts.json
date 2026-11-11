@@ -1,5 +1,5 @@
 {
-  "_help": "The Blog grids read this file. Edit it by hand, or let update-stats.mjs fill the Instagram list from your free feed link (paste it in instagram.feedUrl). type = pin | carousel | reel | image. views is optional (leave null to show only the play icon).",
+  "_help": "Posts shown in the Blog. update-stats.mjs can refresh these.",
   "instagram": {
     "profile": "https://www.instagram.com/lnmglmrqz/",
     "feedUrl": "",
@@ -7,73 +7,73 @@
       {
         "img": "images/ig-1.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "pin",
+        "type": "image",
         "alt": "Street railing sketch"
       },
       {
         "img": "images/ig-2.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "pin",
+        "type": "image",
         "alt": "Sketchbook on the desk"
       },
       {
         "img": "images/ig-3.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "pin",
+        "type": "image",
         "alt": "Sketchbook portraits"
       },
       {
         "img": "images/ig-4.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "carousel",
+        "type": "image",
         "alt": "Fineliner pens and sketchbook"
       },
       {
         "img": "images/ig-5.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "carousel",
+        "type": "image",
         "alt": "Ink facade drawing"
       },
       {
         "img": "images/ig-6.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "reel",
+        "type": "image",
         "alt": "Wood floor pattern"
       },
       {
         "img": "images/ig-7.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "carousel",
+        "type": "image",
         "alt": "Pencil and pen on an ink drawing"
       },
       {
         "img": "images/ig-8.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "carousel",
+        "type": "image",
         "alt": "Ink townhouse in my sketchbook"
       },
       {
         "img": "images/ig-9.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "reel",
+        "type": "image",
         "alt": "Train station video"
       },
       {
         "img": "images/ig-10.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "reel",
+        "type": "image",
         "alt": "Building with a mural"
       },
       {
         "img": "images/ig-11.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "reel",
+        "type": "image",
         "alt": "City street from above"
       },
       {
         "img": "images/ig-12.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
-        "type": "carousel",
+        "type": "image",
         "alt": "Fineliner pens close-up"
       }
     ]

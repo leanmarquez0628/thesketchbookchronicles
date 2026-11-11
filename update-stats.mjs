@@ -95,7 +95,7 @@ async function updatePosts() {
 async function igFallback() {
   // Instagram's own web endpoint (works from many servers, sometimes blocked)
   try {
-    const r = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${INSTAGRAM}`, {
+    const r = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?=${INSTAGRAM}`, {
       headers: { "user-agent": UA, "x-ig-app-id": "936619743392459", accept: "*/*" },
     });
     if (r.ok) {

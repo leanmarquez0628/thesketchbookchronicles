@@ -1,31 +1,16 @@
 {
-  "_help": "Filled in automatically every 30 minutes by update-stats.mjs (GitHub Actions). You can also type numbers here by hand. null = not shown yet.",
-  "updated": "2026-11-06T14:11:56+08:00",
+  "_help": "Type your numbers here, or let the GitHub Action update them.",
+  "updated": "",
   "instagram": {
-    "posts": 61,
-    "followers": 827,
-    "following": 2259
+    "posts": 63,
+    "followers": 837,
+    "following": 2292
   },
   "tiktok": {
-    "followers": 1926,
-    "likes": 22308,
-    "views": [
-      3765,
-      4352,
-      3315,
-      592,
-      768,
-      921,
-      1374,
-      1068,
-      1149,
-      1831,
-      1258,
-      1540
-    ]
+    "followers": 1935,
+    "likes": 23031
   },
   "threads": {
-    "followers": 361
-  },
-  "checked": "2026-11-06T14:11:56+08:00"
+    "followers": 364
+  }
 }

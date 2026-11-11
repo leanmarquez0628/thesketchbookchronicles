@@ -212,17 +212,72 @@ const ARTWORKS = [
     title: "Anakin Skywalker and Darth Vader, Star Wars",
     pos: "55% 40%",
   },
+  // graphic design
+  {
+    cat: "design",
+    src: "images/design-1.jpg",
+    title: "Lewis Hamilton, Ferrari F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-2.jpg",
+    title: "Max Verstappen, Red Bull F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-3.jpg",
+    title: "Lando Norris, McLaren F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-4.jpg",
+    title: "George Russell, Mercedes F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-5.jpg",
+    title: "Charles Leclerc, Ferrari F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-6.jpg",
+    title: "Nico Hulkenberg, Audi F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-7.jpg",
+    title: "Kimi Antonelli, Mercedes F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-8.jpg",
+    title: "Oscar Piastri, McLaren F1 poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-9.jpg",
+    title: "Isack Hadjar, Red Bull F1 poster",
+    pos: "50% 48%",
+  },
 ];
 
 // Tabs with no pictures yet show a "Coming soon" card instead
 const COMING_SOON = {
   painting: {
     label: "Painting",
-    text: "Coming soon: Original hand-painted works in watercolor and acrylic.",
+    text: "Hand-painted pieces in watercolor and acrylic are on the way.",
   },
   digital: {
     label: "Digital art",
-    text: "Coming soon: Clean digital illustrations and character art.",
+    text: "Clean digital illustrations and character art are on the way.",
   },
 };
 const PER_SLIDE = 9; // pictures per slide (matches the 9-tile museum grid)
@@ -232,7 +287,7 @@ const SPECIAL_IMAGES = {
   "hero-1": "images/hero-1.jpg",
   "hero-2": "images/hero-2.jpg",
   "hero-3": "images/hero-3.jpg",
-  "hero-4": "images/art-03.jpg",
+  "hero-4": "images/hero-4.jpg",
 };
 
 /* ---------- 2) HELPERS ---------- */
@@ -281,7 +336,6 @@ $("#theme").addEventListener("click", () => {
   try {
     localStorage.setItem("theme", next);
   } catch (e) {}
-  bgColors();
 });
 
 const burger = $("#burger"),
@@ -441,7 +495,9 @@ function makeArt(a, seed, delay, focusable) {
       ? "Anime fan art"
       : a.cat === "ink"
         ? "Ink drawing"
-        : "Pencil portrait";
+        : a.cat === "design"
+          ? "Graphic design"
+          : "Pencil portrait";
   const name = document.createElement("b");
   name.textContent = a.title;
   cap.append(kind, name);
@@ -485,6 +541,7 @@ function renderGallery() {
   grid.innerHTML = "";
   grid.classList.toggle("alt", page % 2 === 1); // flip the collage on every other slide
   grid.dataset.n = Math.min(PER_SLIDE, list.length - page * PER_SLIDE); // tiles on this slide
+  grid.classList.toggle("posters", filter === "design"); // tall poster layout
   list
     .slice(page * PER_SLIDE, page * PER_SLIDE + PER_SLIDE)
     .forEach((a, i) =>
@@ -678,166 +735,6 @@ const ABOUT_SLIDES = [
 /* ---------- 6) FOOTER YEAR ---------- */
 $("#year").textContent = new Date().getFullYear();
 
-/* ---------- 7) UNIQUE BACKGROUND: pencil doodles + cursor line trail ---------- */
-const cv = $("#bg"),
-  ctx = cv.getContext("2d");
-let W,
-  H,
-  dpr,
-  doodles = [],
-  trail = [],
-  colors;
-function bgColors() {
-  const dark = root.dataset.theme === "dark";
-  colors = dark
-    ? ["#f9a66c", "#ffc94b", "#f9faf4", "#f17a7e"]
-    : ["#4a6163", "#ffc94b", "#f9a66c", "#f17a7e"];
-}
-bgColors();
-
-let lastW = 0;
-function resize() {
-  dpr = Math.min(devicePixelRatio || 1, 2);
-  W = innerWidth;
-  H = innerHeight;
-  cv.width = W * dpr;
-  cv.height = H * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  if (W === lastW && doodles.length) return; // phone address bar showing/hiding
-  lastW = W;
-  const n = Math.round(Math.min(26, Math.max(10, (W * H) / 60000)));
-  doodles = Array.from({ length: n }, (_, i) => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    s: 18 + Math.random() * 34,
-    r: Math.random() * 6.28,
-    vr: (Math.random() - 0.5) * 0.006,
-    vx: (Math.random() - 0.5) * 0.25,
-    vy: -0.08 - Math.random() * 0.22,
-    type: i % 5,
-    c: i % 4,
-  }));
-}
-function drawDoodle(d) {
-  ctx.save();
-  ctx.translate(d.x, d.y);
-  ctx.rotate(d.r);
-  ctx.strokeStyle = colors[d.c];
-  ctx.globalAlpha = 0.38;
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  const s = d.s;
-  ctx.beginPath();
-  if (d.type === 0) {
-    // star
-    for (let i = 0; i < 10; i++) {
-      const a = (i * Math.PI) / 5,
-        r = i % 2 ? s * 0.42 : s;
-      ctx[i ? "lineTo" : "moveTo"](Math.cos(a) * r, Math.sin(a) * r);
-    }
-    ctx.closePath();
-  } else if (d.type === 1) {
-    // spiral
-    for (let a = 0; a < 12; a += 0.3) {
-      const r = (a * s) / 12;
-      ctx[a ? "lineTo" : "moveTo"](Math.cos(a) * r, Math.sin(a) * r);
-    }
-  } else if (d.type === 2) {
-    // squiggle
-    ctx.moveTo(-s, 0);
-    for (let i = 0; i < 4; i++)
-      ctx.quadraticCurveTo(
-        -s + (i * s) / 2 + s / 4,
-        i % 2 ? s / 2 : -s / 2,
-        -s + ((i + 1) * s) / 2,
-        0,
-      );
-  } else if (d.type === 3) {
-    // circle sketched twice
-    ctx.arc(0, 0, s * 0.7, 0, 6.1);
-    ctx.moveTo(s * 0.75, 0);
-    ctx.arc(0, 0, s * 0.75, 0.2, 6.3);
-  } else {
-    // pencil
-    ctx.moveTo(-s, s * 0.25);
-    ctx.lineTo(s * 0.7, s * 0.25);
-    ctx.lineTo(s, 0);
-    ctx.lineTo(s * 0.7, -s * 0.25);
-    ctx.lineTo(-s, -s * 0.25);
-    ctx.closePath();
-    ctx.moveTo(s * 0.7, s * 0.25);
-    ctx.lineTo(s * 0.7, -s * 0.25);
-  }
-  ctx.stroke();
-  ctx.restore();
-}
-
-// Cursor line trail, like a pencil drawing on the page
-const LIFE = 900;
-function addPoint(x, y) {
-  trail.push({ x, y, t: performance.now() });
-  if (trail.length > 80) trail.shift();
-}
-if (!reduceMotion) {
-  addEventListener("mousemove", (e) => addPoint(e.clientX, e.clientY), {
-    passive: true,
-  });
-  addEventListener(
-    "touchmove",
-    (e) => addPoint(e.touches[0].clientX, e.touches[0].clientY),
-    { passive: true },
-  );
-}
-function frame(now) {
-  ctx.clearRect(0, 0, W, H);
-  doodles.forEach((d) => {
-    if (!reduceMotion) {
-      d.x += d.vx;
-      d.y += d.vy;
-      d.r += d.vr;
-      if (d.y < -60) {
-        d.y = H + 60;
-        d.x = Math.random() * W;
-      }
-      if (d.x < -60) d.x = W + 60;
-      if (d.x > W + 60) d.x = -60;
-    }
-    drawDoodle(d);
-  });
-  // trail
-  trail = trail.filter((p) => now - p.t < LIFE);
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  for (let i = 1; i < trail.length; i++) {
-    const a = trail[i - 1],
-      b = trail[i],
-      age = 1 - (now - b.t) / LIFE;
-    ctx.strokeStyle = colors[0];
-    ctx.globalAlpha = Math.max(0, age) * 0.8;
-    ctx.lineWidth = 1 + age * 3;
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x + Math.sin(i) * 0.8, b.y + Math.cos(i) * 0.8);
-    ctx.stroke();
-  }
-  ctx.globalAlpha = 1;
-  looping = false;
-  if (!reduceMotion && !document.hidden) startLoop();
-}
-let looping = false;
-function startLoop() {
-  if (looping) return;
-  looping = true;
-  requestAnimationFrame(frame);
-}
-addEventListener("resize", resize);
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && !reduceMotion) startLoop();
-});
-resize();
-startLoop();
-
 /* ---------- LIVE SOCIAL STATS (reads stats.json, refreshes by itself) ---------- */
 (() => {
   const REFRESH_MS = 60000;
@@ -944,7 +841,7 @@ startLoop();
       '<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>',
     ),
     reel: svg(
-      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#1f2e30"/>',
+      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>',
     ),
   };
   const PLAY =
