@@ -9,10 +9,9 @@
     content="Hand-drawn anime fan art, pencil portraits, ink drawings and architectural plans." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@1,900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@1,900&display=swap"
     rel="stylesheet" />
-
+  
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -22,16 +21,17 @@
   <!-- ============ NAVIGATION (floating pill) ============ -->
   <header class="nav-wrap">
     <nav class="nav" aria-label="Main">
-      <a href="#home" class="logo">LM<span>.</span></a>
+      <a href="index.html" class="logo">LM<span>.</span></a>
       <button class="burger" id="burger" aria-label="Open menu"
         aria-expanded="false"><span></span><span></span></button>
       <ul class="links" id="links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About Me</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#gallery">Art Gallery</a></li>
-        <li><a href="#blog">Blog</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="gallery.html">Art Gallery</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
       <button class="theme" id="theme" aria-label="Toggle dark mode" title="Light / Dark">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
@@ -39,7 +39,7 @@
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
         </svg>
       </button>
-      <a href="#contact" class="btn btn-small">Commission me</a>
+      <a href="contact.html" class="btn btn-small">Commission me</a>
     </nav>
   </header>
 
@@ -63,12 +63,8 @@
       <div class="container hero-grid">
         <div class="hero-text reveal">
           <p class="eyebrow">Hello, welcome to my art website</p>
-          <h1>The sketchbook<br /><em class="chron" aria-label="chronicles"><span aria-hidden="true">C</span><span
-                aria-hidden="true">H</span><span aria-hidden="true">R</span><span aria-hidden="true">O</span><span
-                aria-hidden="true">N</span><span aria-hidden="true">I</span><span aria-hidden="true">C</span><span
-                aria-hidden="true">L</span><span aria-hidden="true">E</span><span aria-hidden="true">S</span></em></h1>
-          <p class="role">Artist &middot; Illustrator &middot; Aspiring Digital, Painting, and Graphic Artist &middot;
-            Metro Manila,
+          <h1>The sketchbook<br /><em class="chron" aria-label="chronicles"><span aria-hidden="true">C</span><span aria-hidden="true">H</span><span aria-hidden="true">R</span><span aria-hidden="true">O</span><span aria-hidden="true">N</span><span aria-hidden="true">I</span><span aria-hidden="true">C</span><span aria-hidden="true">L</span><span aria-hidden="true">E</span><span aria-hidden="true">S</span></em></h1>
+          <p class="role">Artist &middot; Illustrator &middot; Aspiring Digital and Painting Art &middot; Metro Manila,
             PH</p>
           <p class="lead"> <strong>Welcome to The Sketchbook Chronicles</strong>—a personal visual diary where ideas,
             emotion, and
@@ -76,8 +72,8 @@
             rendered in rich markers and colored pencil, this section offers an inside look at my raw sketches, creative
             process, and finished illustrations.</p>
           <div class="cta">
-            <a href="#gallery" class="btn">See my artwork</a>
-            <a href="#contact" class="btn btn-ghost">Work with me</a>
+            <a href="gallery.html" class="btn">See my artwork</a>
+            <a href="contact.html" class="btn btn-ghost">Work with me</a>
           </div>
           <div class="layout-switch" role="group" aria-label="Picture layout">
             <span>Layout</span>
@@ -99,160 +95,9 @@
           </div>
         </div>
       </div>
-      <a href="#about" class="scroll-hint" aria-label="Scroll down">scroll ↓</a>
+      <a href="about.html" class="scroll-hint" aria-label="Go to About me">about me →</a>
     </section>
 
-    <!-- ============ 2. ABOUT ME IN DRAWING ============ -->
-    <section id="about" class="section">
-      <div class="container">
-        <p class="eyebrow">01 — About me</p>
-        <h2 data-typed="About me, in drawing."></h2>
-        <div class="about-grid">
-          <div class="about-photo reveal">
-            <div class="polaroid" id="aboutSlider" role="group" aria-roledescription="carousel"
-              aria-label="My drawings">
-              <div class="ph-viewport">
-                <div class="ph-track" id="aboutTrack"></div>
-                <button class="ph-arrow prev" id="aPrev" aria-label="Previous drawing">‹</button>
-                <button class="ph-arrow next" id="aNext" aria-label="Next drawing">›</button>
-              </div>
-              <div class="ph-dots" id="aboutDots"></div>
-              <span id="aboutCap" aria-live="polite">my favorite piece ✎</span>
-            </div>
-          </div>
-          <div class="about-text reveal">
-            <p>Hi, I'm <strong>Lean Miguel Marquez</strong>, an Illustration Artist, and Aspiring Digital, Painting, and
-              Graphic Artist base here in the Philippines. For me, drawing is an act of storytelling. What begins as a
-              few quiet pencil lines on paper gradually comes alive as a character, a face, or a narrative.</p>
-            <p>My creative practice spans traditional illustration. I enjoy creating vibrant <strong>anime fan
-                art</strong> with markers
-              and colored pencils, as well as executing patient <strong>graphite portraits</strong> driven by subtle
-              shading.
-              Complementing my character work, I produce <strong>ink illustrations</strong>, <strong>expressive
-                doodles</strong>, and <strong>architectural designs</strong>
-              .</p>
-            <div class="chips">
-              <span>Anime fan art</span><span>Markers</span><span>Colored pencil</span><span>Graphite
-                portraits</span><span>Doodle art</span><span>Painting</span><span>Digital art</span><span>Graphic
-                design</span><span>Ink
-                drawing</span><span>Architectural plans</span>
-            </div>
-            <div class="stats">
-              <div><b data-count="4">0</b><small>main styles</small></div>
-              <div><b data-count="3">0</b><small>mediums</small></div>
-              <div><b data-count="42">0</b><small>works shown</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 3. SERVICES IN DRAWING ============ -->
-    <section id="services" class="section band">
-      <div class="container">
-        <p class="eyebrow">02 — Services</p>
-        <h2 data-typed="What I can draw for you."></h2>
-        <p class="lead">I offer a wide range of artwork including pencil portraits, anime and fan art, playful doodles,
-          ink drawings, paintings, digital art, graphic design, and scaled architectural plan drawings. Here the list
-          for services:</p>
-
-        <div class="cards">
-          <article class="card reveal">
-            <span class="num">01</span>
-            <h3>Pencil Portrait</h3>
-            <p>A hand-drawn graphite portrait of you or a loved one—the perfect, thoughtful gift for any occasion.</p>
-            <p class="price">Negotiable plus Shipping</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">02</span>
-            <h3>Anime Art</h3>
-            <p>Hand-drawn in marker and colored pencil: a vivid, dynamic portrait of your favorite anime character.</p>
-            <p class="price">Starting from ₱1,300.00 plus shipping </p>
-          </article>
-          <article class="card reveal">
-            <span class="num">03</span>
-            <h3>Doodle Art</h3>
-            <p>A charming assortment of whimsical doodles- full of livery characters, intricate patterns, and playful
-              details.
-            </p>
-            <p class="price">Starting from ₱1,000.00 plus shipping</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">04</span>
-            <h3>Fan Art</h3>
-            <p>turn your favorite pop culture characters into a custom piece of art- the ultimate personal gift or
-              keepsake.</p>
-            <p class="price">Starting from ₱1,300.00 plus shipping</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">05</span>
-            <h3>Ink Drawing</h3>
-            <p>Dynamic ink artwork defined by razor-sharp line-work, high-contrast shadows, and painstaking
-              cross-hatching.</p>
-            <p class="price">Starting from ₱1,300.00 plus shipping</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">06</span>
-            <h3>Painting</h3>
-            <p>Hand-painted pieces in watercolor or acrylic, with rich color and texture for display on your wall.</p>
-            <p class="price">Coming Soon</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">07</span>
-            <h3>Digital Art</h3>
-            <p>Clean digital illustrations, portraits and character art, delivered as high-resolution files ready to
-              print or post.</p>
-            <p class="price">Coming Soon</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">08</span>
-            <h3>Architectural Plan Drawing</h3>
-            <p>Neat floor plans, elevations and sections, drawn to scale for house ideas and school plates.</p>
-            <p class="price">Coming Soon</p>
-          </article>
-          <article class="card reveal">
-            <span class="num">09</span>
-            <h3>Graphic Design</h3>
-            <p>Bold posters, wallpapers and layouts, with big typography, clean color blocking and your subject front
-              and center.</p>
-            <p class="price">Message me for commission</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 4. ART GALLERY (work gallery, slides of 9) ============ -->
-    <section id="gallery" class="section">
-      <div class="container">
-        <p class="eyebrow">03 — Art Gallery</p>
-        <h2 data-typed="My work gallery."></h2>
-        <div class="gallery-frame">
-          <div class="tabs" id="galleryTabs" role="tablist">
-            <button class="tab active" data-filter="all" role="tab">All</button>
-            <button class="tab" data-filter="anime" role="tab">Anime fan art</button>
-            <button class="tab" data-filter="portrait" role="tab">Pencil portraits</button>
-            <button class="tab" data-filter="ink" role="tab">Ink drawings</button>
-            <button class="tab" data-filter="painting" role="tab">Painting</button>
-            <button class="tab" data-filter="digital" role="tab">Digital art</button>
-            <button class="tab" data-filter="design" role="tab">Graphic design</button>
-          </div>
-          <div class="gallery-window">
-            <div class="gw-bar" aria-hidden="true">
-              <i></i><i></i><i></i>
-              <span>the-sketchbook-chronicles</span>
-            </div>
-            <div class="gallery-slide" id="galleryGrid" aria-live="polite"></div>
-          </div>
-          <div class="pager">
-            <button class="arrow" id="gPrev" aria-label="Previous slide">←</button>
-            <span id="gCount">Slide 1 / 1</span>
-            <button class="arrow" id="gNext" aria-label="Next slide">→</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Big visual divider like the template's "Showreel" -->
     <section class="showreel" aria-label="Sketchbook">
       <div class="showreel-box">
         <div class="strip" id="sketchStrip"></div>
@@ -260,387 +105,64 @@
       </div>
     </section>
 
-    <!-- ============ BLOG / SOCIAL ============ -->
-    <section id="blog" class="section band">
-      <div class="container">
-        <p class="eyebrow">04 — Blog</p>
-        <h2 data-typed="From my sketchbook"></h2>
-        <p class="lead">Welcome to my personal blog—a curated collection of my latest sketches, work-in-progress shots, and creative videos from Instagram and TikTok. Follow my social media for more updates.</p>
-        <div class="feeds reveal">
-          <article class="feed feed-ig">
-            <header class="feed-head">
-              <span class="feed-logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.300" cy="6.700" r="1" fill="currentColor" stroke="none" />
-                </svg></span>
-              <span class="feed-id"><b>Instagram</b><small>@lnmglmrqz</small></span>
-              <a class="feed-follow" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener">Follow</a>
-            </header>
-            <div class="feed-stats" data-net="instagram">
-              <div><b data-stat="posts">59</b><small>Posts</small></div>
-              <div><b data-stat="followers">805</b><small>Followers</small></div>
-              <div><b data-stat="following">2190</b><small>Following</small></div>
-            </div>
-            <div class="feed-tabs" aria-hidden="true"><span class="on">Posts</span><span>Reels</span><span>Tagged</span>
-            </div>
-            <div class="feed-grid" id="igGrid"><a class="ftile" href="https://www.instagram.com/lnmglmrqz/"
-                target="_blank" rel="noopener"><img src="images/ig-1.jpg" alt="Street railing sketch"
-                  loading="lazy" /><span class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-                    aria-hidden="true">
-                    <path
-                      d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-2.jpg" alt="Sketchbook on the desk" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <path
-                      d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-3.jpg" alt="Sketchbook portraits" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <path
-                      d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-4.jpg" alt="Fineliner pens and sketchbook" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="7" y="3" width="14" height="14" rx="3" />
-                    <path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-5.jpg" alt="Ink facade drawing" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="7" y="3" width="14" height="14" rx="3" />
-                    <path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-6.jpg" alt="Wood floor pattern" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="3" y="3" width="18" height="18" rx="4" />
-                    <path d="M10 8.500v7l6-3.500z" fill="#512323" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-7.jpg" alt="Pencil and pen on an ink drawing" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="7" y="3" width="14" height="14" rx="3" />
-                    <path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-8.jpg" alt="Ink townhouse in my sketchbook" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="7" y="3" width="14" height="14" rx="3" />
-                    <path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-9.jpg" alt="Train station video" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="3" y="3" width="18" height="18" rx="4" />
-                    <path d="M10 8.500v7l6-3.500z" fill="#512323" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-10.jpg" alt="Building with a mural" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="3" y="3" width="18" height="18" rx="4" />
-                    <path d="M10 8.500v7l6-3.500z" fill="#512323" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-11.jpg" alt="City street from above" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="3" y="3" width="18" height="18" rx="4" />
-                    <path d="M10 8.500v7l6-3.500z" fill="#512323" />
-                  </svg></span></a><a class="ftile" href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener"><img src="images/ig-12.jpg" alt="Fineliner pens close-up" loading="lazy" /><span
-                  class="tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-                    <rect x="7" y="3" width="14" height="14" rx="3" />
-                    <path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2" />
-                  </svg></span></a></div>
-          </article>
-          <article class="feed feed-tt">
-            <header class="feed-head">
-              <span class="feed-logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"
-                  aria-hidden="true">
-                  <path
-                    d="M16.600 2h-3.100v13.200a2.900 2.900 0 1 1-2.900-2.900c.3 0 .6 0 .8.100V9.200a6 6 0 0 0-.8-.100 6 6 0 1 0 6 6V8.600a7.600 7.600 0 0 0 4.400 1.400V6.900a4.500 4.500 0 0 1-4.400-4.900z" />
-                </svg></span>
-              <span class="feed-id"><b>TikTok</b><small>@lnmglmrq</small></span>
-              <a class="feed-follow" href="https://www.tiktok.com/@lnmglmrq" target="_blank" rel="noopener">Follow</a>
-            </header>
-            <div class="feed-stats" data-net="tiktok">
-              <div><b data-stat="followers">1907</b><small>Followers</small></div>
-              <div><b data-stat="likes">21636</b><small>Likes</small></div>
-            </div>
-            <div class="feed-tabs" id="ttTabs" role="tablist"><button type="button" role="tab" class="on" data-tt="grid"
-                aria-selected="true">Videos</button><button type="button" role="tab" data-tt="live"
-                aria-selected="false">Live</button></div>
-            <div class="feed-grid" id="ttGrid"><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-1.jpg" alt="Pencil portrait with a scarf" loading="lazy" /><span
-                  class="pinned">Pinned</span><span class="views" data-view="0"><svg viewBox="0 0 24 24" width="14"
-                    height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-2.jpg" alt="Sketchbook portraits" loading="lazy" /><span
-                  class="pinned">Pinned</span><span class="views" data-view="1"><svg viewBox="0 0 24 24" width="14"
-                    height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-3.jpg" alt="Portrait sketch with caption" loading="lazy" /><span
-                  class="pinned">Pinned</span><span class="views" data-view="2"><svg viewBox="0 0 24 24" width="14"
-                    height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-4.jpg" alt="Fineliner pens" loading="lazy" /><span class="views"
-                  data-view="3"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                    stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-5.jpg" alt="Wood floor pattern" loading="lazy" /><span class="views"
-                  data-view="4"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                    stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-6.jpg" alt="Ink facade drawing" loading="lazy" /><span class="views"
-                  data-view="5"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                    stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-7.jpg" alt="Street railing" loading="lazy" /><span class="views"
-                  data-view="6"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                    stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-8.jpg" alt="Pen and pencil on an ink drawing" loading="lazy" /><span
-                  class="views" data-view="7"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                    stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-9.jpg" alt="Fineliner pens close-up" loading="lazy" /><span
-                  class="views" data-view="8"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                    stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-10.jpg" alt="Train at the station" loading="lazy" /><span
-                  class="views" data-view="9"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                    stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-11.jpg" alt="Building with a mural" loading="lazy" /><span
-                  class="views" data-view="10"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                    stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a><a class="ftile" href="https://www.tiktok.com/@lnmglmrq" target="_blank"
-                rel="noopener"><img src="images/tt-12.jpg" alt="City street from above" loading="lazy" /><span
-                  class="views" data-view="11"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                    stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 4l14 8-14 8z" />
-                  </svg></span></a></div>
-            <div class="tt-live" id="ttLive" hidden>
-              <blockquote class="tiktok-embed tiktok-embed-creator" cite="https://www.tiktok.com/@lnmglmrq"
-                data-unique-id="lnmglmrq" data-embed-type="creator" style="max-width: 780px; min-width: 288px">
-                <section><a target="_blank" rel="noopener"
-                    href="https://www.tiktok.com/@lnmglmrq?refer=creator_embed">@lnmglmrq</a></section>
-              </blockquote>
-              <p class="tt-note">Live from TikTok · your newest videos show up here by themselves.</p>
-            </div>
-          </article>
-
-          <article class="feed feed-threads">
-            <header class="feed-head">
-              <span class="feed-logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                  <path
-                    d="M17.500 9.500C17 6.500 15 5 12 5 8.500 5 6.500 7.500 6.500 12s2 7 5.500 7c3 0 4.800-1.700 4.800-3.800 0-2.300-2.300-3.200-4.800-3.200-1.800 0-2.800.8-2.800 1.800s1 1.700 2.200 1.700c2 0 3.300-1.500 3.300-4.500" />
-                </svg></span>
-              <span class="feed-id"><b>Threads</b><small>@lnmglmrqz</small></span>
-              <a class="feed-follow" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">Follow</a>
-            </header>
-            <div class="feed-stats" data-net="threads">
-              <div><b data-stat="followers">363</b><small>Followers</small></div>
-              <div><b>7.9K</b><small>Recent views</small></div>
-            </div>
-            <div class="th-grid">
-              <a class="th-card" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">
-                <img src="images/th-pinned.jpg" alt="Random Drawing" loading="lazy" />
-                <div class="th-body"><small>Pinned · Art Threads · 6/27/26</small><b>Random Drawing</b>
-                  <p>Two quick pencil portraits from my sketchbook.</p>
-                  <div class="th-counts"><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path
-                          d="M12 20.5S3.5 15 3.5 9A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8.5 2c0 6-8.500 11.500-8.500 11.500z" />
-                      </svg> 179</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 12a8 8 0 1 1-3.200-6.400L21 4.500l-1 4.200A8 8 0 0 1 20 12z" />
-                      </svg> 9</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="M4 12a8 8 0 0 1 14-5.300M20 12a8 8 0 0 1-14 5.300" />
-                        <path d="M18 3v4h-4M6 21v-4h4" />
-                      </svg> 2</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 3L3 10.500l7 3 3 7z" />
-                      </svg> 5</span></div>
-                </div>
-              </a>
-              <a class="th-card" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">
-                <img src="images/th-15h.jpg" alt="Complete process of drawing JoJo's Bizarre Adventure: Steel Ball Run…"
-                  loading="lazy" />
-                <div class="th-body"><small>Art Threads · 15h</small><b>Complete process of drawing JoJo's Bizarre
-                    Adventure: Steel Ball Run…</b>
-                  <p>Gyro Zeppeli and Johnny Joestar, inked from start to finish.</p>
-                  <div class="th-counts"><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path
-                          d="M12 20.5S3.5 15 3.5 9A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8.5 2c0 6-8.500 11.500-8.500 11.500z" />
-                      </svg> 22</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 12a8 8 0 1 1-3.200-6.400L21 4.500l-1 4.200A8 8 0 0 1 20 12z" />
-                      </svg> 1</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="M4 12a8 8 0 0 1 14-5.300M20 12a8 8 0 0 1-14 5.300" />
-                        <path d="M18 3v4h-4M6 21v-4h4" />
-                      </svg> 1</span></div>
-                </div>
-              </a>
-              <a class="th-card" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">
-                <img src="images/th-2d.jpg" alt="Under the process of drawing JoJo's Bizarre Adventure: Steel Ball Run…"
-                  loading="lazy" />
-                <div class="th-body"><small>Art Threads · 2d</small><b>Under the process of drawing JoJo's Bizarre
-                    Adventure: Steel Ball Run…</b>
-                  <p>Work-in-progress shots of the same ink drawing.</p>
-                  <div class="th-counts"><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path
-                          d="M12 20.5S3.5 15 3.5 9A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8.5 2c0 6-8.500 11.500-8.500 11.500z" />
-                      </svg> 24</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 12a8 8 0 1 1-3.200-6.400L21 4.500l-1 4.200A8 8 0 0 1 20 12z" />
-                      </svg> 1</span></div>
-                </div>
-              </a>
-              <a class="th-card" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">
-                <img src="images/th-vader.jpg" alt="Random Drawing 22: Shadows and strength" loading="lazy" />
-                <div class="th-body"><small>Art Threads · 5d</small><b>Random Drawing 22: Shadows and strength</b>
-                  <p>Darth Vader is a reminder that behind every villain's armor is a story of tragedy, loss, and a
-                    fallen hero. Power built from pain…</p>
-                  <div class="th-counts"><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path
-                          d="M12 20.5S3.5 15 3.5 9A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8.5 2c0 6-8.500 11.500-8.500 11.500z" />
-                      </svg> 15</span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 12a8 8 0 1 1-3.200-6.400L21 4.500l-1 4.200A8 8 0 0 1 20 12z" />
-                      </svg> 2</span></div>
-                </div>
-              </a>
-              <a class="th-card" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">
-                <img src="images/th-arch.jpg" alt="Random architectural sketch" loading="lazy" />
-                <div class="th-body"><small>Art Threads · 1w</small><b>Random architectural sketch</b>
-                  <p>Old building studies in fineliner and pencil.</p>
-                </div>
-              </a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 5. CONTACT ============ -->
-    <section id="contact" class="section contact">
-      <div class="container contact-grid">
-        <div class="reveal">
-          <p class="eyebrow light">05 — Contact</p>
-          <h2 class="giant">Let's<br />work<br />together</h2>
-          <p class="lead">Looking for a portrait, ink drawing, digital piece, painting, or floor plan? Reach out with your ideas—I'd love to bring them to life! Contact me for collaborations and commissions.</p>
-          <ul class="contact-list">
-            <li><small>Email</small><a href="mailto:leanmarquez0628@yahoo.com">leanmarquez0628@yahoo.com</a></li>
-            <li><small class="lbl"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
-                </svg> Instagram</small><a href="https://www.instagram.com/lnmglmrqz/" target="_blank"
-                rel="noopener">@lnmglmrqz</a></li>
-            <li><small class="lbl"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"
-                  aria-hidden="true">
-                  <path
-                    d="M16.6 2h-3.1v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .8.1V9.2a6 6 0 0 0-.8-.1 6 6 0 1 0 6 6V8.6a7.600 7.600 0 0 0 4.400 1.400V6.900a4.500 4.500 0 0 1-4.400-4.900z" />
-                </svg> TikTok</small><a href="https://www.tiktok.com/@lnmglmrq/" target="_blank"
-                rel="noopener">@lnmglmrq</a></li>
-            <li><small class="lbl"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"
-                  aria-hidden="true">
-                  <path
-                    d="M13.5 22v-8.2h2.8l.5-3.4h-3.3V8.300c0-1 .4-1.700 1.800-1.700h1.700V3.600c-.3 0-1.300-.2-2.500-.2-2.500 0-4.200 1.500-4.200 4.300v2.700H7.100v3.400h2.800V22h3.600z" />
-                </svg> Facebook</small><a href="https://www.facebook.com/lnmglmrq" target="_blank" rel="noopener">Miguel
-                Marquez</a></li>
-            <li><small class="lbl"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M3 21l1.600-4.700A9 9 0 1 1 8 19.600z" />
-                  <path
-                    d="M9.2 8.2c.3-.6.7-.6 1-.1l.6 1.100c.2.4.1.7-.2 1l-.4.4c.6 1.200 1.500 2.100 2.700 2.700l.4-.5c.3-.3.6-.3 1-.1l1.100.6c.5.3.5.7.1 1.100-.7.8-1.600 1-2.700.5-2.400-1-4-2.600-4.900-4.900-.3-.8-.1-1.500.5-1.800z"
-                    fill="currentColor" stroke="none" />
-                </svg> WhatsApp</small><a href="https://wa.me/639213584345" target="_blank" rel="noopener">+63 921 358
-                4345</a></li>
-            <li><small class="lbl"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-4 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
-                  <path
-                    d="M9.2 6.700c.3-.6.7-.6 1-.1l.6 1.100c.2.4.1.7-.2 1l-.4.4c.6 1.200 1.500 2.100 2.700 2.700l.4-.5c.3-.3.6-.3 1-.1l1.100.6c.5.3.5.7.1 1.100-.7.8-1.600 1-2.700.5-2.400-1-4-2.600-4.900-4.900-.3-.8-.1-1.500.5-1.800z"
-                    fill="currentColor" transform="translate(0 -1.500)" stroke="none" />
-                </svg> Viber</small><a href="viber://chat?number=%2B639213584345" target="_blank" rel="noopener">+63 921
-                358 4345</a></li>
-            <li><small>Location</small><span>Metro Manila, Philippines</span></li>
-          </ul>
-        </div>
-        <div class="reveal">
-          <h3 class="compose-title">Compose an email</h3>
-          <p class="compose-desc">Have a potential project, commission, or inquiry? Completing the form below will
-            automatically draft an email to me in your default mail app. Alternatively, feel free to connect with me via
-            social media.</p>
-          <div class="soc-row"><a class="soc" href="https://www.instagram.com/lnmglmrqz/" target="_blank" rel="noopener"
-              aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
-              </svg></a><a class="soc" href="https://www.facebook.com/lnmglmrq" target="_blank" rel="noopener"
-              aria-label="Facebook"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"
-                aria-hidden="true">
-                <path
-                  d="M13.5 22v-8.2h2.8l.5-3.4h-3.3V8.300c0-1 .4-1.700 1.800-1.700h1.700V3.600c-.3 0-1.300-.2-2.500-.2-2.500 0-4.200 1.500-4.200 4.300v2.700H7.100v3.400h2.800V22h3.600z" />
-              </svg></a><a class="soc" href="https://www.tiktok.com/@lnmglmrq" target="_blank" rel="noopener"
-              aria-label="TikTok"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"
-                aria-hidden="true">
-                <path
-                  d="M16.600 2h-3.100v13.200a2.900 2.900 0 1 1-2.900-2.900c.3 0 .6 0 .8.100V9.200a6 6 0 0 0-.8-.100 6 6 0 1 0 6 6V8.600a7.600 7.600 0 0 0 4.400 1.400V6.900a4.500 4.500 0 0 1-4.400-4.900z" />
-              </svg></a><a class="soc" href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener"
-              aria-label="Threads"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
-                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path
-                  d="M17.700 8.600C16.900 5.300 14.700 3.500 12 3.500c-4 0-6.800 3-6.800 8.500s2.800 8.500 6.800 8.500c3.300 0 5.800-1.900 5.800-4.600 0-2.500-2.200-3.800-4.900-3.800-1.900 0-3.200 1-3.200 2.400 0 1.300 1.100 2.200 2.700 2.200 2.200 0 3.400-1.700 3.400-5" />
-              </svg></a><a class="soc" href="https://www.linkedin.com/in/lean-miguel-marquez" target="_blank"
-              rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"
-                aria-hidden="true">
-                <path
-                  d="M5 3.500a2.500 2.500 0 1 1 0 5 2.500 2.500 0 0 1 0-5zM3 9.500h4V21H3zM9.500 9.500h3.800v1.600h.1c.5-1 1.800-2 3.800-2 4 0 4.800 2.600 4.800 6V21h-4v-5c0-1.200 0-2.800-1.700-2.800-1.700 0-2 1.300-2 2.700V21h-4z" />
-              </svg></a></div>
-          <form class="cform" id="contactForm" novalidate>
-            <div class="cf-field"><label for="cfFirst">First name <span aria-hidden="true">*</span></label><input
-                id="cfFirst" name="first" type="text" autocomplete="given-name" required /></div>
-            <div class="cf-field"><label for="cfLast">Last name <span aria-hidden="true">*</span></label><input
-                id="cfLast" name="last" type="text" autocomplete="family-name" required /></div>
-            <div class="cf-field"><label for="cfEmail">Email <span aria-hidden="true">*</span></label><input
-                id="cfEmail" name="email" type="email" autocomplete="email" required /></div>
-            <div class="cf-field"><label for="cfSubject">Subject</label><input id="cfSubject" name="subject"
-                type="text" /></div>
-            <div class="cf-field"><label for="cfMsg">Leave me a message…</label><textarea id="cfMsg" name="message"
-                rows="4"></textarea></div>
-            <button class="cf-submit" type="submit">Submit</button>
-            <p class="cf-msg" id="cfMsgOut" role="status" aria-live="polite"></p>
-          </form>
-        </div>
+    <section class="showreel design-reel" aria-label="Graphic design">
+      <div class="showreel-box">
+        <div class="strip" id="designStrip"></div>
+        <span class="sk-title">Graphic Design</span>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© <span id="year"></span> Lean Miguel Marquez • The Sketchbook Chronicles • All rights reserved.</p>
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Me</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="gallery.html">Art Gallery</a></li>
+          <li><a href="gallery.html#graphic">Graphic Design</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Commissions</h4>
+        <ul>
+          <li><a href="services.html">Pencil Portrait</a></li>
+          <li><a href="services.html">Anime &amp; Fan Art</a></li>
+          <li><a href="services.html">Ink Drawing</a></li>
+          <li><a href="services.html">Graphic Design</a></li>
+          <li><a href="services.html">Architectural Plan Drawing</a></li>
+          <li><a href="shop.html">Prints (coming soon)</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Follow me</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/lnmglmrqz/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@lnmglmrq" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">Threads</a></li>
+          <li><a href="https://www.pinterest.com/lnmglmrqz/" target="_blank" rel="noopener">Pinterest</a></li>
+          <li><a href="https://www.facebook.com/lnmglmrq" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Newsletter</h4>
+        <form class="foot-news" id="footNews">
+          <input type="email" id="footEmail" placeholder="Your email" aria-label="Your email" required />
+          <button type="submit" aria-label="Subscribe">&rarr;</button>
+        </form>
+        <p class="foot-note" id="footNote" role="status"></p>
+        <h4 class="foot-h2">Contacts</h4>
+        <p class="foot-text">Metro Manila, Philippines</p>
+        <p class="foot-text"><a href="mailto:leanmarquez0628@yahoo.com">leanmarquez0628@yahoo.com</a></p>
+        <p class="foot-phone"><a href="tel:+639213584345">+63 921 358 4345</a></p>
+      </div>
+    </div>
+    <p class="foot-copy">© <span id="year"></span> Lean Miguel Marquez • The Sketchbook Chronicles • All rights reserved.</p>
   </footer>
 
   <!-- Lightbox -->
@@ -650,7 +172,7 @@
     <p id="lbCap"></p>
   </dialog>
 
-
+  
   <script src="script.js"></script>
 </body>
 

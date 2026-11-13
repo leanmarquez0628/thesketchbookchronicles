@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop | The Sketchbook Chronicles</title>
+  <meta name="description"
+    content="Hand-drawn anime fan art, pencil portraits, ink drawings and architectural plans." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@1,900&display=swap"
+    rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+
+  <!-- ============ NAVIGATION (floating pill) ============ -->
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Main">
+      <a href="index.html" class="logo">LM<span>.</span></a>
+      <button class="burger" id="burger" aria-label="Open menu"
+        aria-expanded="false"><span></span><span></span></button>
+      <ul class="links" id="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="gallery.html">Art Gallery</a></li>
+        <li><a href="shop.html" class="active" aria-current="page">Shop</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="theme" id="theme" aria-label="Toggle dark mode" title="Light / Dark">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+      </button>
+      <a href="contact.html" class="btn btn-small">Commission me</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ 3c. SHOP (coming soon) ============ -->
+    <section id="shop" class="section">
+      <div class="container">
+        <p class="eyebrow">03c — Shop</p>
+        <h2 data-typed="Art for your wall."></h2>
+        <p class="lead">A new release of prints and original pieces is on the way. Get in touch to receive early updates before they launch.</p>
+        <div class="shop-row" data-title="New Products" data-soon="new"></div>
+        <div class="shop-row" data-title="Special" data-soon="special"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Me</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="gallery.html">Art Gallery</a></li>
+          <li><a href="gallery.html#graphic">Graphic Design</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Commissions</h4>
+        <ul>
+          <li><a href="services.html">Pencil Portrait</a></li>
+          <li><a href="services.html">Anime &amp; Fan Art</a></li>
+          <li><a href="services.html">Ink Drawing</a></li>
+          <li><a href="services.html">Graphic Design</a></li>
+          <li><a href="services.html">Architectural Plan Drawing</a></li>
+          <li><a href="shop.html">Prints (coming soon)</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Follow me</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/lnmglmrqz/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@lnmglmrq" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.threads.net/@lnmglmrqz" target="_blank" rel="noopener">Threads</a></li>
+          <li><a href="https://www.pinterest.com/lnmglmrqz/" target="_blank" rel="noopener">Pinterest</a></li>
+          <li><a href="https://www.facebook.com/lnmglmrq" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Newsletter</h4>
+        <form class="foot-news" id="footNews">
+          <input type="email" id="footEmail" placeholder="Your email" aria-label="Your email" required />
+          <button type="submit" aria-label="Subscribe">&rarr;</button>
+        </form>
+        <p class="foot-note" id="footNote" role="status"></p>
+        <h4 class="foot-h2">Contacts</h4>
+        <p class="foot-text">Metro Manila, Philippines</p>
+        <p class="foot-text"><a href="mailto:leanmarquez0628@yahoo.com">leanmarquez0628@yahoo.com</a></p>
+        <p class="foot-phone"><a href="tel:+639213584345">+63 921 358 4345</a></p>
+      </div>
+    </div>
+    <p class="foot-copy">© <span id="year"></span> Lean Miguel Marquez • The Sketchbook Chronicles • All rights reserved.</p>
+  </footer>
+
+  <!-- Lightbox -->
+  <dialog id="lightbox" class="lightbox">
+    <button class="close" id="lbClose" aria-label="Close">×</button>
+    <img id="lbImg" alt="" />
+    <p id="lbCap"></p>
+  </dialog>
+
+  
+  <script src="script.js"></script>
+</body>
+
+</html>

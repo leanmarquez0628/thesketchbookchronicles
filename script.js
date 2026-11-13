@@ -21,7 +21,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-04.jpg",
-    title: "Bruno Bucciarati, JoJo's Bizarre Adventure",
+    title: "Bruno Bucciarati, JoJo's Bizarre Adventure: Golden Wind",
     pos: "42% 30%",
   },
   {
@@ -70,7 +70,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-11.jpg",
-    title: "Jotaro Kujo, JoJo's Bizarre Adventure",
+    title: "Jotaro Kujo, JoJo's Bizarre Adventure: Stardust Crusaders",
     pos: "50% 30%",
   },
   {
@@ -203,7 +203,7 @@ const ARTWORKS = [
   {
     cat: "ink",
     src: "images/art-32.jpg",
-    title: "Gyro Zeppeli and Johnny Joestar, Steel Ball Run",
+    title: "Gyro Zeppeli and Johnny Joestar, Jojo's Bizarre Adventure: Steel Ball Run",
     pos: "50% 45%",
   },
   {
@@ -211,6 +211,42 @@ const ARTWORKS = [
     src: "images/art-33.jpg",
     title: "Anakin Skywalker and Darth Vader, Star Wars",
     pos: "55% 40%",
+  },
+  {
+    cat: "anime",
+    src: "images/art-34.jpg",
+    title: "Monkey D. Luffy, One Piece",
+    pos: "50% 40%",
+  },
+  {
+    cat: "anime",
+    src: "images/art-35.jpg",
+    title: "Giorno Giovanna, JoJo's Bizarre Adventure: Golden Wind",
+    pos: "50% 35%",
+  },
+  {
+    cat: "anime",
+    src: "images/art-36.jpg",
+    title: "Gogeta, Dragon Ball Z",
+    pos: "55% 35%",
+  },
+  {
+    cat: "portrait",
+    src: "images/art-37.jpg",
+    title: "Portrait No. 13",
+    pos: "50% 40%",
+  },
+  {
+    cat: "portrait",
+    src: "images/art-38.jpg",
+    title: "Portrait No. 14",
+    pos: "50% 40%",
+  },
+  {
+    cat: "ink",
+    src: "images/art-39.jpg",
+    title: "Gyro Zeppeli, JoJo's Bizarre Adventure: Steel Ball Run",
+    pos: "50% 40%",
   },
   // graphic design
   {
@@ -267,6 +303,36 @@ const ARTWORKS = [
     title: "Isack Hadjar, Red Bull F1 poster",
     pos: "50% 48%",
   },
+  {
+    cat: "design",
+    src: "images/design-10.jpg",
+    title: "Lewis Hamilton, Ferrari F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-11.jpg",
+    title: "Max Verstappen, Red Bull F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-12.jpg",
+    title: "Lando Norris, McLaren F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-13.jpg",
+    title: "Charles Leclerc, Ferrari F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-14.jpg",
+    title: "Oscar Piastri, McLaren F1 driver poster",
+    pos: "50% 48%",
+  },
 ];
 
 // Tabs with no pictures yet show a "Coming soon" card instead
@@ -291,7 +357,8 @@ const SPECIAL_IMAGES = {
 };
 
 /* ---------- 2) HELPERS ---------- */
-const $ = (s, el = document) => el.querySelector(s);
+// returns a detached <div> when the element is on another page, so shared code never crashes
+const $ = (s, el = document) => el.querySelector(s) || document.createElement("div");
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -350,24 +417,6 @@ links.addEventListener("click", (e) => {
     burger.setAttribute("aria-expanded", false);
   }
 });
-
-// Highlight current section in the nav
-const navLinks = $$(".links a");
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting)
-        navLinks.forEach((a) =>
-          a.classList.toggle(
-            "active",
-            a.getAttribute("href") === "#" + en.target.id,
-          ),
-        );
-    });
-  },
-  { rootMargin: "-45% 0px -50% 0px" },
-);
-$$("main section[id]").forEach((s) => sectionObserver.observe(s));
 
 // Reveal on scroll
 const revealObserver = new IntersectionObserver(
@@ -473,7 +522,9 @@ const grid = $("#galleryGrid"),
 let filter = "all",
   page = 0;
 const items = () =>
-  ARTWORKS.filter((a) => filter === "all" || a.cat === filter);
+  ARTWORKS.filter(
+    (a) => a.cat !== "design" && (filter === "all" || a.cat === filter),
+  );
 const pages = () => Math.max(1, Math.ceil(items().length / PER_SLIDE));
 
 // One framed picture tile (used by the gallery and by the Home layout 2)
@@ -521,7 +572,7 @@ function renderGallery() {
     // no pictures for this tab yet: one "Coming soon" card
     page = 0;
     grid.innerHTML = "";
-    grid.classList.remove("alt");
+    grid.classList.remove("alt", "posters");
     grid.dataset.n = 1;
     const c = COMING_SOON[filter],
       card = document.createElement("div");
@@ -541,7 +592,6 @@ function renderGallery() {
   grid.innerHTML = "";
   grid.classList.toggle("alt", page % 2 === 1); // flip the collage on every other slide
   grid.dataset.n = Math.min(PER_SLIDE, list.length - page * PER_SLIDE); // tiles on this slide
-  grid.classList.toggle("posters", filter === "design"); // tall poster layout
   list
     .slice(page * PER_SLIDE, page * PER_SLIDE + PER_SLIDE)
     .forEach((a, i) =>
@@ -566,6 +616,31 @@ $("#galleryTabs").addEventListener("click", (e) => {
   renderGallery();
 });
 renderGallery();
+
+// Graphic design gallery (its own section, all posters on one page)
+const designGrid = $("#designGrid");
+ARTWORKS.filter((a) => a.cat === "design").forEach((a, i) =>
+  designGrid.append(makeArt(a, 200 + i, i * 70, true)),
+);
+
+// Shop: "Coming soon" cards for Digital art and Painting (same card as the gallery tabs)
+$$(".shop-row").forEach((row) => {
+  const SHOP_SOON = {
+    new: { label: "New products", text: "New artworks for sale will be available here soon." },
+    special: { label: "Special", text: "Special pieces and deals will be available here soon." },
+  };
+  const c = SHOP_SOON[row.dataset.soon];
+  if (!c) return;
+  const h3 = document.createElement("h3");
+  h3.className = "shop-title";
+  h3.textContent = row.dataset.title;
+  const card = document.createElement("div");
+  card.className = "art soon shop-soon";
+  card.innerHTML = "<small></small><b>Coming soon</b><p></p>";
+  $("small", card).textContent = "✎ " + c.label;
+  $("p", card).textContent = c.text;
+  row.append(h3, card);
+});
 
 // Lightbox
 const lb = $("#lightbox");
@@ -780,8 +855,7 @@ $("#year").textContent = new Date().getFullYear();
           : m < 1440
             ? Math.round(m / 60) + " h ago"
             : Math.round(m / 1440) + " d ago";
-    if (stamp)
-      stamp.querySelector("span").textContent = "Live numbers · updated " + t;
+    if (stamp) stamp.querySelector("span").textContent = "Live numbers · updated " + t;
   }
   function apply(d) {
     document.querySelectorAll(".feed-stats").forEach((box) => {
@@ -800,10 +874,7 @@ $("#year").textContent = new Date().getFullYear();
         document.createTextNode(" " + val.toLocaleString("en-US")),
       );
     });
-    updated =
-      d.checked || d.updated
-        ? new Date(d.checked || d.updated).getTime()
-        : Date.now();
+    updated = d.checked || d.updated ? new Date(d.checked || d.updated).getTime() : Date.now();
     ago();
   }
   async function load() {
@@ -814,7 +885,7 @@ $("#year").textContent = new Date().getFullYear();
       if (!r.ok) throw 0;
       apply(await r.json());
     } catch (e) {
-      // stats.json not found: just show the numbers typed in the page
+       // stats.json not found: just show the numbers typed in the page
     }
   }
   load();
@@ -834,40 +905,21 @@ $("#year").textContent = new Date().getFullYear();
   const svg = (inner, extra = "") =>
     `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" ${extra}>${inner}</svg>`;
   const ICON = {
-    pin: svg(
-      '<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>',
-    ),
-    carousel: svg(
-      '<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>',
-    ),
-    reel: svg(
-      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>',
-    ),
+    pin: svg('<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>'),
+    carousel: svg('<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>'),
+    reel: svg('<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>'),
   };
   const PLAY =
     '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
-  const esc = (s) =>
-    String(s ?? "").replace(
-      /[&<>"']/g,
-      (c) =>
-        ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        })[c],
-    );
-  const safeUrl = (u, fallback) =>
-    /^(https?:\/\/|images\/)/.test(u || "") ? u : fallback;
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const safeUrl = (u, fallback) => (/^(https?:\/\/|images\/)/.test(u || "") ? u : fallback);
 
   function tile(p, net, profile) {
     const img = safeUrl(p.img, "");
     if (!img) return "";
     const link = safeUrl(p.link, profile);
     let extra = "";
-    if (net === "ig")
-      extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
+    if (net === "ig") extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
     else {
       if (p.pinned) extra += '<span class="pinned">Pinned</span>';
       extra += `<span class="views">${PLAY}${p.views != null ? " " + Number(p.views).toLocaleString("en-US") : ""}</span>`;
@@ -876,10 +928,7 @@ $("#year").textContent = new Date().getFullYear();
   }
   function fill(grid, list, net, profile) {
     if (!Array.isArray(list) || !list.length) return; // keep the pictures already in the page
-    const html = list
-      .slice(0, 12)
-      .map((p) => tile(p, net, profile))
-      .join("");
+    const html = list.slice(0, 12).map((p) => tile(p, net, profile)).join("");
     if (html && grid.dataset.sig !== html) {
       grid.innerHTML = html;
       grid.dataset.sig = html;
@@ -887,32 +936,16 @@ $("#year").textContent = new Date().getFullYear();
   }
   async function loadPosts() {
     try {
-      const r = await fetch("posts.json?t=" + Date.now(), {
-        cache: "no-store",
-      });
+      const r = await fetch("posts.json?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw 0;
       const d = await r.json();
-      fill(
-        igGrid,
-        d.instagram && d.instagram.posts,
-        "ig",
-        (d.instagram && d.instagram.profile) ||
-          "https://www.instagram.com/lnmglmrqz/",
-      );
-      fill(
-        ttGrid,
-        d.tiktok && d.tiktok.posts,
-        "tt",
-        (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq",
-      );
+      fill(igGrid, d.instagram && d.instagram.posts, "ig", (d.instagram && d.instagram.profile) || "https://www.instagram.com/lnmglmrqz/");
+      fill(ttGrid, d.tiktok && d.tiktok.posts, "tt", (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq");
     } catch (e) {} // posts.json missing: the pictures written in the page stay
   }
   loadPosts();
   setInterval(loadPosts, 300000); // every 5 minutes
-  document.addEventListener(
-    "visibilitychange",
-    () => !document.hidden && loadPosts(),
-  );
+  document.addEventListener("visibilitychange", () => !document.hidden && loadPosts());
 
   // TikTok: "Videos" (my grid) / "Live" (TikTok's own widget, always the newest videos)
   const tabs = document.getElementById("ttTabs"),
@@ -948,21 +981,60 @@ $("#year").textContent = new Date().getFullYear();
     e.preventDefault();
     const f = new FormData(form);
     const v = (k) => String(f.get(k) || "").trim();
-    const bad =
-      ["first", "last", "email"].find((k) => !v(k)) ||
-      (!form.email.checkValidity() ? "email" : "");
+    const bad = ["first", "last", "email"].find((k) => !v(k)) || (!form.email.checkValidity() ? "email" : "");
     if (bad) {
       out.className = "cf-msg err";
-      out.textContent =
-        "Please fill in your first name, last name and a valid email.";
+      out.textContent = "Please fill in your first name, last name and a valid email.";
       form.elements[bad].focus();
       return;
     }
-    const subject =
-      v("subject") || "Message from " + v("first") + " " + v("last");
+    const subject = v("subject") || "Message from " + v("first") + " " + v("last");
     const body = `${v("message")}\n\n— ${v("first")} ${v("last")}\n${v("email")}`;
     out.className = "cf-msg";
     out.textContent = "Thank you! Opening your email app to send your message…";
     location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+})();
+
+
+/* ---------- Graphic design: sliding strip (same style as the sketchbook strip) ---------- */
+(() => {
+  const strip = $("#designStrip");
+  if (!document.getElementById("designStrip")) return;
+  const list = ARTWORKS.filter((a) => a.cat === "design");
+  [...list, ...list].forEach((s, k) => {
+    const b = document.createElement("button");
+    b.className = "sk";
+    b.type = "button";
+    b.setAttribute("aria-label", "Open " + s.title);
+    if (k >= list.length) (b.setAttribute("aria-hidden", "true"), (b.tabIndex = -1));
+    const img = new Image();
+    img.alt = s.title;
+    img.loading = "lazy";
+    img.src = s.src;
+    const cap = document.createElement("div");
+    cap.className = "cap";
+    cap.innerHTML = "<small>Graphic design</small><b></b>";
+    $("b", cap).textContent = s.title;
+    b.append(img, cap);
+    b.addEventListener("click", () => openLightbox(img.src, s.title));
+    strip.append(b);
+  });
+})();
+
+/* ---------- Footer newsletter (opens an email to you) ---------- */
+(() => {
+  const f = $("#footNews");
+  if (!f) return;
+  f.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const mail = $("#footEmail").value.trim();
+    if (!mail) return;
+    location.href =
+      "mailto:leanmarquez0628@yahoo.com?subject=" +
+      encodeURIComponent("Newsletter sign-up") +
+      "&body=" +
+      encodeURIComponent("Hi Lean, please add me to your list for new art and shop updates: " + mail);
+    $("#footNote").textContent = "Thanks! Your email app will open to send the sign-up.";
   });
 })();
