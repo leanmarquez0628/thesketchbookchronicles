@@ -45,7 +45,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-06.jpg",
-    title: "Madara Uchiha, Naruto",
+    title: "Madara Uchiha, Naruto Shippuden",
     pos: "50% 28%",
   },
   {
@@ -227,7 +227,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-36.jpg",
-    title: "Gogeta, Dragon Ball Z",
+    title: "Gogeta, Dragon Ball",
     pos: "55% 35%",
   },
   {
@@ -252,13 +252,13 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-1.jpg",
-    title: "Lewis Hamilton, Ferrari F1 poster",
+    title: "Lewis Hamilton, Scuderia Ferrari F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-2.jpg",
-    title: "Max Verstappen, Red Bull F1 poster",
+    title: "Max Verstappen, Red Bull Racing F1 poster",
     pos: "50% 48%",
   },
   {
@@ -270,13 +270,13 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-4.jpg",
-    title: "George Russell, Mercedes F1 poster",
+    title: "George Russell, Mercedes AMG F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-5.jpg",
-    title: "Charles Leclerc, Ferrari F1 poster",
+    title: "Charles Leclerc, Scuderia Ferrari F1 poster",
     pos: "50% 48%",
   },
   {
@@ -288,7 +288,7 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-7.jpg",
-    title: "Kimi Antonelli, Mercedes F1 poster",
+    title: "Kimi Antonelli, Mercedes AMG F1 poster",
     pos: "50% 48%",
   },
   {
@@ -300,19 +300,19 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-9.jpg",
-    title: "Isack Hadjar, Red Bull F1 poster",
+    title: "Isack Hadjar, Red Bull RRacing F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-10.jpg",
-    title: "Lewis Hamilton, Ferrari F1 driver poster",
+    title: "Lewis Hamilton, Scuderia Ferrari F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-11.jpg",
-    title: "Max Verstappen, Red Bull F1 driver poster",
+    title: "Max Verstappen, Red Bull Racing F1 driver poster",
     pos: "50% 48%",
   },
   {
@@ -1037,4 +1037,51 @@ $("#year").textContent = new Date().getFullYear();
       encodeURIComponent("Hi Lean, please add me to your list for new art and shop updates: " + mail);
     $("#footNote").textContent = "Thanks! Your email app will open to send the sign-up.";
   });
+})();
+
+// Painting & digital gallery (same layout as the work gallery, tabs: All / Painting / Digital art)
+(function () {
+  const g = $("#pdGrid");
+  if (!$("#pdTabs") || !g) return;
+  const DESC = {
+    all: "Painting and digital art together: hand-painted pieces and digital illustrations, all in one gallery.",
+    painting: "Watercolor and acrylic pieces on paper and canvas, with soft blends, layered colour and visible brush texture.",
+    digital: "Clean digital illustrations and character art, from rough sketch to finished colour, made on a drawing tablet.",
+  };
+  const SOON = {
+    all: { label: "Painting & digital", text: "Hand-painted pieces and digital illustrations are on the way." },
+    painting: COMING_SOON.painting,
+    digital: COMING_SOON.digital,
+  };
+  let f = "all", pg = 0;
+  const list = () => ARTWORKS.filter((a) => (a.cat === "painting" || a.cat === "digital") && (f === "all" || a.cat === f));
+  function render() {
+    const l = list(), total = Math.max(1, Math.ceil(l.length / PER_SLIDE));
+    const dEl = $("#pdDesc"); if (dEl) dEl.textContent = DESC[f];
+    g.innerHTML = "";
+    if (!l.length) {
+      pg = 0; g.dataset.n = 1; g.classList.remove("alt");
+      const c = SOON[f], card = document.createElement("div");
+      card.className = "art soon";
+      const k = document.createElement("small"), b = document.createElement("b"), t = document.createElement("p");
+      k.textContent = "✎ " + c.label; b.textContent = "Coming soon"; t.textContent = c.text;
+      card.append(k, b, t); g.append(card);
+      $("#pdCount").textContent = "Slide 1 / 1";
+      return;
+    }
+    pg = (pg + total) % total;
+    g.classList.toggle("alt", pg % 2 === 1);
+    g.dataset.n = Math.min(PER_SLIDE, l.length - pg * PER_SLIDE);
+    l.slice(pg * PER_SLIDE, pg * PER_SLIDE + PER_SLIDE).forEach((a, i) => g.append(makeArt(a, 300 + i, i * 70, true)));
+    $("#pdCount").textContent = `Slide ${pg + 1} / ${total}`;
+  }
+  $("#pdPrev").onclick = () => { pg--; render(); };
+  $("#pdNext").onclick = () => { pg++; render(); };
+  $("#pdTabs").addEventListener("click", (e) => {
+    const b = e.target.closest(".tab");
+    if (!b) return;
+    $$("#pdTabs .tab").forEach((t) => t.classList.toggle("active", t === b));
+    f = b.dataset.filter; pg = 0; render();
+  });
+  render();
 })();
