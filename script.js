@@ -21,7 +21,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-04.jpg",
-    title: "Bruno Bucciarati, JoJo's Bizarre Adventure: Golden Wind",
+    title: "Bruno Bucciarati, JoJo's Bizarre Adventure",
     pos: "42% 30%",
   },
   {
@@ -45,7 +45,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-06.jpg",
-    title: "Madara Uchiha, Naruto Shippuden",
+    title: "Madara Uchiha, Naruto",
     pos: "50% 28%",
   },
   {
@@ -70,7 +70,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-11.jpg",
-    title: "Jotaro Kujo, JoJo's Bizarre Adventure: Stardust Crusaders",
+    title: "Jotaro Kujo, JoJo's Bizarre Adventure",
     pos: "50% 30%",
   },
   {
@@ -203,7 +203,7 @@ const ARTWORKS = [
   {
     cat: "ink",
     src: "images/art-32.jpg",
-    title: "Gyro Zeppeli and Johnny Joestar, Jojo's Bizarre Adventure: Steel Ball Run",
+    title: "Gyro Zeppeli and Johnny Joestar, Steel Ball Run",
     pos: "50% 45%",
   },
   {
@@ -215,7 +215,7 @@ const ARTWORKS = [
   {
     cat: "anime",
     src: "images/art-34.jpg",
-    title: "Monkey D. Luffy, One Piece",
+    title: "Monkey D. Luffy, Gear 5, One Piece",
     pos: "50% 40%",
   },
   {
@@ -252,13 +252,13 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-1.jpg",
-    title: "Lewis Hamilton, Scuderia Ferrari F1 poster",
+    title: "Lewis Hamilton, Ferrari F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-2.jpg",
-    title: "Max Verstappen, Red Bull Racing F1 poster",
+    title: "Max Verstappen, Red Bull F1 poster",
     pos: "50% 48%",
   },
   {
@@ -270,13 +270,13 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-4.jpg",
-    title: "George Russell, Mercedes AMG F1 poster",
+    title: "George Russell, Mercedes F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-5.jpg",
-    title: "Charles Leclerc, Scuderia Ferrari F1 poster",
+    title: "Charles Leclerc, Ferrari F1 poster",
     pos: "50% 48%",
   },
   {
@@ -288,7 +288,7 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-7.jpg",
-    title: "Kimi Antonelli, Mercedes AMG F1 poster",
+    title: "Kimi Antonelli, Mercedes F1 poster",
     pos: "50% 48%",
   },
   {
@@ -300,19 +300,19 @@ const ARTWORKS = [
   {
     cat: "design",
     src: "images/design-9.jpg",
-    title: "Isack Hadjar, Red Bull RRacing F1 poster",
+    title: "Isack Hadjar, Red Bull F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-10.jpg",
-    title: "Lewis Hamilton, Scuderia Ferrari F1 driver poster",
+    title: "Lewis Hamilton, Ferrari F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
     src: "images/design-11.jpg",
-    title: "Max Verstappen, Red Bull Racing F1 driver poster",
+    title: "Max Verstappen, Red Bull F1 driver poster",
     pos: "50% 48%",
   },
   {
@@ -331,6 +331,24 @@ const ARTWORKS = [
     cat: "design",
     src: "images/design-14.jpg",
     title: "Oscar Piastri, McLaren F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-15.jpg",
+    title: "George Russell, Mercedes F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-16.jpg",
+    title: "Kimi Antonelli, Mercedes F1 driver poster",
+    pos: "50% 48%",
+  },
+  {
+    cat: "design",
+    src: "images/design-17.jpg",
+    title: "Fernando Alonso, Aston Martin F1 driver poster",
     pos: "50% 48%",
   },
 ];
@@ -358,7 +376,8 @@ const SPECIAL_IMAGES = {
 
 /* ---------- 2) HELPERS ---------- */
 // returns a detached <div> when the element is on another page, so shared code never crashes
-const $ = (s, el = document) => el.querySelector(s) || document.createElement("div");
+const $ = (s, el = document) =>
+  el.querySelector(s) || document.createElement("div");
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -619,15 +638,417 @@ renderGallery();
 
 // Graphic design gallery (its own section, all posters on one page)
 const designGrid = $("#designGrid");
-ARTWORKS.filter((a) => a.cat === "design").forEach((a, i) =>
-  designGrid.append(makeArt(a, 200 + i, i * 70, true)),
-);
+const DESIGNS = ARTWORKS.filter((a) => a.cat === "design");
+let dPage = 0;
+const D_SLIDES = [
+  [0, 11],
+  [11, DESIGNS.length],
+]; // slide 1: 11-tile mosaic, slide 2: the rest
+function renderDesign() {
+  const total = D_SLIDES.length;
+  dPage = (dPage + total) % total;
+  designGrid.innerHTML = "";
+  designGrid.dataset.layout = "m" + (dPage + 1);
+  const [from, to] = D_SLIDES[dPage];
+  DESIGNS.slice(from, to).forEach((a, i) =>
+    designGrid.append(makeArt(a, 200 + i + from, i * 70, true)),
+  );
+  $("#dCount").textContent = `Slide ${dPage + 1} / ${total}`;
+}
+$("#dPrev").onclick = () => {
+  dPage--;
+  renderDesign();
+};
+$("#dNext").onclick = () => {
+  dPage++;
+  renderDesign();
+};
+if (designGrid.dataset.n || $("#dCount").tagName) renderDesign();
+
+// Shop: framed F1 driver posters. Edit sizes, frame sizes and prices here.
+const SHOP_SIZES = [
+  {
+    id: "A5",
+    dims: "5.8 × 8.3 in",
+    frame: "Frame 6 × 8 in",
+    print: 400,
+    framed: 800,
+  },
+  {
+    id: "A4",
+    dims: "8.3 × 11.7 in",
+    frame: "Frame 9 × 12 in",
+    print: 500,
+    framed: 1400,
+  },
+  {
+    id: "Letter",
+    dims: "8.5 × 11 in",
+    frame: "Frame 10 × 13 in",
+    print: 600,
+    framed: 1400,
+  },
+  {
+    id: "A3",
+    dims: "11.7 × 16.5 in",
+    frame: "Frame 12 × 17 in",
+    print: 850,
+    framed: 1950,
+  },
+];
+const SHOP_VARIANTS = {
+  framed: { name: "framed poster", label: "Framed poster", key: "framed" },
+  print: {
+    name: "poster print (no frame)",
+    label: "Poster print",
+    key: "print",
+  },
+};
+const peso = (n) => "₱" + n.toLocaleString("en-PH");
+const sizeLines = (v, z) => [
+  z.id + " print, " + z.dims,
+  v.key === "framed" ? z.frame : "No frame, rolled in a tube",
+];
+$$(".shop-row[data-products]").forEach((row) => {
+  const V = SHOP_VARIANTS[row.dataset.products] || SHOP_VARIANTS.framed;
+  const h3 = document.createElement("h3");
+  h3.className = "shop-title";
+  h3.textContent = row.dataset.title;
+  const list = document.createElement("div");
+  list.className = "prod-list";
+  const TOP_VIEW = [
+    "design-1.",
+    "design-2.",
+    "design-3.",
+    "design-5.",
+    "design-6.",
+    "design-7.",
+    "design-8.",
+  ];
+  const isTop = (a) => TOP_VIEW.some((t) => a.src.includes(t));
+  const cards = [];
+  const items = ARTWORKS.filter(
+    (a) => a.cat === "design" && /F1 driver poster/.test(a.title),
+  ).concat(ARTWORKS.filter(isTop));
+  items.forEach((a) => {
+    const tall = isTop(a);
+    const driver =
+      a.title.replace(", ", " · ").replace(/ F1 (driver )?poster/, "") +
+      (tall ? " · Car view" : "");
+    const card = document.createElement("article");
+    card.className =
+      "prod " + (row.dataset.products || "") + (tall ? " tall" : "");
+    const img = new Image();
+    img.src = a.src;
+    img.alt = a.title;
+    img.loading = "lazy";
+    img.addEventListener("click", () => openLightbox(a.src, a.title));
+    const name = document.createElement("h4");
+    name.textContent = driver;
+    const sel = document.createElement("select");
+    sel.className = "prod-size";
+    sel.setAttribute("aria-label", "Size for " + driver);
+    SHOP_SIZES.forEach((z, i) =>
+      sel.add(new Option(z.id + " (" + z.dims + ")", i, i === 1, i === 1)),
+    );
+    const meta = document.createElement("p");
+    meta.className = "prod-meta";
+    const buy = document.createElement("div");
+    buy.className = "prod-buy";
+    const price = document.createElement("b");
+    const order = document.createElement("a");
+    order.className = "prod-order";
+    order.textContent = "Order";
+    const current = () => {
+      const z = SHOP_SIZES[+sel.value];
+      return {
+        name: V.name,
+        unit: z[V.key],
+        lines: sizeLines(V, z),
+        size: z.id,
+      };
+    };
+    const refresh = () => {
+      const c = current();
+      meta.innerHTML =
+        "<span>" +
+        V.label +
+        "</span>" +
+        c.lines.map((l) => "<span>" + l + "</span>").join("");
+      price.textContent = peso(c.unit);
+      order.href =
+        "mailto:leanmarquez0628@yahoo.com?subject=" +
+        encodeURIComponent("Order: " + driver + " " + V.name + " " + c.size) +
+        "&body=" +
+        encodeURIComponent(
+          "Hi Lean, I'd like to order the " +
+            driver +
+            " " +
+            V.name +
+            ", size " +
+            c.size +
+            " (" +
+            peso(c.unit) +
+            "). My name and delivery address:",
+        );
+    };
+    sel.addEventListener("change", refresh);
+    order.addEventListener("click", (e) => {
+      e.preventDefault();
+      openOrder(driver, a.src, current());
+    });
+    refresh();
+    buy.append(price, order);
+    card.append(img, name, sel, meta, buy);
+    cards.push(card);
+  });
+  const pager = document.createElement("div");
+  pager.className = "pager prod-pager";
+  pager.innerHTML =
+    '<button class="arrow" aria-label="Previous slide">←</button><span>Slide 1 / 1</span><button class="arrow" aria-label="Next slide">→</button>';
+  const [prevB, , nextB] = pager.children,
+    countEl = pager.children[1];
+  const mq = window.matchMedia("(max-width: 900px)");
+  let pg = 0;
+  const draw = () => {
+    const per = mq.matches ? 2 : 4,
+      total = Math.max(1, Math.ceil(cards.length / per));
+    pg = (pg + total) % total;
+    list.replaceChildren(...cards.slice(pg * per, pg * per + per));
+    list.classList.remove("slide-in");
+    void list.offsetWidth;
+    list.classList.add("slide-in");
+    countEl.textContent = `Slide ${pg + 1} / ${total}`;
+  };
+  prevB.onclick = () => {
+    pg--;
+    draw();
+  };
+  nextB.onclick = () => {
+    pg++;
+    draw();
+  };
+  if (mq.addEventListener)
+    mq.addEventListener("change", () => {
+      pg = 0;
+      draw();
+    });
+  draw();
+  row.append(h3, list, pager);
+});
+
+// Seller payment details shown to buyers. Fill these in (leave "" to hide a line).
+const PAYMENT = {
+  GCash: { bank: "GCash", accountName: "", accountNumber: "" },
+  Maya: { bank: "Maya", accountName: "", accountNumber: "" },
+  "Bank transfer": { bank: "", accountName: "", accountNumber: "" },
+  "Cash on pickup": null,
+};
+
+// ---- Order form (opens from every Order button, sends the order by email) ----
+let orderDlg;
+function openOrder(driver, src, V) {
+  if (!orderDlg) {
+    orderDlg = document.createElement("dialog");
+    orderDlg.className = "order-dlg";
+    orderDlg.innerHTML = `
+      <form method="dialog" class="order-form" novalidate>
+        <button type="button" class="od-x" aria-label="Close">×</button>
+        <div class="od-head"><img alt="" /><div><h3></h3><p></p></div></div>
+        <label>Full name<input name="name" required autocomplete="name" /></label>
+        <label>Mobile number<input name="phone" required inputmode="tel" autocomplete="tel" /></label>
+        <label>Email (optional)<input name="email" type="email" autocomplete="email" /></label>
+        <label>Delivery address<textarea name="address" rows="2" required autocomplete="street-address"></textarea></label>
+        <div class="od-row">
+          <label>Quantity<span class="od-qty"><button type="button" data-d="-1">−</button><input name="qty" value="1" inputmode="numeric" readonly /><button type="button" data-d="1">+</button></span></label>
+          <label>Payment<select name="pay"><option>GCash</option><option>Maya</option><option>Bank transfer</option><option>Cash on pickup</option></select></label>
+        </div>
+        <div class="od-pay" aria-live="polite"></div>
+        <label>Name of buyer on the payment (if different)<input name="payname" /></label>
+        <label>Payment reference no. (after you pay)<input name="payref" inputmode="text" /></label>
+        <label>Notes (optional)<input name="notes" /></label>
+        <p class="od-total"></p>
+        <p class="od-err" role="alert"></p>
+        <button type="submit" class="od-send">Send order by email</button>
+        <p class="od-hint">This opens your email app with the order filled in. I'll reply to confirm payment and delivery.</p>
+        <div class="od-done" hidden>
+          <b>Almost done!</b>
+          <p>Your email app should open with the order. If it didn't, copy the order and send it to leanmarquez0628@yahoo.com.</p>
+          <button type="button" class="od-copy">Copy order</button>
+        </div>
+      </form>`;
+    document.body.append(orderDlg);
+    const f = $(".order-form", orderDlg);
+    const total = () => {
+      const q = +f.qty.value;
+      $(".od-total", f).textContent =
+        "Total: ₱" + (q * orderDlg._V.unit).toLocaleString("en-PH");
+    };
+    const showPay = () => {
+      const p = PAYMENT[f.pay.value],
+        box = $(".od-pay", f);
+      box.replaceChildren();
+      const add = (k, v) => {
+        const r = document.createElement("div");
+        r.innerHTML = "<span></span><b></b>";
+        r.firstChild.textContent = k;
+        r.lastChild.textContent = v;
+        box.append(r);
+      };
+      const h = document.createElement("strong");
+      h.textContent = "Payment details";
+      box.append(h);
+      if (!p) {
+        const t = document.createElement("p");
+        t.textContent =
+          "Pay in cash when you pick up your order. I'll confirm the pick-up details by message.";
+        box.append(t);
+        return;
+      }
+      const rows = [
+        ["Bank / e-wallet", p.bank],
+        ["Account name", p.accountName],
+        ["Account number", p.accountNumber],
+      ].filter((r) => r[1]);
+      if (!rows.length) {
+        const t = document.createElement("p");
+        t.textContent =
+          "I'll message you the account details to pay after I receive your order.";
+        box.append(t);
+      } else rows.forEach((r) => add(r[0], r[1]));
+      if (rows.length && !p.accountNumber) {
+        const t = document.createElement("p");
+        t.textContent =
+          "I'll message you the account number after I receive your order.";
+        box.append(t);
+      }
+      add("Name of buyer", f.name.value.trim() || "(your name above)");
+      add(
+        "Contact number",
+        f.phone.value.trim() || "(your mobile number above)",
+      );
+    };
+    f.pay.addEventListener("change", showPay);
+    f.name.addEventListener("input", showPay);
+    f.phone.addEventListener("input", showPay);
+    orderDlg._showPay = showPay;
+    f.addEventListener("input", () => {
+      $(".od-err", f).textContent = "";
+    });
+    $(".od-x", f).onclick = () => orderDlg.close();
+    orderDlg.addEventListener("click", (e) => {
+      if (e.target === orderDlg) orderDlg.close();
+    });
+    $$(".od-qty button", f).forEach(
+      (b) =>
+        (b.onclick = () => {
+          f.qty.value = Math.min(10, Math.max(1, +f.qty.value + +b.dataset.d));
+          total();
+        }),
+    );
+    f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const err = $(".od-err", f);
+      if (
+        !f.name.value.trim() ||
+        !f.phone.value.trim() ||
+        !f.address.value.trim()
+      ) {
+        err.textContent =
+          "Please fill in your name, mobile number and delivery address.";
+        return;
+      }
+      err.textContent = "";
+      const q = +f.qty.value,
+        d = orderDlg.dataset.driver;
+      const text = [
+        "NEW ORDER, The Sketchbook Chronicles",
+        "Item: " + d + " " + orderDlg._V.name,
+        "Size: " + orderDlg._V.size,
+        orderDlg._V.lines.join(" / "),
+        "Quantity: " + q,
+        "Total: ₱" +
+          (q * orderDlg._V.unit).toLocaleString("en-PH") +
+          " (" +
+          peso(orderDlg._V.unit) +
+          " each)",
+        "Payment: " + f.pay.value,
+        ...(PAYMENT[f.pay.value]
+          ? [
+              PAYMENT[f.pay.value].bank
+                ? "Pay to: " + PAYMENT[f.pay.value].bank
+                : null,
+              PAYMENT[f.pay.value].accountName
+                ? "Account name: " + PAYMENT[f.pay.value].accountName
+                : null,
+              PAYMENT[f.pay.value].accountNumber
+                ? "Account number: " + PAYMENT[f.pay.value].accountNumber
+                : null,
+            ]
+          : []),
+        f.payname.value.trim()
+          ? "Name of buyer on payment: " + f.payname.value.trim()
+          : null,
+        f.payref.value.trim()
+          ? "Payment reference no.: " + f.payref.value.trim()
+          : null,
+        "",
+        "Name: " + f.name.value.trim(),
+        "Mobile: " + f.phone.value.trim(),
+        f.email.value.trim() ? "Email: " + f.email.value.trim() : null,
+        "Address: " + f.address.value.trim(),
+        f.notes.value.trim() ? "Notes: " + f.notes.value.trim() : null,
+      ]
+        .filter((l) => l !== null)
+        .join("\n");
+      f.dataset.text = text;
+      const mail =
+        "mailto:leanmarquez0628@yahoo.com?subject=" +
+        encodeURIComponent("Order: " + d + " " + orderDlg._V.name + " x" + q) +
+        "&body=" +
+        encodeURIComponent(text);
+      $(".od-done", f).hidden = false;
+      $(".od-send", f).hidden = true;
+      location.href = mail;
+    });
+    $(".od-copy", f).onclick = async (e) => {
+      try {
+        await navigator.clipboard.writeText(f.dataset.text || "");
+        e.target.textContent = "Copied!";
+      } catch {
+        e.target.textContent = "Select and copy from your email";
+      }
+    };
+    orderDlg._total = total;
+  }
+  const f = $(".order-form", orderDlg);
+  orderDlg._V = V;
+  $(".od-head p", f).innerHTML =
+    V.lines.join(" · ") + "<br>" + peso(V.unit) + " each";
+  orderDlg.dataset.driver = driver;
+  $("h3", f).textContent = driver;
+  $(".od-head img", f).src = src;
+  f.qty.value = 1;
+  $(".od-done", f).hidden = true;
+  $(".od-send", f).hidden = false;
+  $(".od-err", f).textContent = "";
+  orderDlg._total();
+  orderDlg._showPay();
+  if (orderDlg.showModal) orderDlg.showModal();
+  else orderDlg.setAttribute("open", "");
+}
 
 // Shop: "Coming soon" cards for Digital art and Painting (same card as the gallery tabs)
 $$(".shop-row").forEach((row) => {
   const SHOP_SOON = {
-    new: { label: "New products", text: "New artworks for sale will be available here soon." },
-    special: { label: "Special", text: "Special pieces and deals will be available here soon." },
+    new: {
+      label: "Painting",
+      text: "Original paintings for sale will be available here soon.",
+    },
+    special: {
+      label: "Painting print",
+      text: "Prints of my paintings will be available here soon.",
+    },
   };
   const c = SHOP_SOON[row.dataset.soon];
   if (!c) return;
@@ -724,7 +1145,7 @@ if (strip) {
 const ABOUT_SLIDES = [
   {
     src: "images/about-4.jpg",
-    cap: "Hi, I'm Miguel · the artist behind the drawings",
+    cap: "Hi, I'm Miguel · the artist behind the artworks here",
     pos: "50% 38%",
   },
   {
@@ -855,7 +1276,8 @@ $("#year").textContent = new Date().getFullYear();
           : m < 1440
             ? Math.round(m / 60) + " h ago"
             : Math.round(m / 1440) + " d ago";
-    if (stamp) stamp.querySelector("span").textContent = "Live numbers · updated " + t;
+    if (stamp)
+      stamp.querySelector("span").textContent = "Live numbers · updated " + t;
   }
   function apply(d) {
     document.querySelectorAll(".feed-stats").forEach((box) => {
@@ -874,7 +1296,10 @@ $("#year").textContent = new Date().getFullYear();
         document.createTextNode(" " + val.toLocaleString("en-US")),
       );
     });
-    updated = d.checked || d.updated ? new Date(d.checked || d.updated).getTime() : Date.now();
+    updated =
+      d.checked || d.updated
+        ? new Date(d.checked || d.updated).getTime()
+        : Date.now();
     ago();
   }
   async function load() {
@@ -885,7 +1310,7 @@ $("#year").textContent = new Date().getFullYear();
       if (!r.ok) throw 0;
       apply(await r.json());
     } catch (e) {
-       // stats.json not found: just show the numbers typed in the page
+      // stats.json not found: just show the numbers typed in the page
     }
   }
   load();
@@ -905,21 +1330,40 @@ $("#year").textContent = new Date().getFullYear();
   const svg = (inner, extra = "") =>
     `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" ${extra}>${inner}</svg>`;
   const ICON = {
-    pin: svg('<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>'),
-    carousel: svg('<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>'),
-    reel: svg('<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>'),
+    pin: svg(
+      '<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>',
+    ),
+    carousel: svg(
+      '<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>',
+    ),
+    reel: svg(
+      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>',
+    ),
   };
   const PLAY =
     '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
-  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  const safeUrl = (u, fallback) => (/^(https?:\/\/|images\/)/.test(u || "") ? u : fallback);
+  const esc = (s) =>
+    String(s ?? "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  const safeUrl = (u, fallback) =>
+    /^(https?:\/\/|images\/)/.test(u || "") ? u : fallback;
 
   function tile(p, net, profile) {
     const img = safeUrl(p.img, "");
     if (!img) return "";
     const link = safeUrl(p.link, profile);
     let extra = "";
-    if (net === "ig") extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
+    if (net === "ig")
+      extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
     else {
       if (p.pinned) extra += '<span class="pinned">Pinned</span>';
       extra += `<span class="views">${PLAY}${p.views != null ? " " + Number(p.views).toLocaleString("en-US") : ""}</span>`;
@@ -928,7 +1372,10 @@ $("#year").textContent = new Date().getFullYear();
   }
   function fill(grid, list, net, profile) {
     if (!Array.isArray(list) || !list.length) return; // keep the pictures already in the page
-    const html = list.slice(0, 12).map((p) => tile(p, net, profile)).join("");
+    const html = list
+      .slice(0, 12)
+      .map((p) => tile(p, net, profile))
+      .join("");
     if (html && grid.dataset.sig !== html) {
       grid.innerHTML = html;
       grid.dataset.sig = html;
@@ -936,16 +1383,32 @@ $("#year").textContent = new Date().getFullYear();
   }
   async function loadPosts() {
     try {
-      const r = await fetch("posts.json?t=" + Date.now(), { cache: "no-store" });
+      const r = await fetch("posts.json?t=" + Date.now(), {
+        cache: "no-store",
+      });
       if (!r.ok) throw 0;
       const d = await r.json();
-      fill(igGrid, d.instagram && d.instagram.posts, "ig", (d.instagram && d.instagram.profile) || "https://www.instagram.com/lnmglmrqz/");
-      fill(ttGrid, d.tiktok && d.tiktok.posts, "tt", (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq");
+      fill(
+        igGrid,
+        d.instagram && d.instagram.posts,
+        "ig",
+        (d.instagram && d.instagram.profile) ||
+          "https://www.instagram.com/lnmglmrqz/",
+      );
+      fill(
+        ttGrid,
+        d.tiktok && d.tiktok.posts,
+        "tt",
+        (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq",
+      );
     } catch (e) {} // posts.json missing: the pictures written in the page stay
   }
   loadPosts();
   setInterval(loadPosts, 300000); // every 5 minutes
-  document.addEventListener("visibilitychange", () => !document.hidden && loadPosts());
+  document.addEventListener(
+    "visibilitychange",
+    () => !document.hidden && loadPosts(),
+  );
 
   // TikTok: "Videos" (my grid) / "Live" (TikTok's own widget, always the newest videos)
   const tabs = document.getElementById("ttTabs"),
@@ -981,21 +1444,24 @@ $("#year").textContent = new Date().getFullYear();
     e.preventDefault();
     const f = new FormData(form);
     const v = (k) => String(f.get(k) || "").trim();
-    const bad = ["first", "last", "email"].find((k) => !v(k)) || (!form.email.checkValidity() ? "email" : "");
+    const bad =
+      ["first", "last", "email"].find((k) => !v(k)) ||
+      (!form.email.checkValidity() ? "email" : "");
     if (bad) {
       out.className = "cf-msg err";
-      out.textContent = "Please fill in your first name, last name and a valid email.";
+      out.textContent =
+        "Please fill in your first name, last name and a valid email.";
       form.elements[bad].focus();
       return;
     }
-    const subject = v("subject") || "Message from " + v("first") + " " + v("last");
+    const subject =
+      v("subject") || "Message from " + v("first") + " " + v("last");
     const body = `${v("message")}\n\n— ${v("first")} ${v("last")}\n${v("email")}`;
     out.className = "cf-msg";
     out.textContent = "Thank you! Opening your email app to send your message…";
     location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 })();
-
 
 /* ---------- Graphic design: sliding strip (same style as the sketchbook strip) ---------- */
 (() => {
@@ -1007,7 +1473,8 @@ $("#year").textContent = new Date().getFullYear();
     b.className = "sk";
     b.type = "button";
     b.setAttribute("aria-label", "Open " + s.title);
-    if (k >= list.length) (b.setAttribute("aria-hidden", "true"), (b.tabIndex = -1));
+    if (k >= list.length)
+      (b.setAttribute("aria-hidden", "true"), (b.tabIndex = -1));
     const img = new Image();
     img.alt = s.title;
     img.loading = "lazy";
@@ -1034,8 +1501,12 @@ $("#year").textContent = new Date().getFullYear();
       "mailto:leanmarquez0628@yahoo.com?subject=" +
       encodeURIComponent("Newsletter sign-up") +
       "&body=" +
-      encodeURIComponent("Hi Lean, please add me to your list for new art and shop updates: " + mail);
-    $("#footNote").textContent = "Thanks! Your email app will open to send the sign-up.";
+      encodeURIComponent(
+        "Hi Lean, please add me to your list for new art and shop updates: " +
+          mail,
+      );
+    $("#footNote").textContent =
+      "Thanks! Your email app will open to send the sign-up.";
   });
 })();
 
@@ -1045,43 +1516,74 @@ $("#year").textContent = new Date().getFullYear();
   if (!$("#pdTabs") || !g) return;
   const DESC = {
     all: "Painting and digital art together: hand-painted pieces and digital illustrations, all in one gallery.",
-    painting: "Watercolor and acrylic pieces on paper and canvas, with soft blends, layered colour and visible brush texture.",
-    digital: "Clean digital illustrations and character art, from rough sketch to finished colour, made on a drawing tablet.",
+    painting:
+      "Watercolor and acrylic pieces on paper and canvas, with soft blends, layered colour and visible brush texture.",
+    digital:
+      "Clean digital illustrations and character art, from rough sketch to finished colour, made on a drawing tablet.",
   };
   const SOON = {
-    all: { label: "Painting & digital", text: "Hand-painted pieces and digital illustrations are on the way." },
+    all: {
+      label: "Painting & digital",
+      text: "Hand-painted pieces and digital illustrations are on the way.",
+    },
     painting: COMING_SOON.painting,
     digital: COMING_SOON.digital,
   };
-  let f = "all", pg = 0;
-  const list = () => ARTWORKS.filter((a) => (a.cat === "painting" || a.cat === "digital") && (f === "all" || a.cat === f));
+  let f = "all",
+    pg = 0;
+  const list = () =>
+    ARTWORKS.filter(
+      (a) =>
+        (a.cat === "painting" || a.cat === "digital") &&
+        (f === "all" || a.cat === f),
+    );
   function render() {
-    const l = list(), total = Math.max(1, Math.ceil(l.length / PER_SLIDE));
-    const dEl = $("#pdDesc"); if (dEl) dEl.textContent = DESC[f];
+    const l = list(),
+      total = Math.max(1, Math.ceil(l.length / PER_SLIDE));
+    const dEl = $("#pdDesc");
+    if (dEl) dEl.textContent = DESC[f];
     g.innerHTML = "";
     if (!l.length) {
-      pg = 0; g.dataset.n = 1; g.classList.remove("alt");
-      const c = SOON[f], card = document.createElement("div");
+      pg = 0;
+      g.dataset.n = 1;
+      g.classList.remove("alt");
+      const c = SOON[f],
+        card = document.createElement("div");
       card.className = "art soon";
-      const k = document.createElement("small"), b = document.createElement("b"), t = document.createElement("p");
-      k.textContent = "✎ " + c.label; b.textContent = "Coming soon"; t.textContent = c.text;
-      card.append(k, b, t); g.append(card);
+      const k = document.createElement("small"),
+        b = document.createElement("b"),
+        t = document.createElement("p");
+      k.textContent = "✎ " + c.label;
+      b.textContent = "Coming soon";
+      t.textContent = c.text;
+      card.append(k, b, t);
+      g.append(card);
       $("#pdCount").textContent = "Slide 1 / 1";
       return;
     }
     pg = (pg + total) % total;
     g.classList.toggle("alt", pg % 2 === 1);
     g.dataset.n = Math.min(PER_SLIDE, l.length - pg * PER_SLIDE);
-    l.slice(pg * PER_SLIDE, pg * PER_SLIDE + PER_SLIDE).forEach((a, i) => g.append(makeArt(a, 300 + i, i * 70, true)));
+    l.slice(pg * PER_SLIDE, pg * PER_SLIDE + PER_SLIDE).forEach((a, i) =>
+      g.append(makeArt(a, 300 + i, i * 70, true)),
+    );
     $("#pdCount").textContent = `Slide ${pg + 1} / ${total}`;
   }
-  $("#pdPrev").onclick = () => { pg--; render(); };
-  $("#pdNext").onclick = () => { pg++; render(); };
+  $("#pdPrev").onclick = () => {
+    pg--;
+    render();
+  };
+  $("#pdNext").onclick = () => {
+    pg++;
+    render();
+  };
   $("#pdTabs").addEventListener("click", (e) => {
     const b = e.target.closest(".tab");
     if (!b) return;
     $$("#pdTabs .tab").forEach((t) => t.classList.toggle("active", t === b));
-    f = b.dataset.filter; pg = 0; render();
+    f = b.dataset.filter;
+    pg = 0;
+    render();
   });
   render();
 })();
