@@ -290,15 +290,38 @@ function placeholder(label, seed = 0) {
   </svg>`;
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 }
+// Pictures live in sub-folders (images/gallery/anime/...). If a sub-folder picture is missing,
+// try the old flat path (images/art-01.jpg) first, then show the drawn placeholder.
+const FLAT_ALIAS = {
+  "th-random-drawing.jpg": "tt-3.jpg",
+  "th-f1-poster.jpg": "design-10.jpg",
+  "th-jojo.jpg": "art-32.jpg",
+};
+function flatPath(src) {
+  const m = /^(.*?images\/)(?:[a-z0-9_-]+\/)+([^/?#]+)$/i.exec(src || "");
+  return m ? m[1] + (FLAT_ALIAS[m[2]] || m[2]) : null;
+}
+function imgFailed(img) {
+  if (!img || img.tagName !== "IMG" || img.src.startsWith("data:")) return;
+  const cur = img.getAttribute("src") || "";
+  const flat = flatPath(cur);
+  if (flat && !img.dataset.flat) {
+    img.dataset.flat = "1";
+    img.src = flat;
+    return true;
+  }
+  if (img.dataset.ph && !img.dataset.phDone) {
+    img.dataset.phDone = "1";
+    img.src = placeholder(img.dataset.ph, +img.dataset.phSeed || 0);
+  }
+}
+document.addEventListener("error", (e) => { if (imgFailed(e.target)) e.stopPropagation(); }, true);
+window.addEventListener("load", () => {
+  document.querySelectorAll("img").forEach((i) => i.complete && i.naturalWidth === 0 && i.getAttribute("src") && imgFailed(i));
+});
 function withFallback(img, label, seed) {
-  img.addEventListener(
-    "error",
-    () => {
-      img.onerror = null;
-      img.src = placeholder(label, seed);
-    },
-    { once: true },
-  );
+  img.dataset.ph = label;
+  img.dataset.phSeed = seed;
 }
 
 /* ---------- 3) THEME + NAV ---------- */

@@ -1,15 +1,15 @@
-PUT YOUR DRAWINGS HERE
-======================
-Use these exact file names (JPG), or edit the list at the top of script.js:
+IMAGE FOLDERS - where to change each picture
+(Keep the same file name when you replace a picture, or edit the path in the file listed.)
 
-  hero-1.jpg, hero-2.jpg, hero-3.jpg   -> 3 pictures in the Home section (your 3 drawings are already here)
-  about-1.jpg, about-2.jpg, about-3.jpg -> the sliding pictures in the About Me section
-                                          (edit ABOUT_SLIDES in script.js to add more)
-  art-01.jpg ... art-17.jpg            -> the work gallery (list + captions in ARTWORKS, script.js)
-
-Tips:
-- Scan or photograph your drawings in good light; landscape (4:3) works best.
-- Keep each file under about 500 KB so the page loads fast.
-- Until you add a file, a colorful placeholder is shown automatically.
-- Want photos of the F1 / MotoGP legends? Add "img": "images/senna.jpg" to that
-  person's entry in LEGENDS (script.js). Use pictures you have permission to use.
+about/             About Me slider            -> script.js (ABOUT_SLIDES)
+home/              Home hero pictures          -> script.js (HERO list "hero-1".."hero-4")
+sketchbook/        Home "Sketchbook" strip     -> script.js (SKETCHBOOK)
+design/            F1 posters (Graphic Design strip, gallery and Shop) -> script.js (ARTWORKS, cat "design")
+gallery/anime/     Art Gallery - Anime fan art -> script.js (ARTWORKS, cat "anime")
+gallery/portrait/  Art Gallery - Pencil portraits -> script.js (ARTWORKS, cat "portrait")
+gallery/unused/    Pictures not shown anywhere right now (removed from the gallery, kept as backup)
+social/instagram/  Blog - Instagram tiles      -> posts.json
+social/tiktok/     Blog - TikTok tiles         -> posts.json
+social/facebook/   Blog - Facebook Photos and Reels -> blog.html
+social/threads/    Blog - Threads cards        -> blog.html
+social/youtube/    Blog - YouTube Shorts       -> blog.html
