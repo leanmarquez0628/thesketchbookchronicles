@@ -80,12 +80,6 @@ const ARTWORKS = [
     pos: "45% 30%",
   },
   {
-    cat: "anime",
-    src: "images/art-08.jpg",
-    title: "Kaido, One Piece",
-    pos: "50% 38%",
-  },
-  {
     cat: "portrait",
     src: "images/art-14.jpg",
     title: "Portrait No. 6",
@@ -99,27 +93,9 @@ const ARTWORKS = [
   },
   {
     cat: "portrait",
-    src: "images/art-07.jpg",
-    title: "Portrait No. 7",
-    pos: "50% 55%",
-  },
-  {
-    cat: "anime",
-    src: "images/art-15.jpg",
-    title: "Saitama, One Punch Man",
-    pos: "50% 35%",
-  },
-  {
-    cat: "portrait",
     src: "images/art-09.jpg",
     title: "Portrait No. 8",
     pos: "50% 30%",
-  },
-  {
-    cat: "portrait",
-    src: "images/art-18.jpg",
-    title: "Portrait No. 9",
-    pos: "50% 45%",
   },
   {
     cat: "anime",
@@ -135,18 +111,6 @@ const ARTWORKS = [
   },
   {
     cat: "anime",
-    src: "images/art-24.jpg",
-    title: "Yuji Itadori, Jujutsu Kaisen",
-    pos: "40% 35%",
-  },
-  {
-    cat: "portrait",
-    src: "images/art-21.jpg",
-    title: "Portrait No. 11",
-    pos: "50% 22%",
-  },
-  {
-    cat: "anime",
     src: "images/art-23.jpg",
     title: "Keisuke Baji, Tokyo Revengers",
     pos: "50% 38%",
@@ -158,60 +122,6 @@ const ARTWORKS = [
     pos: "50% 35%",
   },
   // ink drawings
-  {
-    cat: "ink",
-    src: "images/art-25.jpg",
-    title: "Ink Townhouse No. 1",
-    pos: "50% 40%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-26.jpg",
-    title: "Ink Facades Sketchbook Spread",
-    pos: "50% 50%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-27.jpg",
-    title: "Ink Shopfront with Japanese Signs",
-    pos: "50% 45%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-28.jpg",
-    title: "Ink Portrait of a Warrior",
-    pos: "60% 45%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-29.jpg",
-    title: "Ink Street Scene with Setting Sun",
-    pos: "40% 45%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-30.jpg",
-    title: "Ink Lighthouse on the Rocks",
-    pos: "50% 40%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-31.jpg",
-    title: "Ink Townhouse No. 2",
-    pos: "50% 45%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-32.jpg",
-    title: "Gyro Zeppeli and Johnny Joestar, Steel Ball Run",
-    pos: "50% 45%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-33.jpg",
-    title: "Anakin Skywalker and Darth Vader, Star Wars",
-    pos: "55% 40%",
-  },
   {
     cat: "anime",
     src: "images/art-34.jpg",
@@ -225,27 +135,9 @@ const ARTWORKS = [
     pos: "50% 35%",
   },
   {
-    cat: "anime",
-    src: "images/art-36.jpg",
-    title: "Gogeta, Dragon Ball",
-    pos: "55% 35%",
-  },
-  {
-    cat: "portrait",
-    src: "images/art-37.jpg",
-    title: "Portrait No. 13",
-    pos: "50% 40%",
-  },
-  {
     cat: "portrait",
     src: "images/art-38.jpg",
     title: "Portrait No. 14",
-    pos: "50% 40%",
-  },
-  {
-    cat: "ink",
-    src: "images/art-39.jpg",
-    title: "Gyro Zeppeli, JoJo's Bizarre Adventure: Steel Ball Run",
     pos: "50% 40%",
   },
   // graphic design
@@ -376,8 +268,7 @@ const SPECIAL_IMAGES = {
 
 /* ---------- 2) HELPERS ---------- */
 // returns a detached <div> when the element is on another page, so shared code never crashes
-const $ = (s, el = document) =>
-  el.querySelector(s) || document.createElement("div");
+const $ = (s, el = document) => el.querySelector(s) || document.createElement("div");
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -544,7 +435,34 @@ const items = () =>
   ARTWORKS.filter(
     (a) => a.cat !== "design" && (filter === "all" || a.cat === filter),
   );
-const pages = () => Math.max(1, Math.ceil(items().length / PER_SLIDE));
+const GALLERY_PER = 16; // main gallery: 16 pictures per slide (47 pictures = 3 slides)
+const pages = () => Math.max(1, Math.ceil(items().length / GALLERY_PER));
+
+// Mosaic for big slides: 4 columns, blocks of up to 8 pictures (3 rows each), explicit placement so there are no holes.
+// Each entry is [column, row, width, height]; every second block is mirrored left-right.
+const BIG_PATTERNS = {
+  8: [[1,1,2,2],[3,1,1,1],[4,1,1,1],[3,2,1,1],[4,2,1,1],[1,3,1,1],[2,3,1,1],[3,3,2,1]],
+  7: [[1,1,2,2],[3,1,1,1],[4,1,1,1],[3,2,1,1],[4,2,1,1],[1,3,2,1],[3,3,2,1]],
+  6: [[1,1,2,2],[3,1,2,1],[3,2,1,1],[4,2,1,1],[1,3,2,1],[3,3,2,1]],
+  5: [[1,1,2,2],[3,1,2,1],[3,2,2,1],[1,3,2,1],[3,3,2,1]],
+  4: [[1,1,2,2],[3,1,2,1],[3,2,1,1],[4,2,1,1]],
+  3: [[1,1,2,2],[3,1,2,1],[3,2,2,1]],
+  2: [[1,1,2,1],[3,1,2,1]],
+  1: [[1,1,4,1]],
+};
+function bigLayout(figs) {
+  for (let b = 0, k = 0; b < figs.length; b += 8, k++) {
+    const blk = figs.slice(b, b + 8), pat = BIG_PATTERNS[blk.length];
+    blk.forEach((f, i) => {
+      let [c, r, w, h] = pat[i];
+      if (k % 2 === 1) c = 6 - c - w; // mirror every second block
+      f.style.setProperty("--gc", c);
+      f.style.setProperty("--gr", r + k * 3);
+      f.style.setProperty("--gw", w);
+      f.style.setProperty("--gh", h);
+    });
+  }
+}
 
 // One framed picture tile (used by the gallery and by the Home layout 2)
 function makeArt(a, seed, delay, focusable) {
@@ -610,12 +528,13 @@ function renderGallery() {
   page = (page + total) % total;
   grid.innerHTML = "";
   grid.classList.toggle("alt", page % 2 === 1); // flip the collage on every other slide
-  grid.dataset.n = Math.min(PER_SLIDE, list.length - page * PER_SLIDE); // tiles on this slide
-  list
-    .slice(page * PER_SLIDE, page * PER_SLIDE + PER_SLIDE)
-    .forEach((a, i) =>
-      grid.append(makeArt(a, i + page * PER_SLIDE, i * 70, true)),
-    );
+  const cnt = Math.min(GALLERY_PER, list.length - page * GALLERY_PER); // tiles on this slide
+  grid.dataset.n = cnt > 9 ? "big" : cnt;
+  const figs = list
+    .slice(page * GALLERY_PER, page * GALLERY_PER + GALLERY_PER)
+    .map((a, i) => makeArt(a, i + page * GALLERY_PER, i * 70, true));
+  if (cnt > 9) bigLayout(figs);
+  grid.append(...figs);
   count.textContent = `Slide ${page + 1} / ${total}`;
 }
 $("#gPrev").onclick = () => {
@@ -640,10 +559,7 @@ renderGallery();
 const designGrid = $("#designGrid");
 const DESIGNS = ARTWORKS.filter((a) => a.cat === "design");
 let dPage = 0;
-const D_SLIDES = [
-  [0, 11],
-  [11, DESIGNS.length],
-]; // slide 1: 11-tile mosaic, slide 2: the rest
+const D_SLIDES = [[0, 11], [11, DESIGNS.length]]; // slide 1: 11-tile mosaic, slide 2: the rest
 function renderDesign() {
   const total = D_SLIDES.length;
   dPage = (dPage + total) % total;
@@ -655,89 +571,41 @@ function renderDesign() {
   );
   $("#dCount").textContent = `Slide ${dPage + 1} / ${total}`;
 }
-$("#dPrev").onclick = () => {
-  dPage--;
-  renderDesign();
-};
-$("#dNext").onclick = () => {
-  dPage++;
-  renderDesign();
-};
+$("#dPrev").onclick = () => { dPage--; renderDesign(); };
+$("#dNext").onclick = () => { dPage++; renderDesign(); };
 if (designGrid.dataset.n || $("#dCount").tagName) renderDesign();
 
 // Shop: framed F1 driver posters. Edit sizes, frame sizes and prices here.
 const SHOP_SIZES = [
-  {
-    id: "A5",
-    dims: "5.8 × 8.3 in",
-    frame: "Frame 6 × 8 in",
-    print: 400,
-    framed: 800,
-  },
-  {
-    id: "A4",
-    dims: "8.3 × 11.7 in",
-    frame: "Frame 9 × 12 in",
-    print: 500,
-    framed: 1400,
-  },
-  {
-    id: "Letter",
-    dims: "8.5 × 11 in",
-    frame: "Frame 10 × 13 in",
-    print: 600,
-    framed: 1400,
-  },
-  {
-    id: "A3",
-    dims: "11.7 × 16.5 in",
-    frame: "Frame 12 × 17 in",
-    print: 850,
-    framed: 1950,
-  },
+  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 450, framed: 900 },
+  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 550, framed: 1400 },
+  { id: "Letter", dims: "8.5 × 11 in", frame: "Frame 10 × 13 in", print: 650, framed: 1650 },
+  { id: "A3", dims: "11.7 × 16.5 in", frame: "Frame 12 × 17 in", print: 950, framed: 2000 },
 ];
 const SHOP_VARIANTS = {
   framed: { name: "framed poster", label: "Framed poster", key: "framed" },
-  print: {
-    name: "poster print (no frame)",
-    label: "Poster print",
-    key: "print",
-  },
+  print: { name: "poster print (no frame)", label: "Poster print", key: "print" },
 };
 const peso = (n) => "₱" + n.toLocaleString("en-PH");
-const sizeLines = (v, z) => [
-  z.id + " print, " + z.dims,
-  v.key === "framed" ? z.frame : "No frame, rolled in a tube",
-];
+const sizeLines = (v, z) => [z.id + " print, " + z.dims, v.key === "framed" ? z.frame : "No frame, rolled in a tube"];
 $$(".shop-row[data-products]").forEach((row) => {
-  const V = SHOP_VARIANTS[row.dataset.products] || SHOP_VARIANTS.framed;
+  const BOTH = row.dataset.products === "both";
+  let V = SHOP_VARIANTS[BOTH ? "framed" : row.dataset.products] || SHOP_VARIANTS.framed;
   const h3 = document.createElement("h3");
   h3.className = "shop-title";
   h3.textContent = row.dataset.title;
   const list = document.createElement("div");
   list.className = "prod-list";
-  const TOP_VIEW = [
-    "design-1.",
-    "design-2.",
-    "design-3.",
-    "design-5.",
-    "design-6.",
-    "design-7.",
-    "design-8.",
-  ];
+  const TOP_VIEW = ["design-1.", "design-2.", "design-3.", "design-5.", "design-6.", "design-7.", "design-8."];
   const isTop = (a) => TOP_VIEW.some((t) => a.src.includes(t));
   const cards = [];
-  const items = ARTWORKS.filter(
-    (a) => a.cat === "design" && /F1 driver poster/.test(a.title),
-  ).concat(ARTWORKS.filter(isTop));
+  const items = ARTWORKS.filter((a) => a.cat === "design" && /F1 driver poster/.test(a.title)).concat(ARTWORKS.filter(isTop));
   items.forEach((a) => {
     const tall = isTop(a);
-    const driver =
-      a.title.replace(", ", " · ").replace(/ F1 (driver )?poster/, "") +
-      (tall ? " · Car view" : "");
+    const driver = a.title.replace(", ", " · ").replace(/ F1 (driver )?poster/, "") + (tall ? " · Car view" : "");
     const card = document.createElement("article");
-    card.className =
-      "prod " + (row.dataset.products || "") + (tall ? " tall" : "");
+    card.className = "prod " + (BOTH ? "framed" : row.dataset.products || "") + (tall ? " tall" : "");
+    let V = SHOP_VARIANTS[BOTH ? "framed" : row.dataset.products] || SHOP_VARIANTS.framed;
     const img = new Image();
     img.src = a.src;
     img.alt = a.title;
@@ -745,12 +613,15 @@ $$(".shop-row[data-products]").forEach((row) => {
     img.addEventListener("click", () => openLightbox(a.src, a.title));
     const name = document.createElement("h4");
     name.textContent = driver;
+    const typeSel = document.createElement("select");
+    typeSel.className = "prod-size prod-type";
+    typeSel.setAttribute("aria-label", "Framed or print only for " + driver);
+    typeSel.add(new Option("Framed poster", "framed", true, true));
+    typeSel.add(new Option("Print only (no frame)", "print"));
     const sel = document.createElement("select");
     sel.className = "prod-size";
     sel.setAttribute("aria-label", "Size for " + driver);
-    SHOP_SIZES.forEach((z, i) =>
-      sel.add(new Option(z.id + " (" + z.dims + ")", i, i === 1, i === 1)),
-    );
+    SHOP_SIZES.forEach((z, i) => sel.add(new Option(z.id + " (" + z.dims + ")", i, i === 1, i === 1)));
     const meta = document.createElement("p");
     meta.className = "prod-meta";
     const buy = document.createElement("div");
@@ -761,58 +632,38 @@ $$(".shop-row[data-products]").forEach((row) => {
     order.textContent = "Order";
     const current = () => {
       const z = SHOP_SIZES[+sel.value];
-      return {
-        name: V.name,
-        unit: z[V.key],
-        lines: sizeLines(V, z),
-        size: z.id,
-      };
+      return { name: V.name, unit: z[V.key], lines: sizeLines(V, z), size: z.id };
     };
     const refresh = () => {
+      if (BOTH) {
+        V = SHOP_VARIANTS[typeSel.value];
+        card.classList.toggle("framed", typeSel.value === "framed");
+        card.classList.toggle("print", typeSel.value === "print");
+      }
       const c = current();
-      meta.innerHTML =
-        "<span>" +
-        V.label +
-        "</span>" +
-        c.lines.map((l) => "<span>" + l + "</span>").join("");
+      meta.innerHTML = "<span>" + V.label + "</span>" + c.lines.map((l) => "<span>" + l + "</span>").join("");
       price.textContent = peso(c.unit);
-      order.href =
-        "mailto:leanmarquez0628@yahoo.com?subject=" +
-        encodeURIComponent("Order: " + driver + " " + V.name + " " + c.size) +
-        "&body=" +
-        encodeURIComponent(
-          "Hi Lean, I'd like to order the " +
-            driver +
-            " " +
-            V.name +
-            ", size " +
-            c.size +
-            " (" +
-            peso(c.unit) +
-            "). My name and delivery address:",
-        );
+      order.href = "mailto:leanmarquez0628@yahoo.com?subject=" + encodeURIComponent("Order: " + driver + " " + V.name + " " + c.size) + "&body=" + encodeURIComponent("Hi Lean, I'd like to order the " + driver + " " + V.name + ", size " + c.size + " (" + peso(c.unit) + "). My name and delivery address:");
     };
     sel.addEventListener("change", refresh);
+    typeSel.addEventListener("change", refresh);
     order.addEventListener("click", (e) => {
       e.preventDefault();
       openOrder(driver, a.src, current());
     });
     refresh();
     buy.append(price, order);
-    card.append(img, name, sel, meta, buy);
+    card.append(img, name, ...(BOTH ? [typeSel] : []), sel, meta, buy);
     cards.push(card);
   });
   const pager = document.createElement("div");
   pager.className = "pager prod-pager";
-  pager.innerHTML =
-    '<button class="arrow" aria-label="Previous slide">←</button><span>Slide 1 / 1</span><button class="arrow" aria-label="Next slide">→</button>';
-  const [prevB, , nextB] = pager.children,
-    countEl = pager.children[1];
+  pager.innerHTML = '<button class="arrow" aria-label="Previous slide">←</button><span>Slide 1 / 1</span><button class="arrow" aria-label="Next slide">→</button>';
+  const [prevB, , nextB] = pager.children, countEl = pager.children[1];
   const mq = window.matchMedia("(max-width: 900px)");
   let pg = 0;
   const draw = () => {
-    const per = mq.matches ? 2 : 4,
-      total = Math.max(1, Math.ceil(cards.length / per));
+    const per = mq.matches ? 2 : 4, total = Math.max(1, Math.ceil(cards.length / per));
     pg = (pg + total) % total;
     list.replaceChildren(...cards.slice(pg * per, pg * per + per));
     list.classList.remove("slide-in");
@@ -820,22 +671,13 @@ $$(".shop-row[data-products]").forEach((row) => {
     list.classList.add("slide-in");
     countEl.textContent = `Slide ${pg + 1} / ${total}`;
   };
-  prevB.onclick = () => {
-    pg--;
-    draw();
-  };
-  nextB.onclick = () => {
-    pg++;
-    draw();
-  };
-  if (mq.addEventListener)
-    mq.addEventListener("change", () => {
-      pg = 0;
-      draw();
-    });
+  prevB.onclick = () => { pg--; draw(); };
+  nextB.onclick = () => { pg++; draw(); };
+  if (mq.addEventListener) mq.addEventListener("change", () => { pg = 0; draw(); });
   draw();
   row.append(h3, list, pager);
 });
+
 
 // Seller payment details shown to buyers. Fill these in (leave "" to hide a line).
 const PAYMENT = {
@@ -881,150 +723,78 @@ function openOrder(driver, src, V) {
     const f = $(".order-form", orderDlg);
     const total = () => {
       const q = +f.qty.value;
-      $(".od-total", f).textContent =
-        "Total: ₱" + (q * orderDlg._V.unit).toLocaleString("en-PH");
+      $(".od-total", f).textContent = "Total: ₱" + (q * orderDlg._V.unit).toLocaleString("en-PH");
     };
     const showPay = () => {
-      const p = PAYMENT[f.pay.value],
-        box = $(".od-pay", f);
+      const p = PAYMENT[f.pay.value], box = $(".od-pay", f);
       box.replaceChildren();
-      const add = (k, v) => {
-        const r = document.createElement("div");
-        r.innerHTML = "<span></span><b></b>";
-        r.firstChild.textContent = k;
-        r.lastChild.textContent = v;
-        box.append(r);
-      };
-      const h = document.createElement("strong");
-      h.textContent = "Payment details";
-      box.append(h);
-      if (!p) {
-        const t = document.createElement("p");
-        t.textContent =
-          "Pay in cash when you pick up your order. I'll confirm the pick-up details by message.";
-        box.append(t);
-        return;
-      }
-      const rows = [
-        ["Bank / e-wallet", p.bank],
-        ["Account name", p.accountName],
-        ["Account number", p.accountNumber],
-      ].filter((r) => r[1]);
-      if (!rows.length) {
-        const t = document.createElement("p");
-        t.textContent =
-          "I'll message you the account details to pay after I receive your order.";
-        box.append(t);
-      } else rows.forEach((r) => add(r[0], r[1]));
-      if (rows.length && !p.accountNumber) {
-        const t = document.createElement("p");
-        t.textContent =
-          "I'll message you the account number after I receive your order.";
-        box.append(t);
-      }
+      const add = (k, v) => { const r = document.createElement("div"); r.innerHTML = "<span></span><b></b>"; r.firstChild.textContent = k; r.lastChild.textContent = v; box.append(r); };
+      const h = document.createElement("strong"); h.textContent = "Payment details"; box.append(h);
+      if (!p) { const t = document.createElement("p"); t.textContent = "Pay in cash when you pick up your order. I'll confirm the pick-up details by message."; box.append(t); return; }
+      const rows = [["Bank / e-wallet", p.bank], ["Account name", p.accountName], ["Account number", p.accountNumber]].filter((r) => r[1]);
+      if (!rows.length) { const t = document.createElement("p"); t.textContent = "I'll message you the account details to pay after I receive your order."; box.append(t); }
+      else rows.forEach((r) => add(r[0], r[1]));
+      if (rows.length && !p.accountNumber) { const t = document.createElement("p"); t.textContent = "I'll message you the account number after I receive your order."; box.append(t); }
       add("Name of buyer", f.name.value.trim() || "(your name above)");
-      add(
-        "Contact number",
-        f.phone.value.trim() || "(your mobile number above)",
-      );
+      add("Contact number", f.phone.value.trim() || "(your mobile number above)");
     };
     f.pay.addEventListener("change", showPay);
     f.name.addEventListener("input", showPay);
     f.phone.addEventListener("input", showPay);
     orderDlg._showPay = showPay;
-    f.addEventListener("input", () => {
-      $(".od-err", f).textContent = "";
-    });
+    f.addEventListener("input", () => { $(".od-err", f).textContent = ""; });
     $(".od-x", f).onclick = () => orderDlg.close();
-    orderDlg.addEventListener("click", (e) => {
-      if (e.target === orderDlg) orderDlg.close();
-    });
-    $$(".od-qty button", f).forEach(
-      (b) =>
-        (b.onclick = () => {
-          f.qty.value = Math.min(10, Math.max(1, +f.qty.value + +b.dataset.d));
-          total();
-        }),
-    );
+    orderDlg.addEventListener("click", (e) => { if (e.target === orderDlg) orderDlg.close(); });
+    $$(".od-qty button", f).forEach((b) => (b.onclick = () => {
+      f.qty.value = Math.min(10, Math.max(1, +f.qty.value + +b.dataset.d));
+      total();
+    }));
     f.addEventListener("submit", (e) => {
       e.preventDefault();
       const err = $(".od-err", f);
-      if (
-        !f.name.value.trim() ||
-        !f.phone.value.trim() ||
-        !f.address.value.trim()
-      ) {
-        err.textContent =
-          "Please fill in your name, mobile number and delivery address.";
+      if (!f.name.value.trim() || !f.phone.value.trim() || !f.address.value.trim()) {
+        err.textContent = "Please fill in your name, mobile number and delivery address.";
         return;
       }
       err.textContent = "";
-      const q = +f.qty.value,
-        d = orderDlg.dataset.driver;
+      const q = +f.qty.value, d = orderDlg.dataset.driver;
       const text = [
         "NEW ORDER, The Sketchbook Chronicles",
         "Item: " + d + " " + orderDlg._V.name,
         "Size: " + orderDlg._V.size,
         orderDlg._V.lines.join(" / "),
         "Quantity: " + q,
-        "Total: ₱" +
-          (q * orderDlg._V.unit).toLocaleString("en-PH") +
-          " (" +
-          peso(orderDlg._V.unit) +
-          " each)",
+        "Total: ₱" + (q * orderDlg._V.unit).toLocaleString("en-PH") + " (" + peso(orderDlg._V.unit) + " each)",
         "Payment: " + f.pay.value,
-        ...(PAYMENT[f.pay.value]
-          ? [
-              PAYMENT[f.pay.value].bank
-                ? "Pay to: " + PAYMENT[f.pay.value].bank
-                : null,
-              PAYMENT[f.pay.value].accountName
-                ? "Account name: " + PAYMENT[f.pay.value].accountName
-                : null,
-              PAYMENT[f.pay.value].accountNumber
-                ? "Account number: " + PAYMENT[f.pay.value].accountNumber
-                : null,
-            ]
-          : []),
-        f.payname.value.trim()
-          ? "Name of buyer on payment: " + f.payname.value.trim()
-          : null,
-        f.payref.value.trim()
-          ? "Payment reference no.: " + f.payref.value.trim()
-          : null,
+        ...(PAYMENT[f.pay.value] ? [
+          PAYMENT[f.pay.value].bank ? "Pay to: " + PAYMENT[f.pay.value].bank : null,
+          PAYMENT[f.pay.value].accountName ? "Account name: " + PAYMENT[f.pay.value].accountName : null,
+          PAYMENT[f.pay.value].accountNumber ? "Account number: " + PAYMENT[f.pay.value].accountNumber : null,
+        ] : []),
+        f.payname.value.trim() ? "Name of buyer on payment: " + f.payname.value.trim() : null,
+        f.payref.value.trim() ? "Payment reference no.: " + f.payref.value.trim() : null,
         "",
         "Name: " + f.name.value.trim(),
         "Mobile: " + f.phone.value.trim(),
         f.email.value.trim() ? "Email: " + f.email.value.trim() : null,
         "Address: " + f.address.value.trim(),
         f.notes.value.trim() ? "Notes: " + f.notes.value.trim() : null,
-      ]
-        .filter((l) => l !== null)
-        .join("\n");
+      ].filter((l) => l !== null).join("\n");
       f.dataset.text = text;
-      const mail =
-        "mailto:leanmarquez0628@yahoo.com?subject=" +
-        encodeURIComponent("Order: " + d + " " + orderDlg._V.name + " x" + q) +
-        "&body=" +
-        encodeURIComponent(text);
+      const mail = "mailto:leanmarquez0628@yahoo.com?subject=" + encodeURIComponent("Order: " + d + " " + orderDlg._V.name + " x" + q) + "&body=" + encodeURIComponent(text);
       $(".od-done", f).hidden = false;
       $(".od-send", f).hidden = true;
       location.href = mail;
     });
     $(".od-copy", f).onclick = async (e) => {
-      try {
-        await navigator.clipboard.writeText(f.dataset.text || "");
-        e.target.textContent = "Copied!";
-      } catch {
-        e.target.textContent = "Select and copy from your email";
-      }
+      try { await navigator.clipboard.writeText(f.dataset.text || ""); e.target.textContent = "Copied!"; }
+      catch { e.target.textContent = "Select and copy from your email"; }
     };
     orderDlg._total = total;
   }
   const f = $(".order-form", orderDlg);
   orderDlg._V = V;
-  $(".od-head p", f).innerHTML =
-    V.lines.join(" · ") + "<br>" + peso(V.unit) + " each";
+  $(".od-head p", f).innerHTML = V.lines.join(" · ") + "<br>" + peso(V.unit) + " each";
   orderDlg.dataset.driver = driver;
   $("h3", f).textContent = driver;
   $(".od-head img", f).src = src;
@@ -1041,14 +811,8 @@ function openOrder(driver, src, V) {
 // Shop: "Coming soon" cards for Digital art and Painting (same card as the gallery tabs)
 $$(".shop-row").forEach((row) => {
   const SHOP_SOON = {
-    new: {
-      label: "Painting",
-      text: "Original paintings for sale will be available here soon.",
-    },
-    special: {
-      label: "Painting print",
-      text: "Prints of my paintings will be available here soon.",
-    },
+    new: { label: "Painting", text: "Original paintings for sale will be available here soon." },
+    special: { label: "Painting print", text: "Prints of my paintings will be available here soon." },
   };
   const c = SHOP_SOON[row.dataset.soon];
   if (!c) return;
@@ -1145,7 +909,7 @@ if (strip) {
 const ABOUT_SLIDES = [
   {
     src: "images/about-4.jpg",
-    cap: "Hi, I'm Miguel · the artist behind the artworks here",
+    cap: "Hi, I'm Miguel · the artist behind the drawings",
     pos: "50% 38%",
   },
   {
@@ -1276,8 +1040,7 @@ $("#year").textContent = new Date().getFullYear();
           : m < 1440
             ? Math.round(m / 60) + " h ago"
             : Math.round(m / 1440) + " d ago";
-    if (stamp)
-      stamp.querySelector("span").textContent = "Live numbers · updated " + t;
+    if (stamp) stamp.querySelector("span").textContent = "Live numbers · updated " + t;
   }
   function apply(d) {
     document.querySelectorAll(".feed-stats").forEach((box) => {
@@ -1296,10 +1059,7 @@ $("#year").textContent = new Date().getFullYear();
         document.createTextNode(" " + val.toLocaleString("en-US")),
       );
     });
-    updated =
-      d.checked || d.updated
-        ? new Date(d.checked || d.updated).getTime()
-        : Date.now();
+    updated = d.checked || d.updated ? new Date(d.checked || d.updated).getTime() : Date.now();
     ago();
   }
   async function load() {
@@ -1310,7 +1070,7 @@ $("#year").textContent = new Date().getFullYear();
       if (!r.ok) throw 0;
       apply(await r.json());
     } catch (e) {
-      // stats.json not found: just show the numbers typed in the page
+       // stats.json not found: just show the numbers typed in the page
     }
   }
   load();
@@ -1330,40 +1090,26 @@ $("#year").textContent = new Date().getFullYear();
   const svg = (inner, extra = "") =>
     `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" ${extra}>${inner}</svg>`;
   const ICON = {
-    pin: svg(
-      '<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>',
-    ),
-    carousel: svg(
-      '<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>',
-    ),
-    reel: svg(
-      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>',
-    ),
+    pin: svg('<path d="M14.5 2.5l7 7-2 .8-3.600 3.600.4 4.200-1.400 1.400-4.200-4.200L5 19.800 4.200 19l4.300-4.300-4.200-4.200 1.400-1.400 4.200.4 3.600-3.600z"/>'),
+    carousel: svg('<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>'),
+    reel: svg('<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>'),
   };
   const PLAY =
     '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
-  const esc = (s) =>
-    String(s ?? "").replace(
-      /[&<>"']/g,
-      (c) =>
-        ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        })[c],
-    );
-  const safeUrl = (u, fallback) =>
-    /^(https?:\/\/|images\/)/.test(u || "") ? u : fallback;
+  const EYE =
+    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const safeUrl = (u, fallback) => (/^(https?:\/\/|images\/)/.test(u || "") ? u : fallback);
 
   function tile(p, net, profile) {
     const img = safeUrl(p.img, "");
     if (!img) return "";
     const link = safeUrl(p.link, profile);
     let extra = "";
-    if (net === "ig")
+    if (net === "ig") {
       extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
+      if (p.views != null) extra += `<span class="views">${EYE} ${Number(p.views).toLocaleString("en-US")}</span>`;
+    }
     else {
       if (p.pinned) extra += '<span class="pinned">Pinned</span>';
       extra += `<span class="views">${PLAY}${p.views != null ? " " + Number(p.views).toLocaleString("en-US") : ""}</span>`;
@@ -1372,10 +1118,7 @@ $("#year").textContent = new Date().getFullYear();
   }
   function fill(grid, list, net, profile) {
     if (!Array.isArray(list) || !list.length) return; // keep the pictures already in the page
-    const html = list
-      .slice(0, 12)
-      .map((p) => tile(p, net, profile))
-      .join("");
+    const html = list.slice(0, 12).map((p) => tile(p, net, profile)).join("");
     if (html && grid.dataset.sig !== html) {
       grid.innerHTML = html;
       grid.dataset.sig = html;
@@ -1383,32 +1126,16 @@ $("#year").textContent = new Date().getFullYear();
   }
   async function loadPosts() {
     try {
-      const r = await fetch("posts.json?t=" + Date.now(), {
-        cache: "no-store",
-      });
+      const r = await fetch("posts.json?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw 0;
       const d = await r.json();
-      fill(
-        igGrid,
-        d.instagram && d.instagram.posts,
-        "ig",
-        (d.instagram && d.instagram.profile) ||
-          "https://www.instagram.com/lnmglmrqz/",
-      );
-      fill(
-        ttGrid,
-        d.tiktok && d.tiktok.posts,
-        "tt",
-        (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq",
-      );
+      fill(igGrid, d.instagram && d.instagram.posts, "ig", (d.instagram && d.instagram.profile) || "https://www.instagram.com/lnmglmrqz/");
+      fill(ttGrid, d.tiktok && d.tiktok.posts, "tt", (d.tiktok && d.tiktok.profile) || "https://www.tiktok.com/@lnmglmrq");
     } catch (e) {} // posts.json missing: the pictures written in the page stay
   }
   loadPosts();
   setInterval(loadPosts, 300000); // every 5 minutes
-  document.addEventListener(
-    "visibilitychange",
-    () => !document.hidden && loadPosts(),
-  );
+  document.addEventListener("visibilitychange", () => !document.hidden && loadPosts());
 
   // TikTok: "Videos" (my grid) / "Live" (TikTok's own widget, always the newest videos)
   const tabs = document.getElementById("ttTabs"),
@@ -1444,24 +1171,21 @@ $("#year").textContent = new Date().getFullYear();
     e.preventDefault();
     const f = new FormData(form);
     const v = (k) => String(f.get(k) || "").trim();
-    const bad =
-      ["first", "last", "email"].find((k) => !v(k)) ||
-      (!form.email.checkValidity() ? "email" : "");
+    const bad = ["first", "last", "email"].find((k) => !v(k)) || (!form.email.checkValidity() ? "email" : "");
     if (bad) {
       out.className = "cf-msg err";
-      out.textContent =
-        "Please fill in your first name, last name and a valid email.";
+      out.textContent = "Please fill in your first name, last name and a valid email.";
       form.elements[bad].focus();
       return;
     }
-    const subject =
-      v("subject") || "Message from " + v("first") + " " + v("last");
+    const subject = v("subject") || "Message from " + v("first") + " " + v("last");
     const body = `${v("message")}\n\n— ${v("first")} ${v("last")}\n${v("email")}`;
     out.className = "cf-msg";
     out.textContent = "Thank you! Opening your email app to send your message…";
     location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 })();
+
 
 /* ---------- Graphic design: sliding strip (same style as the sketchbook strip) ---------- */
 (() => {
@@ -1473,8 +1197,7 @@ $("#year").textContent = new Date().getFullYear();
     b.className = "sk";
     b.type = "button";
     b.setAttribute("aria-label", "Open " + s.title);
-    if (k >= list.length)
-      (b.setAttribute("aria-hidden", "true"), (b.tabIndex = -1));
+    if (k >= list.length) (b.setAttribute("aria-hidden", "true"), (b.tabIndex = -1));
     const img = new Image();
     img.alt = s.title;
     img.loading = "lazy";
@@ -1501,12 +1224,8 @@ $("#year").textContent = new Date().getFullYear();
       "mailto:leanmarquez0628@yahoo.com?subject=" +
       encodeURIComponent("Newsletter sign-up") +
       "&body=" +
-      encodeURIComponent(
-        "Hi Lean, please add me to your list for new art and shop updates: " +
-          mail,
-      );
-    $("#footNote").textContent =
-      "Thanks! Your email app will open to send the sign-up.";
+      encodeURIComponent("Hi Lean, please add me to your list for new art and shop updates: " + mail);
+    $("#footNote").textContent = "Thanks! Your email app will open to send the sign-up.";
   });
 })();
 
@@ -1516,74 +1235,76 @@ $("#year").textContent = new Date().getFullYear();
   if (!$("#pdTabs") || !g) return;
   const DESC = {
     all: "Painting and digital art together: hand-painted pieces and digital illustrations, all in one gallery.",
-    painting:
-      "Watercolor and acrylic pieces on paper and canvas, with soft blends, layered colour and visible brush texture.",
-    digital:
-      "Clean digital illustrations and character art, from rough sketch to finished colour, made on a drawing tablet.",
+    painting: "Watercolor and acrylic pieces on paper and canvas, with soft blends, layered colour and visible brush texture.",
+    digital: "Clean digital illustrations and character art, from rough sketch to finished colour, made on a drawing tablet.",
   };
   const SOON = {
-    all: {
-      label: "Painting & digital",
-      text: "Hand-painted pieces and digital illustrations are on the way.",
-    },
+    all: { label: "Painting & digital", text: "Hand-painted pieces and digital illustrations are on the way." },
     painting: COMING_SOON.painting,
     digital: COMING_SOON.digital,
   };
-  let f = "all",
-    pg = 0;
-  const list = () =>
-    ARTWORKS.filter(
-      (a) =>
-        (a.cat === "painting" || a.cat === "digital") &&
-        (f === "all" || a.cat === f),
-    );
+  let f = "all", pg = 0;
+  const list = () => ARTWORKS.filter((a) => (a.cat === "painting" || a.cat === "digital") && (f === "all" || a.cat === f));
   function render() {
-    const l = list(),
-      total = Math.max(1, Math.ceil(l.length / PER_SLIDE));
-    const dEl = $("#pdDesc");
-    if (dEl) dEl.textContent = DESC[f];
+    const l = list(), total = Math.max(1, Math.ceil(l.length / PER_SLIDE));
+    const dEl = $("#pdDesc"); if (dEl) dEl.textContent = DESC[f];
     g.innerHTML = "";
     if (!l.length) {
-      pg = 0;
-      g.dataset.n = 1;
-      g.classList.remove("alt");
-      const c = SOON[f],
-        card = document.createElement("div");
+      pg = 0; g.dataset.n = 1; g.classList.remove("alt");
+      const c = SOON[f], card = document.createElement("div");
       card.className = "art soon";
-      const k = document.createElement("small"),
-        b = document.createElement("b"),
-        t = document.createElement("p");
-      k.textContent = "✎ " + c.label;
-      b.textContent = "Coming soon";
-      t.textContent = c.text;
-      card.append(k, b, t);
-      g.append(card);
+      const k = document.createElement("small"), b = document.createElement("b"), t = document.createElement("p");
+      k.textContent = "✎ " + c.label; b.textContent = "Coming soon"; t.textContent = c.text;
+      card.append(k, b, t); g.append(card);
       $("#pdCount").textContent = "Slide 1 / 1";
       return;
     }
     pg = (pg + total) % total;
     g.classList.toggle("alt", pg % 2 === 1);
     g.dataset.n = Math.min(PER_SLIDE, l.length - pg * PER_SLIDE);
-    l.slice(pg * PER_SLIDE, pg * PER_SLIDE + PER_SLIDE).forEach((a, i) =>
-      g.append(makeArt(a, 300 + i, i * 70, true)),
-    );
+    l.slice(pg * PER_SLIDE, pg * PER_SLIDE + PER_SLIDE).forEach((a, i) => g.append(makeArt(a, 300 + i, i * 70, true)));
     $("#pdCount").textContent = `Slide ${pg + 1} / ${total}`;
   }
-  $("#pdPrev").onclick = () => {
-    pg--;
-    render();
-  };
-  $("#pdNext").onclick = () => {
-    pg++;
-    render();
-  };
+  $("#pdPrev").onclick = () => { pg--; render(); };
+  $("#pdNext").onclick = () => { pg++; render(); };
   $("#pdTabs").addEventListener("click", (e) => {
     const b = e.target.closest(".tab");
     if (!b) return;
     $$("#pdTabs .tab").forEach((t) => t.classList.toggle("active", t === b));
-    f = b.dataset.filter;
-    pg = 0;
-    render();
+    f = b.dataset.filter; pg = 0; render();
   });
   render();
+})();
+
+// Threads cards: if a picture can't load, show a tidy placeholder instead of a broken-image icon
+$$(".th-card img").forEach((img) => {
+  const swap = () => {
+    if (img.dataset.failed) return;
+    img.dataset.failed = "1";
+    const ph = document.createElement("div");
+    ph.className = "th-noimg";
+    ph.setAttribute("role", "img");
+    ph.setAttribute("aria-label", img.alt);
+    ph.textContent = "✎";
+    img.replaceWith(ph);
+  };
+  img.addEventListener("error", swap);
+  if (img.complete && img.naturalWidth === 0) swap();
+});
+
+
+/* ---------- FACEBOOK tabs (Photos / Reels) ---------- */
+(() => {
+  const tabs = document.getElementById("fbTabs");
+  if (!tabs) return;
+  const grids = { photos: document.getElementById("fbPhotos"), reels: document.getElementById("fbReels") };
+  tabs.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-fb]");
+    if (!b) return;
+    tabs.querySelectorAll("button").forEach((x) => {
+      x.classList.toggle("on", x === b);
+      x.setAttribute("aria-selected", x === b);
+    });
+    Object.keys(grids).forEach((k) => (grids[k].hidden = k !== b.dataset.fb));
+  });
 })();
