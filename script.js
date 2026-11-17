@@ -293,8 +293,6 @@ function placeholder(label, seed = 0) {
 // Pictures live in sub-folders (images/gallery/anime/...). If a sub-folder picture is missing,
 // try the old flat path (images/art-01.jpg) first, then show the drawn placeholder.
 const FLAT_ALIAS = {
-  "th-random-drawing.jpg": "tt-3.jpg",
-  "th-f1-poster.jpg": "design-10.jpg",
   "th-jojo.jpg": "art-32.jpg",
 };
 function flatPath(src) {
