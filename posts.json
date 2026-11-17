@@ -5,42 +5,42 @@
     "feedUrl": "",
     "posts": [
       {
-        "img": "images/ig-1.jpg",
+        "img": "images/social/instagram/ig-1.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
         "type": "pin",
         "views": 3033,
         "alt": "Street scene with a railing"
       },
       {
-        "img": "images/ig-2.jpg",
+        "img": "images/social/instagram/ig-2.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
         "type": "pin",
         "views": 2426,
         "alt": "She inspired me to start drawing again"
       },
       {
-        "img": "images/ig-3.jpg",
+        "img": "images/social/instagram/ig-3.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
         "type": "pin",
         "views": 1737,
         "alt": "Sketchbook portraits"
       },
       {
-        "img": "images/ig-4.jpg",
+        "img": "images/social/instagram/ig-4.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
         "type": "reel",
         "views": 41,
         "alt": "Lost in the lines, found in the sketch"
       },
       {
-        "img": "images/ig-5.jpg",
+        "img": "images/social/instagram/ig-5.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
         "type": "reel",
         "views": 2193,
         "alt": "Every stroke tells a story"
       },
       {
-        "img": "images/ig-6.jpg",
+        "img": "images/social/instagram/ig-6.jpg",
         "link": "https://www.instagram.com/lnmglmrqz/",
         "type": "carousel",
         "views": 1355,
@@ -52,42 +52,42 @@
     "profile": "https://www.tiktok.com/@lnmglmrq",
     "posts": [
       {
-        "img": "images/tt-1.jpg",
+        "img": "images/social/tiktok/tt-1.jpg",
         "link": "https://www.tiktok.com/@lnmglmrq",
         "pinned": true,
         "views": 3833,
         "alt": "Pencil portrait with a scarf"
       },
       {
-        "img": "images/tt-2.jpg",
+        "img": "images/social/tiktok/tt-2.jpg",
         "link": "https://www.tiktok.com/@lnmglmrq",
         "pinned": true,
         "views": 4425,
         "alt": "Sketchbook portraits"
       },
       {
-        "img": "images/tt-3.jpg",
+        "img": "images/social/tiktok/tt-3.jpg",
         "link": "https://www.tiktok.com/@lnmglmrq",
         "pinned": true,
         "views": 3382,
         "alt": "May your tomorrow be brighter than today"
       },
       {
-        "img": "images/tt-4.jpg",
+        "img": "images/social/tiktok/tt-4.jpg",
         "link": "https://www.tiktok.com/@lnmglmrq",
         "pinned": false,
         "views": 494,
         "alt": "Every stroke tells a story"
       },
       {
-        "img": "images/tt-5.jpg",
+        "img": "images/social/tiktok/tt-5.jpg",
         "link": "https://www.tiktok.com/@lnmglmrq",
         "pinned": false,
         "views": 338,
         "alt": "Lewis Hamilton, Ferrari poster"
       },
       {
-        "img": "images/tt-6.jpg",
+        "img": "images/social/tiktok/tt-6.jpg",
         "link": "https://www.tiktok.com/@lnmglmrq",
         "pinned": false,
         "views": 583,

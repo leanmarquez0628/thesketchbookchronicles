@@ -14,232 +14,232 @@ const ARTWORKS = [
   // slide 1: small, TALL, WIDE / small, small, small / small, small, WIDE
   {
     cat: "anime",
-    src: "images/art-03.jpg",
+    src: "images/gallery/anime/art-03.jpg",
     title: "Roronoa Zoro, One Piece",
     pos: "50% 32%",
   },
   {
     cat: "anime",
-    src: "images/art-04.jpg",
+    src: "images/gallery/anime/art-04.jpg",
     title: "Bruno Bucciarati, JoJo's Bizarre Adventure",
     pos: "42% 30%",
   },
   {
     cat: "portrait",
-    src: "images/art-02.jpg",
+    src: "images/gallery/portrait/art-02.jpg",
     title: "Portrait No. 1",
     pos: "50% 40%",
   },
   {
     cat: "portrait",
-    src: "images/art-05.jpg",
+    src: "images/gallery/portrait/art-05.jpg",
     title: "Portrait No. 2",
     pos: "35% 38%",
   },
   {
     cat: "anime",
-    src: "images/art-10.jpg",
+    src: "images/gallery/anime/art-10.jpg",
     title: "All Might, My Hero Academia",
     pos: "55% 35%",
   },
   {
     cat: "anime",
-    src: "images/art-06.jpg",
+    src: "images/gallery/anime/art-06.jpg",
     title: "Madara Uchiha, Naruto",
     pos: "50% 28%",
   },
   {
     cat: "anime",
-    src: "images/art-01.jpg",
+    src: "images/gallery/anime/art-01.jpg",
     title: "JoJo Bizzare Adventure, Joestar Family",
     pos: "45% 40%",
   },
   {
     cat: "portrait",
-    src: "images/art-12.jpg",
+    src: "images/gallery/portrait/art-12.jpg",
     title: "Portrait No. 3",
     pos: "50% 25%",
   },
   {
     cat: "portrait",
-    src: "images/art-16.jpg",
+    src: "images/gallery/portrait/art-16.jpg",
     title: "Portrait No. 4",
     pos: "50% 55%",
   },
   // slide 2
   {
     cat: "anime",
-    src: "images/art-11.jpg",
+    src: "images/gallery/anime/art-11.jpg",
     title: "Jotaro Kujo, JoJo's Bizarre Adventure",
     pos: "50% 30%",
   },
   {
     cat: "portrait",
-    src: "images/art-17.jpg",
+    src: "images/gallery/portrait/art-17.jpg",
     title: "Portrait No. 5",
     pos: "45% 30%",
   },
   {
     cat: "portrait",
-    src: "images/art-14.jpg",
+    src: "images/gallery/portrait/art-14.jpg",
     title: "Portrait No. 6",
     pos: "50% 40%",
   },
   {
     cat: "anime",
-    src: "images/art-13.jpg",
+    src: "images/gallery/anime/art-13.jpg",
     title: "Sanji Vinsmoke, One Piece",
     pos: "50% 38%",
   },
   {
     cat: "portrait",
-    src: "images/art-09.jpg",
+    src: "images/gallery/portrait/art-09.jpg",
     title: "Portrait No. 8",
     pos: "50% 30%",
   },
   {
     cat: "anime",
-    src: "images/art-22.jpg",
+    src: "images/gallery/anime/art-22.jpg",
     title: "Nezuko Kamado, Demon Slayer",
     pos: "50% 38%",
   },
   {
     cat: "portrait",
-    src: "images/art-19.jpg",
+    src: "images/gallery/portrait/art-19.jpg",
     title: "Portrait No. 10",
     pos: "50% 38%",
   },
   {
     cat: "anime",
-    src: "images/art-23.jpg",
+    src: "images/gallery/anime/art-23.jpg",
     title: "Keisuke Baji, Tokyo Revengers",
     pos: "50% 38%",
   },
   {
     cat: "portrait",
-    src: "images/art-20.jpg",
+    src: "images/gallery/portrait/art-20.jpg",
     title: "Portrait No. 12",
     pos: "50% 35%",
   },
   // ink drawings
   {
     cat: "anime",
-    src: "images/art-34.jpg",
+    src: "images/gallery/anime/art-34.jpg",
     title: "Monkey D. Luffy, Gear 5, One Piece",
     pos: "50% 40%",
   },
   {
     cat: "anime",
-    src: "images/art-35.jpg",
+    src: "images/gallery/anime/art-35.jpg",
     title: "Giorno Giovanna, JoJo's Bizarre Adventure: Golden Wind",
     pos: "50% 35%",
   },
   {
     cat: "portrait",
-    src: "images/art-38.jpg",
+    src: "images/gallery/portrait/art-38.jpg",
     title: "Portrait No. 14",
     pos: "50% 40%",
   },
   // graphic design
   {
     cat: "design",
-    src: "images/design-1.jpg",
+    src: "images/design/design-1.jpg",
     title: "Lewis Hamilton, Ferrari F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-2.jpg",
+    src: "images/design/design-2.jpg",
     title: "Max Verstappen, Red Bull F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-3.jpg",
+    src: "images/design/design-3.jpg",
     title: "Lando Norris, McLaren F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-4.jpg",
+    src: "images/design/design-4.jpg",
     title: "George Russell, Mercedes F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-5.jpg",
+    src: "images/design/design-5.jpg",
     title: "Charles Leclerc, Ferrari F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-6.jpg",
+    src: "images/design/design-6.jpg",
     title: "Nico Hulkenberg, Audi F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-7.jpg",
+    src: "images/design/design-7.jpg",
     title: "Kimi Antonelli, Mercedes F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-8.jpg",
+    src: "images/design/design-8.jpg",
     title: "Oscar Piastri, McLaren F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-9.jpg",
+    src: "images/design/design-9.jpg",
     title: "Isack Hadjar, Red Bull F1 poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-10.jpg",
+    src: "images/design/design-10.jpg",
     title: "Lewis Hamilton, Ferrari F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-11.jpg",
+    src: "images/design/design-11.jpg",
     title: "Max Verstappen, Red Bull F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-12.jpg",
+    src: "images/design/design-12.jpg",
     title: "Lando Norris, McLaren F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-13.jpg",
+    src: "images/design/design-13.jpg",
     title: "Charles Leclerc, Ferrari F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-14.jpg",
+    src: "images/design/design-14.jpg",
     title: "Oscar Piastri, McLaren F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-15.jpg",
+    src: "images/design/design-15.jpg",
     title: "George Russell, Mercedes F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-16.jpg",
+    src: "images/design/design-16.jpg",
     title: "Kimi Antonelli, Mercedes F1 driver poster",
     pos: "50% 48%",
   },
   {
     cat: "design",
-    src: "images/design-17.jpg",
+    src: "images/design/design-17.jpg",
     title: "Fernando Alonso, Aston Martin F1 driver poster",
     pos: "50% 48%",
   },
@@ -258,12 +258,12 @@ const COMING_SOON = {
 };
 const PER_SLIDE = 9; // pictures per slide (matches the 9-tile museum grid)
 
-// Images used in the hero and About section (images/hero-1.jpg, etc.)
+// Images used in the hero and About section (images/home/hero-1.jpg, etc.)
 const SPECIAL_IMAGES = {
-  "hero-1": "images/hero-1.jpg",
-  "hero-2": "images/hero-2.jpg",
-  "hero-3": "images/hero-3.jpg",
-  "hero-4": "images/hero-4.jpg",
+  "hero-1": "images/home/hero-1.jpg",
+  "hero-2": "images/home/hero-2.jpg",
+  "hero-3": "images/home/hero-3.jpg",
+  "hero-4": "images/home/hero-4.jpg",
 };
 
 /* ---------- 2) HELPERS ---------- */
@@ -577,9 +577,9 @@ if (designGrid.dataset.n || $("#dCount").tagName) renderDesign();
 
 // Shop: framed F1 driver posters. Edit sizes, frame sizes and prices here.
 const SHOP_SIZES = [
-  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 450, framed: 900 },
-  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 550, framed: 1400 },
-  { id: "Letter", dims: "8.5 × 11 in", frame: "Frame 10 × 13 in", print: 650, framed: 1650 },
+  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 530, framed: 930 },
+  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 620, framed: 1400 },
+  { id: "Letter", dims: "8.5 × 11 in", frame: "Frame 10 × 13 in", print: 720, framed: 1650 },
   { id: "A3", dims: "11.7 × 16.5 in", frame: "Frame 12 × 17 in", print: 950, framed: 2000 },
 ];
 const SHOP_VARIANTS = {
@@ -845,34 +845,34 @@ lb.addEventListener("click", (e) => {
 const SKETCHBOOK = [
   {
     cat: "anime",
-    src: "images/sketch-1.jpg",
+    src: "images/sketchbook/sketch-1.jpg",
     title: "Sanji Vinsmoke, One Piece",
   },
-  { cat: "portrait", src: "images/sketch-2.jpg", title: "Portrait sketches" },
+  { cat: "portrait", src: "images/sketchbook/sketch-2.jpg", title: "Portrait sketches" },
   {
     cat: "anime",
-    src: "images/sketch-3.jpg",
+    src: "images/sketchbook/sketch-3.jpg",
     title: "Jotaro Kujo, JoJo's Bizarre Adventure",
   },
   {
     cat: "portrait",
-    src: "images/sketch-4.jpg",
+    src: "images/sketchbook/sketch-4.jpg",
     title: "Pencil portrait study",
   },
-  { cat: "portrait", src: "images/sketch-5.jpg", title: "Pencil portrait" },
+  { cat: "portrait", src: "images/sketchbook/sketch-5.jpg", title: "Pencil portrait" },
   {
     cat: "anime",
-    src: "images/sketch-6.jpg",
+    src: "images/sketchbook/sketch-6.jpg",
     title: "Zenitsu Agatsuma, Demon Slayer",
   },
   {
     cat: "anime",
-    src: "images/sketch-7.jpg",
+    src: "images/sketchbook/sketch-7.jpg",
     title: "Kazutora Hanemiya, Tokyo Revengers",
   },
   {
     cat: "anime",
-    src: "images/sketch-8.jpg",
+    src: "images/sketchbook/sketch-8.jpg",
     title: "Yoh Asakura, Shaman King",
   },
 ];
@@ -908,22 +908,22 @@ if (strip) {
 // Put your files in the images folder and edit this list to add more slides.
 const ABOUT_SLIDES = [
   {
-    src: "images/about-4.jpg",
+    src: "images/about/about-4.jpg",
     cap: "Hi, I'm Miguel · the artist behind the drawings",
     pos: "50% 38%",
   },
   {
-    src: "images/about-1.jpg",
+    src: "images/about/about-1.jpg",
     cap: "Sanji Vinsmoke· markers & colored pencil",
     pos: "50% 35%",
   },
   {
-    src: "images/about-2.jpg",
+    src: "images/about/about-2.jpg",
     cap: "Portrait No 1 · Graphite Pencil",
     pos: "50% 50%",
   },
   {
-    src: "images/about-3.jpg",
+    src: "images/about/about-3.jpg",
     cap: "Portrait No 5 · Graphite Pencil",
     pos: "50% 40%",
   },
