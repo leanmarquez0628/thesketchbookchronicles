@@ -8,7 +8,7 @@ Use these exact file names (JPG), or edit the list at the top of script.js:
   art-01.jpg ... art-17.jpg            -> the work gallery (list + captions in ARTWORKS, script.js)
 
 Tips:
-- Scan or photograph your drawings in good light, landscape (4:3) works best.
+- Scan or photograph your drawings in good light; landscape (4:3) works best.
 - Keep each file under about 500 KB so the page loads fast.
 - Until you add a file, a colorful placeholder is shown automatically.
 - Want photos of the F1 / MotoGP legends? Add "img": "images/senna.jpg" to that
