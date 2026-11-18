@@ -272,11 +272,29 @@ const SPECIAL_IMAGES = {
 // returns a detached <div> when the element is on another page, so shared code never crashes
 const $ = (s, el = document) => el.querySelector(s) || document.createElement("div");
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function replaceChildrenCompat(el, ...children) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+  children.forEach((child) => el.appendChild(child));
+}
+const reduceMotion = window.matchMedia
+  ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  : false;
+function createObserver(callback, options) {
+  if (typeof window.IntersectionObserver === "function") {
+    return new IntersectionObserver(callback, options);
+  }
+  return {
+    observe(target) {
+      callback([{ target, isIntersecting: true }]);
+    },
+    unobserve() {},
+  };
+}
 
 // A colorful "sketch" placeholder shown when a drawing file isn't found yet
 function placeholder(label, seed = 0) {
-  label = String(label).replace(/[&<>"']/g, " "); // keep the SVG valid
+  label = String(label).replace(/[&<>"']/g, " ").replace(/\s+/g, " ").trim();
+  if (label.length > 28) label = label.slice(0, 25).trim() + "...";
   const hues = [8, 40, 200, 280, 150, 330];
   const h = hues[seed % hues.length];
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
@@ -304,15 +322,17 @@ function flatPath(src) {
 function imgFailed(img) {
   if (!img || img.tagName !== "IMG" || img.src.startsWith("data:")) return;
   const cur = img.getAttribute("src") || "";
+  if (!cur) return;
   const flat = flatPath(cur);
-  if (flat && !img.dataset.flat) {
+  if (flat && flat !== cur && !img.dataset.flat) {
     img.dataset.flat = "1";
     img.src = flat;
     return true;
   }
-  if (img.dataset.ph && !img.dataset.phDone) {
+  if (!img.dataset.phDone) {
     img.dataset.phDone = "1";
-    img.src = placeholder(img.dataset.ph, +img.dataset.phSeed || 0);
+    img.src = placeholder(img.dataset.ph || img.alt || "Image unavailable", +img.dataset.phSeed || 0);
+    return true;
   }
 }
 document.addEventListener("error", (e) => { if (imgFailed(e.target)) e.stopPropagation(); }, true);
@@ -323,6 +343,24 @@ function withFallback(img, label, seed) {
   img.dataset.ph = label;
   img.dataset.phSeed = seed;
 }
+function setImageSource(img, src, label, seed = 0) {
+  img.removeAttribute("data-flat");
+  img.removeAttribute("data-ph-done");
+  img.alt = label;
+  withFallback(img, label, seed);
+  img.src = src;
+}
+function closeDialog(dialog) {
+  if (typeof dialog.close === "function") dialog.close();
+  else dialog.removeAttribute("open");
+}
+$$(".img-slot").forEach((slot) => {
+  const img = $("img", slot);
+  if (!img || !(img.getAttribute("src") || "").trim()) return;
+  if (!img.alt) img.alt = "Additional artwork";
+  withFallback(img, img.alt, 0);
+  slot.classList.add("has-image");
+});
 
 /* ---------- 3) THEME + NAV ---------- */
 const root = document.documentElement;
@@ -352,7 +390,7 @@ links.addEventListener("click", (e) => {
 });
 
 // Reveal on scroll
-const revealObserver = new IntersectionObserver(
+const revealObserver = createObserver(
   (entries) => {
     entries.forEach((en) => {
       if (en.isIntersecting) {
@@ -366,7 +404,7 @@ const revealObserver = new IntersectionObserver(
 $$(".reveal").forEach((el) => revealObserver.observe(el));
 
 // Count-up numbers
-const countObserver = new IntersectionObserver((entries) => {
+const countObserver = createObserver((entries) => {
   entries.forEach((en) => {
     if (!en.isIntersecting) return;
     const el = en.target,
@@ -388,7 +426,7 @@ const countObserver = new IntersectionObserver((entries) => {
 $$("[data-count]").forEach((el) => countObserver.observe(el));
 
 /* ---------- 4) TYPED HEADINGS ---------- */
-const typeObserver = new IntersectionObserver(
+const typeObserver = createObserver(
   (entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
@@ -418,7 +456,11 @@ $$("[data-typed]").forEach((el) => {
   tmp.innerHTML = el.dataset.typed;
   el.dataset.typed = tmp.value;
   el.setAttribute("aria-label", tmp.value);
-  typeObserver.observe(el);
+  if (typeof window.IntersectionObserver === "function") typeObserver.observe(el);
+  else {
+    el.textContent = el.dataset.typed;
+    el.classList.add("done");
+  }
 });
 
 /* ---------- 5) GALLERY (slides of 9) ---------- */
@@ -662,10 +704,11 @@ $$(".shop-row[data-products]").forEach((row) => {
     card.className = "prod " + (BOTH ? "framed" : row.dataset.products || "") + (tall ? " tall" : "");
     let V = SHOP_VARIANTS[BOTH ? "framed" : row.dataset.products] || SHOP_VARIANTS.framed;
     const img = new Image();
-    img.src = a.src;
     img.alt = a.title;
     img.loading = "lazy";
-    img.addEventListener("click", () => openLightbox(a.src, a.title));
+    withFallback(img, a.title, cards.length + 1);
+    img.src = a.src;
+    img.addEventListener("click", () => openLightbox(img.getAttribute("src") || a.src, a.title));
     const name = document.createElement("h4");
     name.textContent = driver;
     const typeSel = document.createElement("select");
@@ -704,7 +747,7 @@ $$(".shop-row[data-products]").forEach((row) => {
     typeSel.addEventListener("change", refresh);
     order.addEventListener("click", (e) => {
       e.preventDefault();
-      openOrder(driver, a.src, current());
+      openOrder(driver, img.getAttribute("src") || a.src, current());
     });
     refresh();
     buy.append(price, order);
@@ -715,12 +758,14 @@ $$(".shop-row[data-products]").forEach((row) => {
   pager.className = "pager prod-pager";
   pager.innerHTML = '<button class="arrow" aria-label="Previous slide">←</button><span>Slide 1 / 1</span><button class="arrow" aria-label="Next slide">→</button>';
   const [prevB, , nextB] = pager.children, countEl = pager.children[1];
-  const mq = window.matchMedia("(max-width: 900px)");
+  const mq = window.matchMedia
+    ? window.matchMedia("(max-width: 900px)")
+    : { matches: window.innerWidth <= 900 };
   let pg = 0;
   const draw = () => {
     const per = mq.matches ? 2 : 4, total = Math.max(1, Math.ceil(cards.length / per));
     pg = (pg + total) % total;
-    list.replaceChildren(...cards.slice(pg * per, pg * per + per));
+    replaceChildrenCompat(list, ...cards.slice(pg * per, pg * per + per));
     list.classList.remove("slide-in");
     void list.offsetWidth;
     list.classList.add("slide-in");
@@ -728,7 +773,9 @@ $$(".shop-row[data-products]").forEach((row) => {
   };
   prevB.onclick = () => { pg--; draw(); };
   nextB.onclick = () => { pg++; draw(); };
-  if (mq.addEventListener) mq.addEventListener("change", () => { pg = 0; draw(); });
+  const onBreakpointChange = () => { pg = 0; draw(); };
+  if (mq.addEventListener) mq.addEventListener("change", onBreakpointChange);
+  else if (mq.addListener) mq.addListener(onBreakpointChange);
   draw();
   row.append(h3, list, pager);
 });
@@ -782,7 +829,7 @@ function openOrder(driver, src, V) {
     };
     const showPay = () => {
       const p = PAYMENT[f.pay.value], box = $(".od-pay", f);
-      box.replaceChildren();
+      replaceChildrenCompat(box);
       const add = (k, v) => { const r = document.createElement("div"); r.innerHTML = "<span></span><b></b>"; r.firstChild.textContent = k; r.lastChild.textContent = v; box.append(r); };
       const h = document.createElement("strong"); h.textContent = "Payment details"; box.append(h);
       if (!p) { const t = document.createElement("p"); t.textContent = "Pay in cash when you pick up your order. I'll confirm the pick-up details by message."; box.append(t); return; }
@@ -798,8 +845,8 @@ function openOrder(driver, src, V) {
     f.phone.addEventListener("input", showPay);
     orderDlg._showPay = showPay;
     f.addEventListener("input", () => { $(".od-err", f).textContent = ""; });
-    $(".od-x", f).onclick = () => orderDlg.close();
-    orderDlg.addEventListener("click", (e) => { if (e.target === orderDlg) orderDlg.close(); });
+    $(".od-x", f).onclick = () => closeDialog(orderDlg);
+    orderDlg.addEventListener("click", (e) => { if (e.target === orderDlg) closeDialog(orderDlg); });
     $$(".od-qty button", f).forEach((b) => (b.onclick = () => {
       f.qty.value = Math.min(10, Math.max(1, +f.qty.value + +b.dataset.d));
       total();
@@ -853,7 +900,7 @@ function openOrder(driver, src, V) {
   $(".od-head p", f).innerHTML = V.lines.join(" · ") + "<br>" + peso(V.unit) + " each<br>Code: " + V.code;
   orderDlg.dataset.driver = driver;
   $("h3", f).textContent = driver;
-  $(".od-head img", f).src = src;
+  setImageSource($(".od-head img", f), src, driver);
   f.qty.value = 1;
   $(".od-done", f).hidden = true;
   $(".od-send", f).hidden = false;
@@ -886,15 +933,14 @@ $$(".shop-row").forEach((row) => {
 // Lightbox
 const lb = $("#lightbox");
 function openLightbox(src, title) {
-  $("#lbImg").src = src;
-  $("#lbImg").alt = title;
+  setImageSource($("#lbImg"), src, title);
   $("#lbCap").textContent = title;
   if (lb.showModal) lb.showModal();
   else lb.setAttribute("open", "");
 }
-$("#lbClose").onclick = () => lb.close();
+$("#lbClose").onclick = () => closeDialog(lb);
 lb.addEventListener("click", (e) => {
-  if (e.target === lb) lb.close();
+  if (e.target === lb) closeDialog(lb);
 });
 
 // Sketchbook strip (the sliding pictures in the yellow band)
@@ -1063,7 +1109,7 @@ $("#year").textContent = new Date().getFullYear();
         : n >= 1e4
           ? (n / 1e3).toFixed(n >= 1e5 ? 0 : 1).replace(/\.0$/, "") + "K"
           : n.toLocaleString("en-US");
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduce = reduceMotion;
   const shown = new WeakMap();
   function setNum(el, to) {
     const from =
@@ -1378,5 +1424,5 @@ $$(".th-card img").forEach((img) => {
 
 /* ---------- Lightbox: Esc always closes ---------- */
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && lb && lb.open) lb.close();
+  if (e.key === "Escape" && lb && lb.open) closeDialog(lb);
 });

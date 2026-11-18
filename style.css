@@ -281,9 +281,11 @@ main,
   position: relative;
 }
 .band {
+  background: var(--bg-2);
   background: color-mix(in srgb, var(--bg-2) 85%, transparent);
 }
 :root[data-theme="dark"] .band {
+  background: var(--bg-2);
   background: color-mix(in srgb, var(--bg-2) 88%, transparent);
 }
 .eyebrow {
@@ -2031,6 +2033,7 @@ h2:has(+ .lead) {
   text-align: center;
   gap: 10px;
   padding: 24px;
+  background: var(--bg-2);
   background: repeating-linear-gradient(
     115deg,
     color-mix(in srgb, var(--yellow) 55%, var(--bg)) 0 38px,
@@ -2451,6 +2454,7 @@ body,
   content: "";
   flex: 1;
   height: 1px;
+  background: var(--line);
   background: color-mix(in srgb, var(--ink) 22%, transparent);
 }
 .shop-list {
@@ -2577,6 +2581,7 @@ body,
   padding: 22px 20px 20px;
   border: 2px solid currentColor;
   border-radius: 18px;
+  background: var(--card);
   background: color-mix(in srgb, currentColor 7%, transparent);
 }
 .step:not(:last-child)::after {
@@ -2720,10 +2725,10 @@ body,
 .od-head h3{margin:0 0 4px;font-size:1.1rem}
 .od-head p{margin:0;font-size:.8rem;opacity:.8}
 .order-form label{display:flex;flex-direction:column;gap:5px;font-size:.78rem;font-weight:600}
-.order-form input,.order-form textarea,.order-form select{font:400 .95rem/1.3 "Inter",sans-serif;padding:10px 12px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;background:color-mix(in srgb,var(--bg,#fff) 70%,#fff);color:inherit;width:100%;box-sizing:border-box}
+.order-form input,.order-form textarea,.order-form select{font:400 .95rem/1.3 "Inter",sans-serif;padding:10px 12px;border:1px solid var(--line,rgba(81,35,35,.3));border-color:color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;background:var(--bg,#fff);background:color-mix(in srgb,var(--bg,#fff) 70%,#fff);color:inherit;width:100%;box-sizing:border-box}
 .od-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .od-qty{display:flex;align-items:stretch;gap:6px}
-.od-qty button{width:38px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;background:none;color:inherit;font-size:1.1rem;cursor:pointer}
+.od-qty button{width:38px;border:1px solid var(--line,rgba(81,35,35,.3));border-color:color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;background:none;color:inherit;font-size:1.1rem;cursor:pointer}
 .od-qty input{text-align:center;padding:10px 0}
 .od-total{margin:2px 0 0;font:700 1.1rem/1 "Inter",sans-serif}
 .od-err{margin:0;color:#b3261e;font-size:.82rem;min-height:1em}
@@ -2773,9 +2778,9 @@ body,
 #designGrid[data-layout="m2"] .art:nth-child(6){grid-column:9/13;grid-row:6/11}
 }
 
-.prod-size{font:600 .8rem/1.2 "Inter",sans-serif;padding:8px 10px;margin:0 0 8px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;background:color-mix(in srgb,var(--bg,#fff) 70%,#fff);color:inherit;width:100%;box-sizing:border-box;cursor:pointer}
+.prod-size{font:600 .8rem/1.2 "Inter",sans-serif;padding:8px 10px;margin:0 0 8px;border:1px solid var(--line,rgba(81,35,35,.3));border-color:color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;background:var(--bg,#fff);background:color-mix(in srgb,var(--bg,#fff) 70%,#fff);color:inherit;width:100%;box-sizing:border-box;cursor:pointer}
 
-.od-pay{border:1px dashed color-mix(in srgb,currentColor 45%,transparent);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;font-size:.85rem}
+.od-pay{border:1px dashed var(--line,rgba(81,35,35,.3));border-color:color-mix(in srgb,currentColor 45%,transparent);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;font-size:.85rem}
 .od-pay strong{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
 .od-pay p{margin:0}
 .od-pay div{display:flex;justify-content:space-between;gap:12px}
@@ -2826,8 +2831,9 @@ body,
 .prod .code-tag { top: 14px; left: 14px; }
 .prod-code { font-weight: 700; letter-spacing: 0.06em; opacity: 0.85; }
 
-/* Extra image slot: hidden until the src is filled in */
-.img-slot:has(img[src=""]), .img-slot:not(:has(img[src])) { display: none; }
+/* Extra image slot: enabled by JavaScript only when the image path is set */
+.img-slot { display: none; }
+.img-slot.has-image { display: block; }
 .slot-fig { margin: 0; text-align: center; }
 .slot-fig img { max-width: 100%; height: auto; border-radius: 14px; box-shadow: 0 10px 30px rgba(81,35,35,.18); }
 
