@@ -10,7 +10,7 @@
 // If a file is missing, a colorful placeholder is shown instead.
 // "pos" = which part of the picture stays visible inside the frame (CSS object-position).
 // Click any picture to see the whole drawing in the lightbox.
-const ARTWORKS = [
+const ARTWORKS_BUILTIN = [
   // slide 1: small, TALL, WIDE / small, small, small / small, small, WIDE
   {
     cat: "anime",
@@ -244,6 +244,8 @@ const ARTWORKS = [
     pos: "50% 48%",
   },
 ];
+/* Picture database: data/database.js (loaded before this file). Falls back to the built-in list above. */
+const ARTWORKS = window.DB && Array.isArray(window.DB.artworks) && window.DB.artworks.length ? window.DB.artworks : ARTWORKS_BUILTIN;
 
 // Tabs with no pictures yet show a "Coming soon" card instead
 const COMING_SOON = {
@@ -535,7 +537,7 @@ function makeArt(a, seed, delay, focusable) {
   name.textContent = a.title;
   cap.append(kind, name);
   fig.append(img, cap);
-  const code = codeOf(a.src, a.cat);
+  const code = a.code || codeOf(a.src, a.cat);
   if (code) {
     fig.dataset.code = code;
     fig.append(codeTag(code));
@@ -626,12 +628,13 @@ $("#dNext").onclick = () => { dPage++; renderDesign(); };
 if (designGrid.dataset.n || $("#dCount").tagName) renderDesign();
 
 // Shop: framed F1 driver posters. Edit sizes, frame sizes and prices here.
-const SHOP_SIZES = [
-  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 530, framed: 900 },
-  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 600, framed: 1420 },
+const SHOP_SIZES_BUILTIN = [
+  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 530, framed: 930 },
+  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 620, framed: 1400 },
   { id: "Letter", dims: "8.5 × 11 in", frame: "Frame 10 × 13 in", print: 720, framed: 1650 },
   { id: "A3", dims: "11.7 × 16.5 in", frame: "Frame 12 × 17 in", print: 950, framed: 2000 },
 ];
+const SHOP_SIZES = window.DB && Array.isArray(window.DB.shopSizes) && window.DB.shopSizes.length ? window.DB.shopSizes : SHOP_SIZES_BUILTIN;
 const SHOP_VARIANTS = {
   framed: { name: "framed poster", label: "Framed poster", key: "framed" },
   print: { name: "poster print (no frame)", label: "Poster print", key: "print" },
@@ -654,7 +657,7 @@ $$(".shop-row[data-products]").forEach((row) => {
     const tall = isTop(a);
     const driver = a.title.replace(", ", " · ").replace(/ F1 (driver )?poster/, "") + (tall ? " · Car view" : "");
     const card = document.createElement("article");
-    const baseCode = codeOf(a.src, a.cat);
+    const baseCode = a.code || codeOf(a.src, a.cat);
     card.dataset.code = baseCode;
     card.className = "prod " + (BOTH ? "framed" : row.dataset.products || "") + (tall ? " tall" : "");
     let V = SHOP_VARIANTS[BOTH ? "framed" : row.dataset.products] || SHOP_VARIANTS.framed;

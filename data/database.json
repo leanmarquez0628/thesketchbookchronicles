@@ -1,0 +1,477 @@
+{
+ "updated": "2026-11-18",
+ "artworks": [
+  {
+   "code": "AN-03",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-03.jpg",
+   "title": "Roronoa Zoro, One Piece",
+   "pos": "50% 32%"
+  },
+  {
+   "code": "AN-04",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-04.jpg",
+   "title": "Bruno Bucciarati, JoJo's Bizarre Adventure",
+   "pos": "42% 30%"
+  },
+  {
+   "code": "PT-02",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-02.jpg",
+   "title": "Portrait No. 1",
+   "pos": "50% 40%"
+  },
+  {
+   "code": "PT-05",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-05.jpg",
+   "title": "Portrait No. 2",
+   "pos": "35% 38%"
+  },
+  {
+   "code": "AN-10",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-10.jpg",
+   "title": "All Might, My Hero Academia",
+   "pos": "55% 35%"
+  },
+  {
+   "code": "AN-06",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-06.jpg",
+   "title": "Madara Uchiha, Naruto",
+   "pos": "50% 28%"
+  },
+  {
+   "code": "AN-01",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-01.jpg",
+   "title": "JoJo Bizzare Adventure, Joestar Family",
+   "pos": "45% 40%"
+  },
+  {
+   "code": "PT-12",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-12.jpg",
+   "title": "Portrait No. 3",
+   "pos": "50% 25%"
+  },
+  {
+   "code": "PT-16",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-16.jpg",
+   "title": "Portrait No. 4",
+   "pos": "50% 55%"
+  },
+  {
+   "code": "AN-11",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-11.jpg",
+   "title": "Jotaro Kujo, JoJo's Bizarre Adventure",
+   "pos": "50% 30%"
+  },
+  {
+   "code": "PT-17",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-17.jpg",
+   "title": "Portrait No. 5",
+   "pos": "45% 30%"
+  },
+  {
+   "code": "PT-14",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-14.jpg",
+   "title": "Portrait No. 6",
+   "pos": "50% 40%"
+  },
+  {
+   "code": "AN-13",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-13.jpg",
+   "title": "Sanji Vinsmoke, One Piece",
+   "pos": "50% 38%"
+  },
+  {
+   "code": "PT-09",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-09.jpg",
+   "title": "Portrait No. 8",
+   "pos": "50% 30%"
+  },
+  {
+   "code": "AN-22",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-22.jpg",
+   "title": "Nezuko Kamado, Demon Slayer",
+   "pos": "50% 38%"
+  },
+  {
+   "code": "PT-19",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-19.jpg",
+   "title": "Portrait No. 10",
+   "pos": "50% 38%"
+  },
+  {
+   "code": "AN-23",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-23.jpg",
+   "title": "Keisuke Baji, Tokyo Revengers",
+   "pos": "50% 38%"
+  },
+  {
+   "code": "PT-20",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-20.jpg",
+   "title": "Portrait No. 12",
+   "pos": "50% 35%"
+  },
+  {
+   "code": "AN-34",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-34.jpg",
+   "title": "Monkey D. Luffy, Gear 5, One Piece",
+   "pos": "50% 40%"
+  },
+  {
+   "code": "AN-35",
+   "cat": "anime",
+   "src": "images/gallery/anime/art-35.jpg",
+   "title": "Giorno Giovanna, JoJo's Bizarre Adventure: Golden Wind",
+   "pos": "50% 35%"
+  },
+  {
+   "code": "PT-38",
+   "cat": "portrait",
+   "src": "images/gallery/portrait/art-38.jpg",
+   "title": "Portrait No. 14",
+   "pos": "50% 40%"
+  },
+  {
+   "code": "F1-01",
+   "cat": "design",
+   "src": "images/design/design-1.jpg",
+   "title": "Lewis Hamilton, Ferrari F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-02",
+   "cat": "design",
+   "src": "images/design/design-2.jpg",
+   "title": "Max Verstappen, Red Bull F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-03",
+   "cat": "design",
+   "src": "images/design/design-3.jpg",
+   "title": "Lando Norris, McLaren F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-04",
+   "cat": "design",
+   "src": "images/design/design-4.jpg",
+   "title": "George Russell, Mercedes F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-05",
+   "cat": "design",
+   "src": "images/design/design-5.jpg",
+   "title": "Charles Leclerc, Ferrari F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-06",
+   "cat": "design",
+   "src": "images/design/design-6.jpg",
+   "title": "Nico Hulkenberg, Audi F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-07",
+   "cat": "design",
+   "src": "images/design/design-7.jpg",
+   "title": "Kimi Antonelli, Mercedes F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-08",
+   "cat": "design",
+   "src": "images/design/design-8.jpg",
+   "title": "Oscar Piastri, McLaren F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-09",
+   "cat": "design",
+   "src": "images/design/design-9.jpg",
+   "title": "Isack Hadjar, Red Bull F1 poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-10",
+   "cat": "design",
+   "src": "images/design/design-10.jpg",
+   "title": "Lewis Hamilton, Ferrari F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-11",
+   "cat": "design",
+   "src": "images/design/design-11.jpg",
+   "title": "Max Verstappen, Red Bull F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-12",
+   "cat": "design",
+   "src": "images/design/design-12.jpg",
+   "title": "Lando Norris, McLaren F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-13",
+   "cat": "design",
+   "src": "images/design/design-13.jpg",
+   "title": "Charles Leclerc, Ferrari F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-14",
+   "cat": "design",
+   "src": "images/design/design-14.jpg",
+   "title": "Oscar Piastri, McLaren F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-15",
+   "cat": "design",
+   "src": "images/design/design-15.jpg",
+   "title": "George Russell, Mercedes F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-16",
+   "cat": "design",
+   "src": "images/design/design-16.jpg",
+   "title": "Kimi Antonelli, Mercedes F1 driver poster",
+   "pos": "50% 48%"
+  },
+  {
+   "code": "F1-17",
+   "cat": "design",
+   "src": "images/design/design-17.jpg",
+   "title": "Fernando Alonso, Aston Martin F1 driver poster",
+   "pos": "50% 48%"
+  }
+ ],
+ "shopSizes": [
+  {
+   "id": "A5",
+   "dims": "5.8 × 8.3 in",
+   "frame": "Frame 6 × 8 in",
+   "print": 530,
+   "framed": 930
+  },
+  {
+   "id": "A4",
+   "dims": "8.3 × 11.7 in",
+   "frame": "Frame 9 × 12 in",
+   "print": 620,
+   "framed": 1400
+  },
+  {
+   "id": "Letter",
+   "dims": "8.5 × 11 in",
+   "frame": "Frame 10 × 13 in",
+   "print": 720,
+   "framed": 1650
+  },
+  {
+   "id": "A3",
+   "dims": "11.7 × 16.5 in",
+   "frame": "Frame 12 × 17 in",
+   "print": 950,
+   "framed": 2000
+  }
+ ],
+ "blog": [
+  {
+   "code": "IG-01",
+   "platform": "Instagram",
+   "src": "images/social/instagram/ig-1.jpg",
+   "alt": "Street scene with a railing"
+  },
+  {
+   "code": "IG-02",
+   "platform": "Instagram",
+   "src": "images/social/instagram/ig-2.jpg",
+   "alt": "She inspired me to start drawing again"
+  },
+  {
+   "code": "IG-03",
+   "platform": "Instagram",
+   "src": "images/social/instagram/ig-3.jpg",
+   "alt": "Sketchbook portraits"
+  },
+  {
+   "code": "IG-04",
+   "platform": "Instagram",
+   "src": "images/social/instagram/ig-4.jpg",
+   "alt": "Lost in the lines, found in the sketch"
+  },
+  {
+   "code": "IG-05",
+   "platform": "Instagram",
+   "src": "images/social/instagram/ig-5.jpg",
+   "alt": "Every stroke tells a story"
+  },
+  {
+   "code": "IG-06",
+   "platform": "Instagram",
+   "src": "images/social/instagram/ig-6.jpg",
+   "alt": "Pencils and a fineliner on the sketchbook"
+  },
+  {
+   "code": "TT-01",
+   "platform": "TikTok",
+   "src": "images/social/tiktok/tt-1.jpg",
+   "alt": "Pencil portrait with a scarf"
+  },
+  {
+   "code": "TT-02",
+   "platform": "TikTok",
+   "src": "images/social/tiktok/tt-2.jpg",
+   "alt": "Sketchbook portraits"
+  },
+  {
+   "code": "TT-03",
+   "platform": "TikTok",
+   "src": "images/social/tiktok/tt-3.jpg",
+   "alt": "May your tomorrow be brighter than today"
+  },
+  {
+   "code": "TT-04",
+   "platform": "TikTok",
+   "src": "images/social/tiktok/tt-4.jpg",
+   "alt": "Every stroke tells a story"
+  },
+  {
+   "code": "TT-05",
+   "platform": "TikTok",
+   "src": "images/social/tiktok/tt-5.jpg",
+   "alt": "Lewis Hamilton, Ferrari poster"
+  },
+  {
+   "code": "TT-06",
+   "platform": "TikTok",
+   "src": "images/social/tiktok/tt-6.jpg",
+   "alt": "Pencils and a fineliner on the sketchbook"
+  },
+  {
+   "code": "TH-01",
+   "platform": "Threads",
+   "src": "images/social/tiktok/tt-3.jpg",
+   "alt": "Random Drawing"
+  },
+  {
+   "code": "TH-02",
+   "platform": "Threads",
+   "src": "images/design/design-10.jpg",
+   "alt": "F1 poster design, Lewis Hamilton"
+  },
+  {
+   "code": "TH-03",
+   "platform": "Threads",
+   "src": "images/social/threads/th-jojo.jpg",
+   "alt": "Complete process of drawing JoJo's Bizarre Adventure: Steel Ball Run…"
+  },
+  {
+   "code": "FB-P01",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-photo-1.jpg",
+   "alt": "Gyro Zeppeli ink drawing, photo 1"
+  },
+  {
+   "code": "FB-P02",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-photo-2.jpg",
+   "alt": "Gyro Zeppeli ink drawing, photo 2"
+  },
+  {
+   "code": "FB-P03",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-photo-3.jpg",
+   "alt": "Gyro Zeppeli ink drawing, photo 3"
+  },
+  {
+   "code": "FB-P04",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-photo-4.jpg",
+   "alt": "Gyro Zeppeli ink drawing, photo 4"
+  },
+  {
+   "code": "FB-P05",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-photo-5.jpg",
+   "alt": "Gyro Zeppeli ink drawing, photo 5"
+  },
+  {
+   "code": "FB-P06",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-photo-6.jpg",
+   "alt": "Gyro Zeppeli ink drawing, photo 6"
+  },
+  {
+   "code": "FB-R01",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-reel-1.jpg",
+   "alt": "Lost in the lines, found in the sketch"
+  },
+  {
+   "code": "FB-R02",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-reel-2.jpg",
+   "alt": "Every stroke tells a story"
+  },
+  {
+   "code": "FB-R03",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-reel-3.jpg",
+   "alt": "Drawing freely, growing daily, living peacefully"
+  },
+  {
+   "code": "FB-R04",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-reel-4.jpg",
+   "alt": "Pencil in hand, screaming internally, trusting the process"
+  },
+  {
+   "code": "FB-R05",
+   "platform": "Facebook",
+   "src": "images/social/facebook/fb-reel-5.jpg",
+   "alt": "A quiet dream of you"
+  },
+  {
+   "code": "YT-01",
+   "platform": "YouTube",
+   "src": "images/social/youtube/yt-short-1.jpg",
+   "alt": "Every stroke tells a story."
+  },
+  {
+   "code": "YT-02",
+   "platform": "YouTube",
+   "src": "images/social/youtube/yt-short-2.jpg",
+   "alt": "A quiet dream of you."
+  },
+  {
+   "code": "YT-03",
+   "platform": "YouTube",
+   "src": "images/social/youtube/yt-short-3.jpg",
+   "alt": "Pencil in hand, screaming internally, trusting the process"
+  }
+ ]
+}

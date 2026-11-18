@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Picture Database | The Sketchbook Chronicles</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <style>
+    :root { --bg:#f4efe9; --card:#fff; --ink:#3a1c1c; --mut:#7a5a5a; --line:#dccfc4; --acc:#7a3347; --acc2:#c09f80; --ok:#2d7a4f; --bad:#b3261e; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#1d1010; --card:#2a1717; --ink:#f3e8dc; --mut:#c9aea0; --line:#4a2c2c; --acc:#d98aa0; --acc2:#c09f80; --ok:#6fcf97; --bad:#ff8a80; } }
+    :root[data-theme="dark"] { --bg:#1d1010; --card:#2a1717; --ink:#f3e8dc; --mut:#c9aea0; --line:#4a2c2c; --acc:#d98aa0; --acc2:#c09f80; --ok:#6fcf97; --bad:#ff8a80; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+    h1 { font-size: 1.6rem; margin: 0 0 4px; }
+    p.sub { color: var(--mut); margin: 0 0 18px; }
+    .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+    input, select, button { font: inherit; color: inherit; }
+    input, select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); min-width: 0; }
+    button { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); cursor: pointer; }
+    button.primary { background: var(--acc); border-color: var(--acc); color: #fff; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid var(--acc2); outline-offset: 2px; }
+    .stat { color: var(--mut); font-size: .85rem; margin-left: auto; }
+    .note { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); margin-bottom: 14px; font-size: .9rem; }
+    .note.warn { border-color: var(--acc2); }
+    .tbl { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .row { display: grid; grid-template-columns: 70px 64px 110px 1fr 1.2fr 110px; gap: 10px; align-items: center; padding: 8px 12px; border-top: 1px solid var(--line); }
+    .row.head { border-top: 0; background: color-mix(in srgb, var(--acc2) 18%, transparent); font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+    .row img { width: 48px; height: 60px; object-fit: cover; border-radius: 6px; background: var(--line); display: block; }
+    .code { font-weight: 700; letter-spacing: .06em; }
+    .file { color: var(--mut); font-size: .8rem; overflow-wrap: anywhere; }
+    .acts { display: flex; gap: 6px; justify-content: flex-end; }
+    .acts button { padding: 4px 10px; font-size: .8rem; }
+    .acts .del { color: var(--bad); }
+    dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); padding: 18px; width: min(460px, 94vw); }
+    dialog::backdrop { background: rgba(0,0,0,.5); }
+    dialog label { display: block; margin: 10px 0 0; font-size: .82rem; color: var(--mut); }
+    dialog input, dialog select { width: 100%; margin-top: 4px; color: var(--ink); }
+    .msg { min-height: 1.2em; font-size: .85rem; margin-top: 8px; }
+    .msg.ok { color: var(--ok); } .msg.bad { color: var(--bad); }
+    .empty { padding: 26px; text-align: center; color: var(--mut); }
+    @media (max-width: 760px) {
+      .row { grid-template-columns: 56px 1fr auto; }
+      .row .c-cat, .row .c-file, .row.head { display: none; }
+      .row .c-title { grid-column: 2; }
+      .row .acts { grid-column: 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Picture database</h1>
+    <p class="sub">Every picture on the site with its unique code. <a href="index.html">Back to the site</a></p>
+
+    <div class="note" id="mode">Loading&hellip;</div>
+
+    <div class="bar">
+      <input id="q" type="search" placeholder="Search code, title or file" aria-label="Search" />
+      <select id="fcat" aria-label="Filter by group">
+        <option value="">All groups</option>
+        <option value="anime">Anime fan art (AN)</option>
+        <option value="portrait">Pencil portrait (PT)</option>
+        <option value="design">F1 poster (F1)</option>
+        <option value="painting">Painting (PA)</option>
+        <option value="digital">Digital (DG)</option>
+        <option value="blog">Blog (IG, TT, TH, FB, YT)</option>
+      </select>
+      <button id="add" class="primary" disabled>+ Add picture</button>
+      <button id="seed" disabled>Fill from site list</button>
+      <button id="exp" disabled>Download database.js</button>
+      <span class="stat" id="stat"></span>
+    </div>
+
+    <div class="tbl" id="tbl" aria-live="polite"></div>
+  </div>
+
+  <dialog id="dlg">
+    <form method="dialog" id="f">
+      <h2 id="dt" style="margin:0 0 4px;font-size:1.1rem">Picture</h2>
+      <label>Code (unique, e.g. AN-31)<input name="code" required pattern="[A-Z]{2}-?[A-Z]?[0-9]{2,3}" /></label>
+      <label>Group<select name="cat"><option value="anime">Anime fan art</option><option value="portrait">Pencil portrait</option><option value="design">F1 poster</option><option value="painting">Painting</option><option value="digital">Digital</option></select></label>
+      <label>Title<input name="title" required /></label>
+      <label>File path (e.g. images/gallery/anime/art-31.jpg)<input name="src" required /></label>
+      <label>Focus (CSS object-position)<input name="pos" value="50% 50%" /></label>
+      <div class="msg" id="fm" role="status"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+        <button type="button" id="cancel">Cancel</button>
+        <button type="submit" class="primary" id="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  // Built-in list (the same data the site reads); used as the starting rows and as the read-only fallback.
+  const BUILTIN = [{"code": "AN-03", "cat": "anime", "title": "Roronoa Zoro, One Piece", "src": "images/gallery/anime/art-03.jpg", "pos": "50% 32%"}, {"code": "AN-04", "cat": "anime", "title": "Bruno Bucciarati, JoJo's Bizarre Adventure", "src": "images/gallery/anime/art-04.jpg", "pos": "42% 30%"}, {"code": "PT-02", "cat": "portrait", "title": "Portrait No. 1", "src": "images/gallery/portrait/art-02.jpg", "pos": "50% 40%"}, {"code": "PT-05", "cat": "portrait", "title": "Portrait No. 2", "src": "images/gallery/portrait/art-05.jpg", "pos": "35% 38%"}, {"code": "AN-10", "cat": "anime", "title": "All Might, My Hero Academia", "src": "images/gallery/anime/art-10.jpg", "pos": "55% 35%"}, {"code": "AN-06", "cat": "anime", "title": "Madara Uchiha, Naruto", "src": "images/gallery/anime/art-06.jpg", "pos": "50% 28%"}, {"code": "AN-01", "cat": "anime", "title": "JoJo Bizzare Adventure, Joestar Family", "src": "images/gallery/anime/art-01.jpg", "pos": "45% 40%"}, {"code": "PT-12", "cat": "portrait", "title": "Portrait No. 3", "src": "images/gallery/portrait/art-12.jpg", "pos": "50% 25%"}, {"code": "PT-16", "cat": "portrait", "title": "Portrait No. 4", "src": "images/gallery/portrait/art-16.jpg", "pos": "50% 55%"}, {"code": "AN-11", "cat": "anime", "title": "Jotaro Kujo, JoJo's Bizarre Adventure", "src": "images/gallery/anime/art-11.jpg", "pos": "50% 30%"}, {"code": "PT-17", "cat": "portrait", "title": "Portrait No. 5", "src": "images/gallery/portrait/art-17.jpg", "pos": "45% 30%"}, {"code": "PT-14", "cat": "portrait", "title": "Portrait No. 6", "src": "images/gallery/portrait/art-14.jpg", "pos": "50% 40%"}, {"code": "AN-13", "cat": "anime", "title": "Sanji Vinsmoke, One Piece", "src": "images/gallery/anime/art-13.jpg", "pos": "50% 38%"}, {"code": "PT-09", "cat": "portrait", "title": "Portrait No. 8", "src": "images/gallery/portrait/art-09.jpg", "pos": "50% 30%"}, {"code": "AN-22", "cat": "anime", "title": "Nezuko Kamado, Demon Slayer", "src": "images/gallery/anime/art-22.jpg", "pos": "50% 38%"}, {"code": "PT-19", "cat": "portrait", "title": "Portrait No. 10", "src": "images/gallery/portrait/art-19.jpg", "pos": "50% 38%"}, {"code": "AN-23", "cat": "anime", "title": "Keisuke Baji, Tokyo Revengers", "src": "images/gallery/anime/art-23.jpg", "pos": "50% 38%"}, {"code": "PT-20", "cat": "portrait", "title": "Portrait No. 12", "src": "images/gallery/portrait/art-20.jpg", "pos": "50% 35%"}, {"code": "AN-34", "cat": "anime", "title": "Monkey D. Luffy, Gear 5, One Piece", "src": "images/gallery/anime/art-34.jpg", "pos": "50% 40%"}, {"code": "AN-35", "cat": "anime", "title": "Giorno Giovanna, JoJo's Bizarre Adventure: Golden Wind", "src": "images/gallery/anime/art-35.jpg", "pos": "50% 35%"}, {"code": "PT-38", "cat": "portrait", "title": "Portrait No. 14", "src": "images/gallery/portrait/art-38.jpg", "pos": "50% 40%"}, {"code": "F1-01", "cat": "design", "title": "Lewis Hamilton, Ferrari F1 poster", "src": "images/design/design-1.jpg", "pos": "50% 48%"}, {"code": "F1-02", "cat": "design", "title": "Max Verstappen, Red Bull F1 poster", "src": "images/design/design-2.jpg", "pos": "50% 48%"}, {"code": "F1-03", "cat": "design", "title": "Lando Norris, McLaren F1 poster", "src": "images/design/design-3.jpg", "pos": "50% 48%"}, {"code": "F1-04", "cat": "design", "title": "George Russell, Mercedes F1 poster", "src": "images/design/design-4.jpg", "pos": "50% 48%"}, {"code": "F1-05", "cat": "design", "title": "Charles Leclerc, Ferrari F1 poster", "src": "images/design/design-5.jpg", "pos": "50% 48%"}, {"code": "F1-06", "cat": "design", "title": "Nico Hulkenberg, Audi F1 poster", "src": "images/design/design-6.jpg", "pos": "50% 48%"}, {"code": "F1-07", "cat": "design", "title": "Kimi Antonelli, Mercedes F1 poster", "src": "images/design/design-7.jpg", "pos": "50% 48%"}, {"code": "F1-08", "cat": "design", "title": "Oscar Piastri, McLaren F1 poster", "src": "images/design/design-8.jpg", "pos": "50% 48%"}, {"code": "F1-09", "cat": "design", "title": "Isack Hadjar, Red Bull F1 poster", "src": "images/design/design-9.jpg", "pos": "50% 48%"}, {"code": "F1-10", "cat": "design", "title": "Lewis Hamilton, Ferrari F1 driver poster", "src": "images/design/design-10.jpg", "pos": "50% 48%"}, {"code": "F1-11", "cat": "design", "title": "Max Verstappen, Red Bull F1 driver poster", "src": "images/design/design-11.jpg", "pos": "50% 48%"}, {"code": "F1-12", "cat": "design", "title": "Lando Norris, McLaren F1 driver poster", "src": "images/design/design-12.jpg", "pos": "50% 48%"}, {"code": "F1-13", "cat": "design", "title": "Charles Leclerc, Ferrari F1 driver poster", "src": "images/design/design-13.jpg", "pos": "50% 48%"}, {"code": "F1-14", "cat": "design", "title": "Oscar Piastri, McLaren F1 driver poster", "src": "images/design/design-14.jpg", "pos": "50% 48%"}, {"code": "F1-15", "cat": "design", "title": "George Russell, Mercedes F1 driver poster", "src": "images/design/design-15.jpg", "pos": "50% 48%"}, {"code": "F1-16", "cat": "design", "title": "Kimi Antonelli, Mercedes F1 driver poster", "src": "images/design/design-16.jpg", "pos": "50% 48%"}, {"code": "F1-17", "cat": "design", "title": "Fernando Alonso, Aston Martin F1 driver poster", "src": "images/design/design-17.jpg", "pos": "50% 48%"}, {"code": "IG-01", "cat": "blog", "title": "Street scene with a railing", "src": "images/social/instagram/ig-1.jpg", "platform": "Instagram"}, {"code": "IG-02", "cat": "blog", "title": "She inspired me to start drawing again", "src": "images/social/instagram/ig-2.jpg", "platform": "Instagram"}, {"code": "IG-03", "cat": "blog", "title": "Sketchbook portraits", "src": "images/social/instagram/ig-3.jpg", "platform": "Instagram"}, {"code": "IG-04", "cat": "blog", "title": "Lost in the lines, found in the sketch", "src": "images/social/instagram/ig-4.jpg", "platform": "Instagram"}, {"code": "IG-05", "cat": "blog", "title": "Every stroke tells a story", "src": "images/social/instagram/ig-5.jpg", "platform": "Instagram"}, {"code": "IG-06", "cat": "blog", "title": "Pencils and a fineliner on the sketchbook", "src": "images/social/instagram/ig-6.jpg", "platform": "Instagram"}, {"code": "TT-01", "cat": "blog", "title": "Pencil portrait with a scarf", "src": "images/social/tiktok/tt-1.jpg", "platform": "TikTok"}, {"code": "TT-02", "cat": "blog", "title": "Sketchbook portraits", "src": "images/social/tiktok/tt-2.jpg", "platform": "TikTok"}, {"code": "TT-03", "cat": "blog", "title": "May your tomorrow be brighter than today", "src": "images/social/tiktok/tt-3.jpg", "platform": "TikTok"}, {"code": "TT-04", "cat": "blog", "title": "Every stroke tells a story", "src": "images/social/tiktok/tt-4.jpg", "platform": "TikTok"}, {"code": "TT-05", "cat": "blog", "title": "Lewis Hamilton, Ferrari poster", "src": "images/social/tiktok/tt-5.jpg", "platform": "TikTok"}, {"code": "TT-06", "cat": "blog", "title": "Pencils and a fineliner on the sketchbook", "src": "images/social/tiktok/tt-6.jpg", "platform": "TikTok"}, {"code": "TH-01", "cat": "blog", "title": "Random Drawing", "src": "images/social/tiktok/tt-3.jpg", "platform": "Threads"}, {"code": "TH-02", "cat": "blog", "title": "F1 poster design, Lewis Hamilton", "src": "images/design/design-10.jpg", "platform": "Threads"}, {"code": "TH-03", "cat": "blog", "title": "Complete process of drawing JoJo's Bizarre Adventure: Steel Ball Run…", "src": "images/social/threads/th-jojo.jpg", "platform": "Threads"}, {"code": "FB-P01", "cat": "blog", "title": "Gyro Zeppeli ink drawing, photo 1", "src": "images/social/facebook/fb-photo-1.jpg", "platform": "Facebook"}, {"code": "FB-P02", "cat": "blog", "title": "Gyro Zeppeli ink drawing, photo 2", "src": "images/social/facebook/fb-photo-2.jpg", "platform": "Facebook"}, {"code": "FB-P03", "cat": "blog", "title": "Gyro Zeppeli ink drawing, photo 3", "src": "images/social/facebook/fb-photo-3.jpg", "platform": "Facebook"}, {"code": "FB-P04", "cat": "blog", "title": "Gyro Zeppeli ink drawing, photo 4", "src": "images/social/facebook/fb-photo-4.jpg", "platform": "Facebook"}, {"code": "FB-P05", "cat": "blog", "title": "Gyro Zeppeli ink drawing, photo 5", "src": "images/social/facebook/fb-photo-5.jpg", "platform": "Facebook"}, {"code": "FB-P06", "cat": "blog", "title": "Gyro Zeppeli ink drawing, photo 6", "src": "images/social/facebook/fb-photo-6.jpg", "platform": "Facebook"}, {"code": "FB-R01", "cat": "blog", "title": "Lost in the lines, found in the sketch", "src": "images/social/facebook/fb-reel-1.jpg", "platform": "Facebook"}, {"code": "FB-R02", "cat": "blog", "title": "Every stroke tells a story", "src": "images/social/facebook/fb-reel-2.jpg", "platform": "Facebook"}, {"code": "FB-R03", "cat": "blog", "title": "Drawing freely, growing daily, living peacefully", "src": "images/social/facebook/fb-reel-3.jpg", "platform": "Facebook"}, {"code": "FB-R04", "cat": "blog", "title": "Pencil in hand, screaming internally, trusting the process", "src": "images/social/facebook/fb-reel-4.jpg", "platform": "Facebook"}, {"code": "FB-R05", "cat": "blog", "title": "A quiet dream of you", "src": "images/social/facebook/fb-reel-5.jpg", "platform": "Facebook"}, {"code": "YT-01", "cat": "blog", "title": "Every stroke tells a story.", "src": "images/social/youtube/yt-short-1.jpg", "platform": "YouTube"}, {"code": "YT-02", "cat": "blog", "title": "A quiet dream of you.", "src": "images/social/youtube/yt-short-2.jpg", "platform": "YouTube"}, {"code": "YT-03", "cat": "blog", "title": "Pencil in hand, screaming internally, trusting the process", "src": "images/social/youtube/yt-short-3.jpg", "platform": "YouTube"}];
+  let rows = BUILTIN.map((r) => ({ ...r }));
+  let dbRows = [], col = null, canWrite = false, dl = null, shared = false;
+
+  const render = () => {
+    const q = $("#q").value.trim().toLowerCase(), g = $("#fcat").value;
+    const list = rows.filter((r) => (!g || (g === "blog" ? r.cat === "blog" : r.cat === g)) && (!q || (r.code + " " + r.title + " " + r.src).toLowerCase().includes(q)))
+      .sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
+    $("#stat").textContent = list.length + " of " + rows.length + " pictures";
+    if (!list.length) { $("#tbl").innerHTML = '<div class="empty">No pictures match.</div>'; return; }
+    $("#tbl").innerHTML = '<div class="row head"><span>Picture</span><span>Code</span><span class="c-cat">Group</span><span>Title</span><span class="c-file">File</span><span></span></div>' +
+      list.map((r) => `<div class="row" data-code="${esc(r.code)}"><img src="${esc(r.src)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'" /><span class="code">${esc(r.code)}</span><span class="c-cat">${esc(r.cat)}</span><span class="c-title">${esc(r.title)}</span><span class="file c-file">${esc(r.src)}</span><span class="acts">${canWrite ? '<button data-a="edit">Edit</button><button class="del" data-a="del">Delete</button>' : ""}</span></div>`).join("");
+  };
+
+  const setMode = () => {
+    $("#mode").className = "note" + (shared ? "" : " warn");
+    $("#mode").textContent = shared
+      ? (canWrite ? "Online database connected. Changes you make here are saved and shared. Download database.js to put them on your live site (replace data/database.js on GitHub)." : "Online database connected (read only for your account).")
+      : "Read-only view of the site's picture list. Open this page inside the Claude preview to edit the online database.";
+    $("#add").disabled = !canWrite; $("#seed").disabled = !canWrite; $("#exp").disabled = !dl;
+  };
+
+  async function connect() {
+    try {
+      const db = window.claude && (await window.claude.use("db"));
+      dl = window.claude ? await window.claude.use("downloads") : null;
+      if (!db) { setMode(); render(); return; }
+      shared = true; col = db.collection("artworks");
+      const timer = setTimeout(() => { setMode(); render(); }, 10000);
+      col.onSnapshot((snap) => {
+        clearTimeout(timer);
+        dbRows = snap.docs.map((d) => ({ code: d.id, ...d.data() }));
+        rows = dbRows.length ? dbRows : BUILTIN.map((r) => ({ ...r }));
+        canWrite = true;
+        setMode(); render();
+      }, () => { clearTimeout(timer); shared = false; setMode(); render(); });
+    } catch (e) { setMode(); render(); }
+  }
+
+  const dlg = $("#dlg"), f = $("#f");
+  $("#add").onclick = () => { f.reset(); f.code.readOnly = false; $("#dt").textContent = "Add picture"; $("#fm").textContent = ""; dlg.showModal(); };
+  $("#cancel").onclick = () => dlg.close();
+  $("#tbl").addEventListener("click", async (e) => {
+    const b = e.target.closest("button[data-a]"); if (!b) return;
+    const code = b.closest(".row").dataset.code, r = rows.find((x) => x.code === code);
+    if (b.dataset.a === "edit") {
+      f.code.value = r.code; f.code.readOnly = true; f.cat.value = r.cat; f.title.value = r.title; f.src.value = r.src; f.pos.value = r.pos || "50% 50%";
+      $("#dt").textContent = "Edit " + r.code; $("#fm").textContent = ""; dlg.showModal();
+    } else if (confirm("Delete " + code + " from the database?")) {
+      try { await col.doc(code).delete(); } catch (err) { alert("Could not delete: " + (err.message || err.code)); }
+    }
+  });
+  f.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const d = { cat: f.cat.value, title: f.title.value.trim(), src: f.src.value.trim(), pos: f.pos.value.trim() || "50% 50%" };
+    const code = f.code.value.trim().toUpperCase();
+    if (!f.code.readOnly && rows.some((r) => r.code === code)) { $("#fm").className = "msg bad"; $("#fm").textContent = "That code already exists."; return; }
+    $("#save").disabled = true;
+    try { await col.doc(code).set(d); dlg.close(); } catch (err) { $("#fm").className = "msg bad"; $("#fm").textContent = "Could not save: " + (err.message || err.code); }
+    $("#save").disabled = false;
+  });
+  $("#seed").onclick = async () => {
+    if (!confirm("Add any missing pictures from the site's list to the online database?")) return;
+    $("#seed").disabled = true;
+    try { for (const r of BUILTIN) if (!dbRows.some((x) => x.code === r.code)) { const { code, ...d } = r; await col.doc(code).set(d); } } catch (err) { alert("Could not fill: " + (err.message || err.code)); }
+    $("#seed").disabled = !canWrite;
+  };
+  $("#exp").onclick = async () => {
+    const art = rows.filter((r) => r.cat !== "blog").map(({ code, cat, src, title, pos }) => ({ code, cat, src, title, pos: pos || "50% 50%" }));
+    const data = "/* Exported from the online picture database. Replace data/database.js on your site with this file. */\nwindow.DB = " + JSON.stringify({ updated: new Date().toISOString().slice(0, 10), artworks: art, shopSizes: [{"id": "A5", "dims": "5.8 × 8.3 in", "frame": "Frame 6 × 8 in", "print": 530, "framed": 930}, {"id": "A4", "dims": "8.3 × 11.7 in", "frame": "Frame 9 × 12 in", "print": 620, "framed": 1400}, {"id": "Letter", "dims": "8.5 × 11 in", "frame": "Frame 10 × 13 in", "print": 720, "framed": 1650}, {"id": "A3", "dims": "11.7 × 16.5 in", "frame": "Frame 12 × 17 in", "print": 950, "framed": 2000}], blog: rows.filter((r) => r.cat === "blog").map(({ code, platform, src, title }) => ({ code, platform, src, alt: title })) }, null, 1) + ";\n";
+    try { await dl.save({ filename: "database.js", data }); } catch (err) { if (err && err.code !== "declined") alert("Could not download: " + (err.message || err.code)); }
+  };
+  $("#q").addEventListener("input", render); $("#fcat").addEventListener("change", render);
+  setMode(); render(); connect();
+})();
+</script>
+</body>
+</html>
