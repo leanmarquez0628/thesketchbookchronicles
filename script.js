@@ -456,7 +456,7 @@ const items = () =>
   ARTWORKS.filter(
     (a) => a.cat !== "design" && (filter === "all" || a.cat === filter),
   );
-const GALLERY_PER = 16; // main gallery: 16 pictures per slide (47 pictures = 3 slides)
+const GALLERY_PER = 16; // main gallery: 16 pictures per slide
 const pages = () => Math.max(1, Math.ceil(items().length / GALLERY_PER));
 
 // Mosaic for big slides: 4 columns, blocks of up to 8 pictures (3 rows each), explicit placement so there are no holes.
@@ -486,6 +486,30 @@ function bigLayout(figs) {
 }
 
 // One framed picture tile (used by the gallery and by the Home layout 2)
+/* ---------- IMAGE CODES ----------
+   Every picture has a short code built from its file name, so you can say
+   "I like PT-05" or "order F1-14". Prefixes: AN anime, PT pencil portrait, IK ink,
+   F1 poster, PA painting, DG digital, IG Instagram, TT TikTok, FB Facebook,
+   TH Threads, YT YouTube. The full list is in IMAGE-CODES.txt. */
+const CODE_PREFIX = { anime: "AN", portrait: "PT", ink: "IK", design: "F1", painting: "PA", digital: "DG" };
+function codeOf(src, cat) {
+  const f = ((src || "").split("/").pop() || "").replace(/\.[a-z]+$/i, "");
+  let m;
+  if ((m = /^art-0*(\d+)$/.exec(f))) return (CODE_PREFIX[cat] || "AR") + "-" + m[1].padStart(2, "0");
+  if ((m = /^design-0*(\d+)$/.exec(f))) return "F1-" + m[1].padStart(2, "0");
+  if ((m = /^ig-0*(\d+)$/.exec(f))) return "IG-" + m[1].padStart(2, "0");
+  if ((m = /^tt-0*(\d+)$/.exec(f))) return "TT-" + m[1].padStart(2, "0");
+  if ((m = /^fb-photo-0*(\d+)$/.exec(f))) return "FB-P" + m[1].padStart(2, "0");
+  if ((m = /^fb-reel-0*(\d+)$/.exec(f))) return "FB-R" + m[1].padStart(2, "0");
+  if ((m = /^yt-short-0*(\d+)$/.exec(f))) return "YT-" + m[1].padStart(2, "0");
+  return "";
+}
+function codeTag(code) {
+  const t = document.createElement("span");
+  t.className = "code-tag";
+  t.textContent = code;
+  return t;
+}
 function makeArt(a, seed, delay, focusable) {
   const fig = document.createElement("figure");
   fig.className = "art";
@@ -511,7 +535,12 @@ function makeArt(a, seed, delay, focusable) {
   name.textContent = a.title;
   cap.append(kind, name);
   fig.append(img, cap);
-  const open = () => openLightbox(img.src, a.title);
+  const code = codeOf(a.src, a.cat);
+  if (code) {
+    fig.dataset.code = code;
+    fig.append(codeTag(code));
+  }
+  const open = () => openLightbox(img.src, (code ? code + " · " : "") + a.title);
   fig.addEventListener("click", open);
   if (focusable)
     fig.addEventListener("keydown", (e) => {
@@ -598,8 +627,8 @@ if (designGrid.dataset.n || $("#dCount").tagName) renderDesign();
 
 // Shop: framed F1 driver posters. Edit sizes, frame sizes and prices here.
 const SHOP_SIZES = [
-  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 530, framed: 930 },
-  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 620, framed: 1400 },
+  { id: "A5", dims: "5.8 × 8.3 in", frame: "Frame 6 × 8 in", print: 530, framed: 900 },
+  { id: "A4", dims: "8.3 × 11.7 in", frame: "Frame 9 × 12 in", print: 600, framed: 1420 },
   { id: "Letter", dims: "8.5 × 11 in", frame: "Frame 10 × 13 in", print: 720, framed: 1650 },
   { id: "A3", dims: "11.7 × 16.5 in", frame: "Frame 12 × 17 in", print: 950, framed: 2000 },
 ];
@@ -625,6 +654,8 @@ $$(".shop-row[data-products]").forEach((row) => {
     const tall = isTop(a);
     const driver = a.title.replace(", ", " · ").replace(/ F1 (driver )?poster/, "") + (tall ? " · Car view" : "");
     const card = document.createElement("article");
+    const baseCode = codeOf(a.src, a.cat);
+    card.dataset.code = baseCode;
     card.className = "prod " + (BOTH ? "framed" : row.dataset.products || "") + (tall ? " tall" : "");
     let V = SHOP_VARIANTS[BOTH ? "framed" : row.dataset.products] || SHOP_VARIANTS.framed;
     const img = new Image();
@@ -653,7 +684,7 @@ $$(".shop-row[data-products]").forEach((row) => {
     order.textContent = "Order";
     const current = () => {
       const z = SHOP_SIZES[+sel.value];
-      return { name: V.name, unit: z[V.key], lines: sizeLines(V, z), size: z.id };
+      return { name: V.name, unit: z[V.key], lines: sizeLines(V, z), size: z.id, code: baseCode + "-" + (V.key === "framed" ? "FR" : "PR") + "-" + z.id.toUpperCase() };
     };
     const refresh = () => {
       if (BOTH) {
@@ -662,9 +693,9 @@ $$(".shop-row[data-products]").forEach((row) => {
         card.classList.toggle("print", typeSel.value === "print");
       }
       const c = current();
-      meta.innerHTML = "<span>" + V.label + "</span>" + c.lines.map((l) => "<span>" + l + "</span>").join("");
+      meta.innerHTML = "<span>" + V.label + "</span>" + c.lines.map((l) => "<span>" + l + "</span>").join("") + '<span class="prod-code">Code: ' + c.code + "</span>";
       price.textContent = peso(c.unit);
-      order.href = "mailto:leanmarquez0628@yahoo.com?subject=" + encodeURIComponent("Order: " + driver + " " + V.name + " " + c.size) + "&body=" + encodeURIComponent("Hi Lean, I'd like to order the " + driver + " " + V.name + ", size " + c.size + " (" + peso(c.unit) + "). My name and delivery address:");
+      order.href = "mailto:leanmarquez0628@yahoo.com?subject=" + encodeURIComponent("Order " + c.code + ": " + driver + " " + V.name + " " + c.size) + "&body=" + encodeURIComponent("Hi Lean, I'd like to order " + c.code + " (the " + driver + " " + V.name + ", size " + c.size + ", " + peso(c.unit) + "). My name and delivery address:");
     };
     sel.addEventListener("change", refresh);
     typeSel.addEventListener("change", refresh);
@@ -674,7 +705,7 @@ $$(".shop-row[data-products]").forEach((row) => {
     });
     refresh();
     buy.append(price, order);
-    card.append(img, name, ...(BOTH ? [typeSel] : []), sel, meta, buy);
+    card.append(img, codeTag(baseCode), name, ...(BOTH ? [typeSel] : []), sel, meta, buy);
     cards.push(card);
   });
   const pager = document.createElement("div");
@@ -781,6 +812,7 @@ function openOrder(driver, src, V) {
       const q = +f.qty.value, d = orderDlg.dataset.driver;
       const text = [
         "NEW ORDER, The Sketchbook Chronicles",
+        "Code: " + orderDlg._V.code,
         "Item: " + d + " " + orderDlg._V.name,
         "Size: " + orderDlg._V.size,
         orderDlg._V.lines.join(" / "),
@@ -802,7 +834,7 @@ function openOrder(driver, src, V) {
         f.notes.value.trim() ? "Notes: " + f.notes.value.trim() : null,
       ].filter((l) => l !== null).join("\n");
       f.dataset.text = text;
-      const mail = "mailto:leanmarquez0628@yahoo.com?subject=" + encodeURIComponent("Order: " + d + " " + orderDlg._V.name + " x" + q) + "&body=" + encodeURIComponent(text);
+      const mail = "mailto:leanmarquez0628@yahoo.com?subject=" + encodeURIComponent("Order " + orderDlg._V.code + ": " + d + " " + orderDlg._V.name + " x" + q) + "&body=" + encodeURIComponent(text);
       $(".od-done", f).hidden = false;
       $(".od-send", f).hidden = true;
       location.href = mail;
@@ -815,7 +847,7 @@ function openOrder(driver, src, V) {
   }
   const f = $(".order-form", orderDlg);
   orderDlg._V = V;
-  $(".od-head p", f).innerHTML = V.lines.join(" · ") + "<br>" + peso(V.unit) + " each";
+  $(".od-head p", f).innerHTML = V.lines.join(" · ") + "<br>" + peso(V.unit) + " each<br>Code: " + V.code;
   orderDlg.dataset.driver = driver;
   $("h3", f).textContent = driver;
   $(".od-head img", f).src = src;
@@ -1070,16 +1102,6 @@ $("#year").textContent = new Date().getFullYear();
         .querySelectorAll("[data-stat]")
         .forEach((b) => setNum(b, src[b.dataset.stat] ?? null));
     });
-    const views = (d.tiktok && d.tiktok.views) || [];
-    document.querySelectorAll(".views[data-view]").forEach((v) => {
-      const val = views[v.dataset.view];
-      if (val == null || !/\d/.test(v.textContent)) return; // only update tiles that show a count
-      const svg = v.querySelector("svg");
-      v.replaceChildren(
-        svg,
-        document.createTextNode(" " + val.toLocaleString("en-US")),
-      );
-    });
     updated = d.checked || d.updated ? new Date(d.checked || d.updated).getTime() : Date.now();
     ago();
   }
@@ -1115,10 +1137,6 @@ $("#year").textContent = new Date().getFullYear();
     carousel: svg('<rect x="7" y="3" width="14" height="14" rx="3"/><path d="M4 7v10a4 4 0 0 0 4 4h10" fill="none" stroke="currentColor" stroke-width="2"/>'),
     reel: svg('<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 8.500v7l6-3.500z" fill="#512323"/>'),
   };
-  const PLAY =
-    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
-  const EYE =
-    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const safeUrl = (u, fallback) => (/^(https?:\/\/|images\/)/.test(u || "") ? u : fallback);
 
@@ -1129,11 +1147,9 @@ $("#year").textContent = new Date().getFullYear();
     let extra = "";
     if (net === "ig") {
       extra = ICON[p.type] ? `<span class="tag">${ICON[p.type]}</span>` : "";
-      if (p.views != null) extra += `<span class="views">${EYE} ${Number(p.views).toLocaleString("en-US")}</span>`;
     }
     else {
       if (p.pinned) extra += '<span class="pinned">Pinned</span>';
-      extra += `<span class="views">${PLAY}${p.views != null ? " " + Number(p.views).toLocaleString("en-US") : ""}</span>`;
     }
     return `<a class="ftile" href="${esc(link)}" target="_blank" rel="noopener"><img src="${esc(img)}" alt="${esc(p.alt || "Post")}" loading="lazy" referrerpolicy="no-referrer" />${extra}</a>`;
   }
@@ -1329,3 +1345,35 @@ $$(".th-card img").forEach((img) => {
     Object.keys(grids).forEach((k) => (grids[k].hidden = k !== b.dataset.fb));
   });
 })();
+
+
+/* ---------- IMAGE CODES on the Blog (data-code is written in blog.html / posts.json) ---------- */
+(() => {
+  const mark = () => {
+    document.querySelectorAll(".feed .ftile, .feed .th-card, .feed .yt-short").forEach((el) => {
+      if (el.querySelector(".code-tag")) return;
+      const img = el.querySelector("img");
+      const code = el.dataset.code || (img && codeOf(img.getAttribute("src")));
+      if (!code) return;
+      el.dataset.code = code;
+      el.append(codeTag(code));
+    });
+  };
+  mark();
+  window.addEventListener("load", mark);
+  new MutationObserver(mark).observe(document.body, { childList: true, subtree: true });
+})();
+
+
+/* ---------- Performance: decode pictures off the main thread ---------- */
+(() => {
+  const tune = () => document.querySelectorAll("img:not([decoding])").forEach((i) => (i.decoding = "async"));
+  tune();
+  let t = 0;
+  new MutationObserver(() => { cancelAnimationFrame(t); t = requestAnimationFrame(tune); }).observe(document.body, { childList: true, subtree: true });
+})();
+
+/* ---------- Lightbox: Esc always closes ---------- */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && lb && lb.open) lb.close();
+});

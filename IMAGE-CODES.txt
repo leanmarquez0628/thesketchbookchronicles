@@ -1,0 +1,70 @@
+IMAGE CODES - The Sketchbook Chronicles
+Say a code to point at one picture (example: 'I like PT-05', 'order F1-10').
+Shop order codes add -FR (framed) or -PR (print only) and the size, e.g. F1-10-FR-A4.
+
+PAGE | CODE | FILE | TITLE
+gallery | AN-03 | images/gallery/anime/art-03.jpg | ANIME FAN ART / Roronoa Zoro, One Piece
+gallery | AN-04 | images/gallery/anime/art-04.jpg | ANIME FAN ART / Bruno Bucciarati, JoJo's Bizarre Adventure
+gallery | PT-02 | images/gallery/portrait/art-02.jpg | PENCIL PORTRAIT / Portrait No. 1
+gallery | PT-05 | images/gallery/portrait/art-05.jpg | PENCIL PORTRAIT / Portrait No. 2
+gallery | AN-10 | images/gallery/anime/art-10.jpg | ANIME FAN ART / All Might, My Hero Academia
+gallery | AN-06 | images/gallery/anime/art-06.jpg | ANIME FAN ART / Madara Uchiha, Naruto
+gallery | AN-01 | images/gallery/anime/art-01.jpg | ANIME FAN ART / JoJo Bizzare Adventure, Joestar Family
+gallery | PT-12 | images/gallery/portrait/art-12.jpg | PENCIL PORTRAIT / Portrait No. 3
+gallery | PT-16 | images/gallery/portrait/art-16.jpg | PENCIL PORTRAIT / Portrait No. 4
+gallery | AN-11 | images/gallery/anime/art-11.jpg | ANIME FAN ART / Jotaro Kujo, JoJo's Bizarre Adventure
+gallery | PT-17 | images/gallery/portrait/art-17.jpg | PENCIL PORTRAIT / Portrait No. 5
+gallery | PT-14 | images/gallery/portrait/art-14.jpg | PENCIL PORTRAIT / Portrait No. 6
+gallery | AN-13 | images/gallery/anime/art-13.jpg | ANIME FAN ART / Sanji Vinsmoke, One Piece
+gallery | PT-09 | images/gallery/portrait/art-09.jpg | PENCIL PORTRAIT / Portrait No. 8
+gallery | AN-22 | images/gallery/anime/art-22.jpg | ANIME FAN ART / Nezuko Kamado, Demon Slayer
+gallery | PT-19 | images/gallery/portrait/art-19.jpg | PENCIL PORTRAIT / Portrait No. 10
+gallery | F1-01 | images/design/design-1.jpg | Graphic designLewis Hamilton, Ferrari F1 poster
+gallery | F1-02 | images/design/design-2.jpg | Graphic designMax Verstappen, Red Bull F1 poster
+gallery | F1-03 | images/design/design-3.jpg | Graphic designLando Norris, McLaren F1 poster
+gallery | F1-04 | images/design/design-4.jpg | Graphic designGeorge Russell, Mercedes F1 poster
+gallery | F1-05 | images/design/design-5.jpg | Graphic designCharles Leclerc, Ferrari F1 poster
+gallery | F1-06 | images/design/design-6.jpg | Graphic designNico Hulkenberg, Audi F1 poster
+gallery | F1-07 | images/design/design-7.jpg | Graphic designKimi Antonelli, Mercedes F1 poster
+gallery | F1-08 | images/design/design-8.jpg | Graphic designOscar Piastri, McLaren F1 poster
+gallery | F1-09 | images/design/design-9.jpg | Graphic designIsack Hadjar, Red Bull F1 poster
+gallery | F1-10 | images/design/design-10.jpg | Graphic designLewis Hamilton, Ferrari F1 driver poster
+gallery | F1-11 | images/design/design-11.jpg | Graphic designMax Verstappen, Red Bull F1 driver poster
+shop | F1-10 | images/design/design-10.jpg | -
+shop | F1-11 | images/design/design-11.jpg | -
+shop | F1-12 | images/design/design-12.jpg | -
+shop | F1-13 | images/design/design-13.jpg | -
+blog | IG-01 | images/social/instagram/ig-1.jpg | -
+blog | IG-02 | images/social/instagram/ig-2.jpg | -
+blog | IG-03 | images/social/instagram/ig-3.jpg | -
+blog | IG-04 | images/social/instagram/ig-4.jpg | -
+blog | IG-05 | images/social/instagram/ig-5.jpg | -
+blog | IG-06 | images/social/instagram/ig-6.jpg | -
+blog | TT-01 | images/social/tiktok/tt-1.jpg | -
+blog | TT-02 | images/social/tiktok/tt-2.jpg | -
+blog | TT-03 | images/social/tiktok/tt-3.jpg | -
+blog | TT-04 | images/social/tiktok/tt-4.jpg | -
+blog | TT-05 | images/social/tiktok/tt-5.jpg | -
+blog | TT-06 | images/social/tiktok/tt-6.jpg | -
+blog | TH-01 | images/social/tiktok/tt-3.jpg | -
+blog | TH-02 | images/design/design-10.jpg | -
+blog | TH-03 | images/social/threads/th-jojo.jpg | -
+blog | FB-P01 | images/social/facebook/fb-photo-1.jpg | -
+blog | FB-P02 | images/social/facebook/fb-photo-2.jpg | -
+blog | FB-P03 | images/social/facebook/fb-photo-3.jpg | -
+blog | FB-P04 | images/social/facebook/fb-photo-4.jpg | -
+blog | FB-P05 | images/social/facebook/fb-photo-5.jpg | -
+blog | FB-P06 | images/social/facebook/fb-photo-6.jpg | -
+blog | FB-R01 | images/social/facebook/fb-reel-1.jpg | -
+blog | FB-R02 | images/social/facebook/fb-reel-2.jpg | -
+blog | FB-R03 | images/social/facebook/fb-reel-3.jpg | -
+blog | FB-R04 | images/social/facebook/fb-reel-4.jpg | -
+blog | FB-R05 | images/social/facebook/fb-reel-5.jpg | -
+blog | YT-01 | images/social/youtube/yt-short-1.jpg | -
+blog | YT-02 | images/social/youtube/yt-short-2.jpg | -
+blog | YT-03 | images/social/youtube/yt-short-3.jpg | -
+gallery | AN-23 | images/gallery/anime/art-23.jpg | -
+gallery | AN-34 | images/gallery/anime/art-34.jpg | -
+gallery | AN-35 | images/gallery/anime/art-35.jpg | -
+gallery | PT-20 | images/gallery/portrait/art-20.jpg | -
+gallery | PT-38 | images/gallery/portrait/art-38.jpg | -
